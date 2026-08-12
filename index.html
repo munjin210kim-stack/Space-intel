@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPACE INTEL · Space Launch Market Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#05080F; --bg2:#070C15; --panel:#0A1120; --panel2:#0C1424; --panel3:#101B2E;
+  --line:rgba(122,160,214,.14); --line2:rgba(122,160,214,.30);
+  --txt:#DEE7F3; --txt2:#93A7C4; --txt3:#5F7495;
+  --hw:#FF6A13; --hw-dim:rgba(255,106,19,.16);
+  --cy:#45D9FF; --gr:#2ED9A0; --ye:#FFC24B; --rd:#FF5C7A; --vi:#9B6BF0;
+  --c-spacex:#4C82F7; --c-rocketlab:#2ED9A0; --c-ariane:#9B6BF0; --c-blue:#45D9FF;
+  --c-ula:#8C99AD; --c-casc:#FF5C7A; --c-mhi:#FFC24B; --c-isro:#F58FD6;
+  --c-firefly:#C8E85B; --c-hanwha:#FF6A13; --c-ros:#7A8CA6; --c-etc:#4A5B74;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --disp:'Chakra Petch','IBM Plex Sans KR',system-ui,sans-serif;
+  --body:'IBM Plex Sans KR','Chakra Petch',system-ui,-apple-system,sans-serif;
+  --rail:292px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--txt); font-family:var(--body); font-size:12.5px;
+  line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(900px 500px at 12% -8%, rgba(255,106,19,.09), transparent 65%),
+    radial-gradient(1100px 700px at 88% 4%, rgba(69,217,255,.07), transparent 62%),
+    linear-gradient(rgba(122,160,214,.045) 1px, transparent 1px) 0 0/100% 46px,
+    linear-gradient(90deg, rgba(122,160,214,.045) 1px, transparent 1px) 0 0/46px 100%;
+}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(122,160,214,.22);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(122,160,214,.4)}
+:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+
+/* ============ TYPE UTILITIES ============ */
+.eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt3)}
+.num{font-family:var(--disp);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dim{color:var(--txt2)} .dim3{color:var(--txt3)}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  position:sticky; top:0; z-index:60; height:60px; display:flex; align-items:center; gap:22px;
+  padding:0 20px 0 22px; background:rgba(5,8,15,.92); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line); overflow:hidden;
+}
+.topbar::after{
+  content:''; position:absolute; left:0; bottom:-1px; height:1px; width:180px;
+  background:linear-gradient(90deg,transparent,var(--hw),transparent); animation:sweep 9s linear infinite;
+}
+@keyframes sweep{0%{transform:translateX(-200px)}100%{transform:translateX(100vw)}}
+.brand{display:flex;align-items:baseline;gap:10px;flex-shrink:0}
+.brand .mark{
+  width:26px;height:26px;flex-shrink:0;border:1px solid var(--hw);border-radius:50%;
+  display:grid;place-items:center;position:relative;align-self:center
+}
+.brand .mark::before{content:'';width:6px;height:6px;background:var(--hw);border-radius:50%;box-shadow:0 0 10px var(--hw)}
+.brand .mark::after{
+  content:'';position:absolute;inset:-4px;border:1px solid rgba(255,106,19,.28);border-radius:50%;
+  border-top-color:transparent;border-left-color:transparent;animation:spin 6s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand h1{font-family:var(--disp);font-size:19px;font-weight:700;letter-spacing:.24em;color:#fff}
+.brand h1 b{color:var(--hw);font-weight:700}
+.brand .sub{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--txt3);text-transform:uppercase}
+.ticker{display:flex;gap:0;margin-left:auto;align-items:center;flex-wrap:nowrap;overflow:hidden}
+.tk{padding:0 15px;border-left:1px solid var(--line);white-space:nowrap}
+.tk .k{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;color:var(--txt3);text-transform:uppercase}
+.tk .v{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--txt)}
+.tk .v i{font-style:normal;font-size:10px;font-weight:500;color:var(--gr);margin-left:3px}
+.sysbadge{
+  display:flex;align-items:center;gap:7px;flex-shrink:0;margin-left:14px;
+  border:1px solid rgba(46,217,160,.28);background:rgba(46,217,160,.06);padding:5px 11px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.09em;color:var(--gr)
+}
+.sysbadge .dot{width:5px;height:5px;border-radius:50%;background:var(--gr);box-shadow:0 0 7px var(--gr);animation:pulse 2s ease-in-out infinite}
+.sysbadge b{color:rgba(46,217,160,.35);font-weight:400}
+.sysbadge span{color:var(--txt2)}
+@keyframes pulse{50%{opacity:.35}}
+.userchip{display:flex;align-items:center;gap:9px;flex-shrink:0;margin-left:12px;padding-left:14px;border-left:1px solid var(--line)}
+.userchip .av{
+  width:26px;height:26px;flex-shrink:0;border:1px solid var(--line2);background:var(--panel3);position:relative
+}
+.userchip .av::before{content:'';position:absolute;left:50%;top:6px;width:8px;height:8px;border-radius:50%;background:var(--txt3);transform:translateX(-50%)}
+.userchip .av::after{content:'';position:absolute;left:50%;bottom:4px;width:15px;height:7px;border-radius:8px 8px 0 0;background:var(--txt3);transform:translateX(-50%)}
+.userchip .nm b{display:block;font-size:11.5px;font-weight:600;color:#E6EEF9;line-height:1.25}
+.userchip .nm i{display:block;font-family:var(--mono);font-size:8.5px;color:var(--txt3);font-style:normal;letter-spacing:.04em}
+.railbtn{
+  display:flex;align-items:center;gap:7px;flex-shrink:0;margin-left:12px;cursor:pointer;
+  background:transparent;border:1px solid var(--line2);color:var(--txt2);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;padding:7px 11px;transition:.18s
+}
+.railbtn:hover{border-color:var(--hw);color:var(--hw)}
+.railbtn em{font-style:normal;font-size:8px}
+
+/* ============ SHELL ============ */
+.shell{position:relative;z-index:1;display:block;padding:12px 12px 24px;margin-right:var(--rail);transition:margin-right .28s}
+body.rail-off{--rail:0px}
+body.rail-off .rail-panel{transform:translateX(101%)}
+body.rail-off .railbtn{color:var(--hw);border-color:rgba(255,106,19,.5)}
+.view{display:none} .view.on{display:block;animation:fade .35s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ============ PANEL ============ */
+.panel{
+  position:relative;background:linear-gradient(178deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);padding:11px 13px 13px;
+}
+.panel::before,.panel::after{
+  content:'';position:absolute;width:9px;height:9px;border-color:var(--line2);border-style:solid;pointer-events:none
+}
+.panel::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.panel::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.panel.hot{border-color:rgba(255,106,19,.26)}
+.panel.hot::before,.panel.hot.after{border-color:rgba(255,106,19,.6)}
+.panel.click{cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s}
+.panel.click:hover{border-color:rgba(255,106,19,.5);box-shadow:0 0 0 1px rgba(255,106,19,.12),0 10px 34px -18px rgba(255,106,19,.5)}
+.ph{display:flex;align-items:center;gap:8px;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.ph .ic{
+  width:19px;height:19px;flex-shrink:0;display:grid;place-items:center;
+  border:1px solid rgba(255,106,19,.32);background:rgba(255,106,19,.09);color:var(--hw);font-size:10px;line-height:1
+}
+.ph .id{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--txt3);border:1px solid var(--line);padding:1px 4px}
+.ph h2{font-family:var(--body);font-size:14px;font-weight:700;letter-spacing:-.01em;color:#EDF3FA;white-space:nowrap}
+.ph .ko{font-family:var(--mono);font-size:8.5px;color:var(--txt3);font-weight:400;letter-spacing:.08em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub-h{
+  display:flex;align-items:baseline;gap:8px;margin:13px 0 7px;padding-top:11px;border-top:1px solid var(--line);
+  font-size:11.5px;font-weight:600;color:#CBD8EA;letter-spacing:-.01em
+}
+.sub-h.first{margin-top:0;padding-top:0;border-top:0}
+.sub-h i{font-family:var(--mono);font-size:8.5px;color:var(--txt3);letter-spacing:.08em;margin-left:auto;font-style:normal;white-space:nowrap}
+.tagpill{
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--gr);
+  border:1px solid rgba(46,217,160,.38);background:rgba(46,217,160,.08);padding:2px 7px;white-space:nowrap
+}
+.ph .right{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0}
+.enter{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--txt3);border:1px solid var(--line);padding:2px 6px;transition:.2s}
+.panel.click:hover .enter{color:var(--hw);border-color:rgba(255,106,19,.45)}
+
+/* ============ LAYOUT ROWS ============ */
+.row-top{display:grid;grid-template-columns:0.82fr 1.18fr;gap:11px;margin-bottom:11px;align-items:stretch}
+.stack{display:flex;flex-direction:column;gap:11px}
+.stack>.panel{flex:1;min-height:0;display:flex;flex-direction:column}
+.row-main{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;align-items:start}
+
+
+/* ============ NEWS CARD (dashboard) ============ */
+#p-news{display:flex;flex-direction:column}
+.news-list{display:flex;flex-direction:column;gap:0;flex:1}
+.nrow{
+  display:grid;grid-template-columns:44px 19px 31px 1fr;gap:7px;padding:4.5px 1px;
+  border-top:1px solid rgba(122,160,214,.08);align-items:center
+}
+.nrow:first-child{border-top:0}
+.nrow .d{font-family:var(--mono);font-size:8.6px;color:var(--txt3);letter-spacing:.01em}
+.nrow .rg{font-family:var(--mono);font-size:7.6px;letter-spacing:.06em;text-align:center;border:1px solid;padding:1px 0}
+.nrow .rg.k{color:var(--hw);border-color:rgba(255,106,19,.32)}
+.nrow .rg.g{color:var(--txt3);border-color:var(--line)}
+.nrow .t{
+  font-size:11.5px;line-height:1.3;color:#D3DFEF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.nrow:hover .t{color:#fff}
+.news-more{
+  display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px;
+  border-top:1px solid var(--line);font-family:var(--mono);font-size:8.8px;letter-spacing:.1em;color:var(--txt3)
+}
+.panel.click:hover .news-more{color:var(--hw)}
+.chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;padding:1px 5px;border:1px solid;text-transform:uppercase}
+.chip.mk{color:var(--cy);border-color:rgba(69,217,255,.34)}
+.chip.cp{color:var(--rd);border-color:rgba(255,92,122,.34)}
+.chip.tc{color:var(--gr);border-color:rgba(46,217,160,.34)}
+.chip.pl{color:var(--ye);border-color:rgba(255,194,75,.34)}
+.chip.kr{color:var(--hw);border-color:rgba(255,106,19,.34)}
+.nrow .chip{font-size:7.6px;padding:1px 0;text-align:center;letter-spacing:0}
+
+/* ============ TIMELINE (signature) ============ */
+.rail-wrap{display:flex;flex-direction:column;flex:1;min-height:0}
+.tl-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;flex:1;align-items:end;min-height:44px}
+.tl-col{display:flex;flex-direction:column;gap:2.5px;justify-content:flex-end;min-width:0}
+.ev{
+  display:flex;align-items:baseline;gap:5px;text-decoration:none;border-left:2px solid currentColor;
+  background:linear-gradient(90deg,rgba(122,160,214,.1),rgba(122,160,214,.02));
+  padding:2.5px 4px 3px;transition:.16s;overflow:hidden;white-space:nowrap
+}
+.ev b{
+  font-family:var(--mono);font-size:7.2px;letter-spacing:.05em;color:currentColor;flex-shrink:0
+}
+.ev span{
+  font-size:8.9px;line-height:1.2;color:var(--txt2);overflow:hidden;text-overflow:ellipsis;min-width:0
+}
+.ev:hover{background:linear-gradient(90deg,rgba(122,160,214,.24),rgba(122,160,214,.05))}
+.ev:hover span{color:#fff}
+.tl-col .ev.hid{display:none}
+.tl-col.open .ev.hid{display:flex}
+.tl-more{
+  display:block;text-align:center;font-family:var(--mono);font-size:7.2px;letter-spacing:.05em;color:var(--txt3);
+  border:1px dashed var(--line);padding:1px 0;text-decoration:none;transition:.16s
+}
+.tl-more:hover{color:var(--hw);border-color:rgba(255,106,19,.4)}
+.tl-axis{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:6px;padding-top:7px}
+.tl-axis::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,rgba(122,160,214,.12),var(--line2) 10%,var(--line2) 90%,rgba(122,160,214,.12))
+}
+.tl-axis .yr{position:relative;text-align:center}
+.tl-axis .yr::before{content:'';position:absolute;top:-7px;left:50%;width:1px;height:7px;background:var(--line2)}
+.tl-axis .yr em{font-family:var(--disp);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--txt3);font-style:normal}
+.tl-axis .yr.now::before{background:var(--hw);box-shadow:0 0 7px var(--hw)}
+.tl-axis .yr.now em{color:var(--hw)}
+.legend{display:flex;flex-wrap:wrap;gap:1px 9px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+.legend.flat{margin-top:0;padding-top:0;border-top:0;margin-bottom:3px}
+.legend i{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:7.8px;color:var(--txt2);font-style:normal}
+.legend i::before{content:'';width:5px;height:5px;transform:rotate(45deg);background:currentColor;flex-shrink:0}
+
+#railCompFull .tl-cols{min-height:150px;gap:7px}
+#railCompFull .ev{display:block;white-space:normal;padding:5px 7px 6px}
+#railCompFull .ev b{display:block;font-size:8px;margin-bottom:2px}
+#railCompFull .ev span{font-size:10.5px;line-height:1.35;white-space:normal}
+#railCompFull .tl-axis{gap:7px}
+#railCompFull .tl-axis .yr em{font-size:14px}
+.vchain.wide{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.panel.click{position:relative}
+.goto{
+  position:absolute;right:9px;bottom:7px;font-family:var(--mono);font-size:8.2px;letter-spacing:.11em;
+  color:var(--hw);background:var(--panel);border:1px solid rgba(255,106,19,.35);padding:2px 7px;
+  opacity:0;transition:.18s;pointer-events:none
+}
+.panel.click:hover .goto,.panel.click:focus-visible .goto{opacity:1}
+
+/* tooltip */
+.tip{
+  position:fixed;z-index:200;max-width:290px;background:#0B1422;border:1px solid var(--line2);
+  padding:9px 11px;pointer-events:none;opacity:0;transition:opacity .14s;box-shadow:0 18px 50px -18px #000
+}
+.tip.on{opacity:1}
+.tip h4{font-family:var(--disp);font-size:11.5px;font-weight:600;letter-spacing:.04em;margin-bottom:4px}
+.tip p{font-size:11px;color:var(--txt2);line-height:1.45}
+.tip .go{font-family:var(--mono);font-size:8.5px;color:var(--hw);margin-top:6px;display:block;letter-spacing:.1em}
+
+/* ============ BAR CHARTS ============ */
+.chart{display:flex;align-items:flex-end;gap:7px;height:142px;margin-top:2px}
+.bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;cursor:default}
+.bar-col .tot{font-family:var(--disp);font-size:11.5px;font-weight:700;text-align:center;margin-bottom:4px;color:#E6EEF9;font-variant-numeric:tabular-nums}
+.stackbar{display:flex;flex-direction:column;transition:.25s}
+.seg{position:relative;transition:.2s;border-top:1px solid rgba(5,8,15,.55)}
+.seg:first-child{border-top:0}
+.bar-col:hover .seg{filter:brightness(1.25)}
+.bar-col .xl{text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--txt3);padding-top:6px;border-top:1px solid var(--line);margin-top:5px}
+.bar-col.est .xl{color:var(--hw)}
+.bar-col .gr{position:absolute;top:-2px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8.5px;color:var(--gr)}
+.side{display:flex;flex-direction:column;justify-content:space-between;padding-left:9px;border-left:1px solid var(--line);width:74px;height:142px}
+.side .r{text-align:right}
+.side .r em{display:block;font-family:var(--mono);font-size:8.5px;color:var(--txt3);font-style:normal;letter-spacing:.08em}
+.side .r b{font-family:var(--disp);font-size:13.5px;font-weight:700;color:var(--gr)}
+.klist{display:flex;gap:0;margin-top:9px;border-top:1px solid var(--line);padding-top:8px}
+.klist>div{flex:1;padding-right:8px}
+.klist em{display:block;font-family:var(--mono);font-size:8.5px;color:var(--txt3);letter-spacing:.08em;font-style:normal;text-transform:uppercase}
+.klist b{font-family:var(--disp);font-size:13.5px;font-weight:700}
+
+/* region grid */
+.regions{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:4px}
+.rg{background:var(--panel);padding:7px 9px}
+.rg .f{display:flex;align-items:baseline;gap:5px}
+.rg .n{font-family:var(--disp);font-size:14px;font-weight:700;color:#EAF1FA}
+.rg .u{font-family:var(--mono);font-size:9px;color:var(--txt3)}
+.rg .c{font-family:var(--mono);font-size:9.5px;color:var(--txt2);letter-spacing:.06em;margin-bottom:3px;display:flex;justify-content:space-between}
+.rg .c i{font-style:normal;color:var(--txt3);font-size:8.5px}
+.rg .bar{height:2px;background:rgba(122,160,214,.14);margin-top:6px}
+.rg .bar i{display:block;height:100%;background:var(--cy)}
+.rg.kr .bar i{background:var(--hw)}
+.rg.kr .n{color:var(--hw)}
+
+/* ============ TREEMAP ============ */
+.tmap{position:relative;width:100%;height:168px;margin-top:1px}
+.tm{position:absolute;overflow:hidden;padding:6px 7px;border:1px solid rgba(5,8,15,.7);cursor:default;transition:.2s}
+.tm:hover{filter:brightness(1.28);z-index:5}
+.tm .nm{font-family:var(--disp);font-size:11px;font-weight:700;color:#05080F;letter-spacing:.02em;line-height:1.15}
+.tm .vl{font-family:var(--mono);font-size:9.5px;color:rgba(5,8,15,.78);margin-top:1px}
+.tm.sm .nm{font-size:9px} .tm.sm .vl{display:none}
+.tm.xs .nm{font-size:8px;letter-spacing:0}
+.tm.xs .vl{display:none}
+
+/* ============ TABLES ============ */
+table.t{width:100%;border-collapse:collapse;font-size:11px}
+table.t th{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--txt3);
+  text-align:right;padding:0 0 7px;border-bottom:1px solid var(--line);font-weight:500;white-space:nowrap
+}
+table.t th:first-child,table.t td:first-child{text-align:left}
+table.t th:nth-child(2),table.t td:nth-child(2){text-align:left}
+table.t td{padding:5px 0;border-bottom:1px solid rgba(122,160,214,.07);text-align:right;font-variant-numeric:tabular-nums}
+table.t tbody tr:hover td{background:rgba(122,160,214,.05)}
+table.t tr.me td{background:rgba(255,106,19,.07)}
+table.t tr.me td:nth-child(2){color:var(--hw);font-weight:600}
+.rk{font-family:var(--disp);font-weight:700;color:var(--txt3);font-size:12px}
+.co{display:flex;align-items:center;gap:7px}
+.co i{width:7px;height:7px;transform:rotate(45deg);flex-shrink:0}
+.up{color:var(--gr)} .dn{color:var(--rd)}
+.msbar{display:inline-block;width:34px;height:3px;background:rgba(122,160,214,.16);margin-left:7px;vertical-align:middle}
+.msbar i{display:block;height:100%}
+
+/* ============ RADAR ============ */
+.radar-wrap{display:flex;gap:10px;align-items:center;margin-top:2px}
+.radar-wrap svg{flex-shrink:0}
+.rl{display:flex;flex-direction:column;gap:9px;flex:1;min-width:0}
+.rl .r{border-left:2px solid;padding-left:9px}
+.rl .r b{display:block;font-family:var(--disp);font-size:11.5px;font-weight:600;letter-spacing:.04em}
+.rl .r span{font-family:var(--mono);font-size:9px;color:var(--txt3);display:block;line-height:1.5}
+.rl .r span em{font-style:normal;color:var(--txt2)}
+
+/* ============ PORTFOLIO ============ */
+.vchain{display:flex;flex-direction:column;gap:5px}
+.vc{display:grid;grid-template-columns:20px 1fr;gap:9px;align-items:start;
+  border:1px solid var(--line);background:var(--panel3);padding:7px 9px}
+.vc i{
+  font-family:var(--disp);font-weight:700;font-size:10.5px;font-style:normal;color:var(--hw);
+  border:1px solid rgba(255,106,19,.32);width:20px;height:20px;display:grid;place-items:center
+}
+.vc h5{font-family:var(--body);font-size:11.5px;font-weight:600;color:#EAF1FA;margin-bottom:2px;letter-spacing:-.01em}
+.vc p{font-size:10.2px;color:var(--txt2);line-height:1.48}
+.strat{display:flex;flex-direction:column;gap:0}
+.strat .s{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:4.5px 0;align-items:start}
+.strat .s i{font-family:var(--mono);font-size:9px;color:var(--hw);font-style:normal;padding-top:1px}
+.strat .s p{font-size:10.6px;color:var(--txt2);line-height:1.5}
+.strat .s p b{color:var(--txt);font-weight:600}
+
+/* ============ P&L SIMULATOR ============ */
+.seg-tabs{display:flex;gap:0;margin-bottom:11px;border:1px solid var(--line)}
+.seg-tabs button{
+  flex:1;background:transparent;border:0;color:var(--txt3);font-family:var(--disp);font-size:11px;font-weight:600;
+  letter-spacing:.05em;padding:7px 4px;cursor:pointer;transition:.18s;border-right:1px solid var(--line)
+}
+.seg-tabs button:last-child{border-right:0}
+.seg-tabs button:hover{color:var(--txt)}
+.seg-tabs button.on{background:var(--hw-dim);color:var(--hw)}
+.ctrl{margin-bottom:8px}
+.ctrl .lb{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.ctrl .lb span{font-family:var(--mono);font-size:9.5px;color:var(--txt2);letter-spacing:.04em}
+.ctrl .lb b{font-family:var(--disp);font-size:12.5px;font-weight:700;color:var(--cy);font-variant-numeric:tabular-nums}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:2px;background:rgba(122,160,214,.2);outline:0
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:12px;height:12px;background:var(--bg);border:1.5px solid var(--cy);
+  transform:rotate(45deg);cursor:pointer
+}
+input[type=range]::-moz-range-thumb{width:11px;height:11px;background:var(--bg);border:1.5px solid var(--cy);cursor:pointer;border-radius:0}
+.pl-out{border-top:1px solid var(--line);margin-top:10px;padding-top:9px}
+.pl-row{display:flex;justify-content:space-between;align-items:baseline;padding:3.5px 0;font-size:11px}
+.pl-row span{color:var(--txt2)}
+.pl-row b{font-family:var(--disp);font-weight:600;font-variant-numeric:tabular-nums;color:var(--txt)}
+.pl-row.neg b{color:var(--txt2)}
+.pl-row.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:9px}
+.pl-row.tot span{color:var(--txt);font-weight:600}
+.pl-row.tot b{font-size:16px;color:var(--gr)}
+.pl-row.tot b.bad{color:var(--rd)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:11px}
+.kpi{background:var(--panel);padding:8px 9px}
+.kpi em{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--txt3);font-style:normal;text-transform:uppercase}
+.kpi b{font-family:var(--disp);font-size:14px;font-weight:700;color:#EAF1FA}
+.kpi b.g{color:var(--gr)} .kpi b.r{color:var(--rd)} .kpi b.o{color:var(--hw)}
+.kpi i{font-style:normal;font-family:var(--mono);font-size:9px;color:var(--txt3);margin-left:3px}
+.waterfall{display:flex;align-items:flex-end;gap:3px;height:52px;margin-top:11px}
+.wf{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.wf i{display:block;width:100%}
+.wf em{font-family:var(--mono);font-size:7.5px;color:var(--txt3);text-align:center;font-style:normal;padding-top:3px;letter-spacing:.02em}
+.note{font-family:var(--mono);font-size:8.5px;color:var(--txt3);line-height:1.6;margin-top:9px;letter-spacing:.01em}
+
+/* ============ NEWS PAGE ============ */
+.pagehead{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.back{
+  display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line2);
+  color:var(--txt2);font-family:var(--mono);font-size:10px;letter-spacing:.1em;padding:7px 12px;cursor:pointer;transition:.18s;
+  text-transform:uppercase
+}
+.back:hover{border-color:var(--hw);color:var(--hw)}
+.pagehead h2{font-family:var(--disp);font-size:20px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.pagehead .ko{font-size:11.5px;color:var(--txt3);letter-spacing:0}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.filters button{
+  background:transparent;border:1px solid var(--line);color:var(--txt3);font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.11em;padding:6px 13px;cursor:pointer;transition:.18s;text-transform:uppercase
+}
+.filters button:hover{color:var(--txt);border-color:var(--line2)}
+.filters button.on{background:var(--hw-dim);border-color:rgba(255,106,19,.5);color:var(--hw)}
+.filters .cnt{font-family:var(--mono);font-size:9.5px;color:var(--txt3);margin-left:auto;align-self:center}
+.news-cols{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.ncol h3{
+  display:flex;align-items:center;gap:9px;font-family:var(--disp);font-size:12px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;padding-bottom:9px;border-bottom:1px solid var(--line2);margin-bottom:3px
+}
+.ncol h3 i{font-family:var(--mono);font-size:9px;color:var(--txt3);font-style:normal;margin-left:auto;letter-spacing:.08em}
+.na{
+  display:block;text-decoration:none;padding:12px 13px;border:1px solid var(--line);border-top:0;
+  background:linear-gradient(178deg,var(--panel2),var(--panel));transition:.18s;position:relative
+}
+.ncol .na:first-of-type{border-top:1px solid var(--line)}
+.na:hover{border-color:rgba(255,106,19,.4);background:var(--panel3)}
+.na .top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.na .dt{font-family:var(--mono);font-size:9px;color:var(--txt3);letter-spacing:.04em}
+.na .ttl{font-size:13px;line-height:1.5;color:#D9E3F1;font-weight:500}
+.na:hover .ttl{color:#fff}
+.na .sm{display:flex;align-items:center;gap:8px;margin-top:7px}
+.na .sm .s{font-family:var(--mono);font-size:8.5px;color:var(--txt3)}
+.na .sm .out{margin-left:auto;font-family:var(--mono);font-size:8.5px;color:var(--txt3);letter-spacing:.06em}
+.na:hover .sm .out{color:var(--hw)}
+.na .sumry{font-size:11px;color:var(--txt2);line-height:1.55;margin-top:6px}
+
+/* ============ PIPELINE PAGE ============ */
+.pipe-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);margin-bottom:13px}
+.pipe-kpi .k{background:linear-gradient(178deg,var(--panel2),var(--panel));padding:13px 14px}
+.pipe-kpi em{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;color:var(--txt3);font-style:normal;text-transform:uppercase;margin-bottom:5px}
+.pipe-kpi b{font-family:var(--disp);font-size:23px;font-weight:700;color:#EAF1FA}
+.pipe-kpi b i{font-style:normal;font-size:11px;color:var(--txt3);font-weight:500;margin-left:2px}
+.pipe-kpi b.o{color:var(--hw)}
+.stage-bar{display:flex;height:5px;margin-top:8px;gap:1px}
+.stage-bar i{display:block}
+table.pipe{width:100%;border-collapse:collapse;font-size:11.5px}
+table.pipe th{
+  position:sticky;top:60px;background:#080D18;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt3);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line2);font-weight:500;
+  white-space:nowrap;z-index:5
+}
+table.pipe th.r,table.pipe td.r{text-align:right}
+table.pipe td{padding:9px 10px;border-bottom:1px solid rgba(122,160,214,.08);vertical-align:middle}
+table.pipe tbody tr{transition:.15s}
+table.pipe tbody tr:hover{background:rgba(122,160,214,.055)}
+table.pipe .cust{font-weight:600;color:#E4EBF6;font-size:12px}
+table.pipe .prg{display:block;font-family:var(--mono);font-size:9px;color:var(--txt3);margin-top:2px}
+.flag{font-family:var(--mono);font-size:9.5px;color:var(--txt2);letter-spacing:.05em}
+.orb{font-family:var(--mono);font-size:10px;color:var(--cy)}
+.wt{font-family:var(--disp);font-weight:600;font-variant-numeric:tabular-nums}
+.stg{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;padding:3px 7px;border:1px solid;white-space:nowrap;text-transform:uppercase}
+.stg.s1{color:var(--txt3);border-color:var(--line2)}
+.stg.s2{color:var(--cy);border-color:rgba(69,217,255,.36)}
+.stg.s3{color:var(--vi);border-color:rgba(155,107,240,.4)}
+.stg.s4{color:var(--ye);border-color:rgba(255,194,75,.4)}
+.stg.s5{color:var(--hw);border-color:rgba(255,106,19,.5);background:rgba(255,106,19,.08)}
+.stg.s6{color:var(--gr);border-color:rgba(46,217,160,.45);background:rgba(46,217,160,.07)}
+.val{font-family:var(--disp);font-weight:700;font-size:12.5px}
+.pipe-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+
+/* ============ CHAT RAIL ============ */
+.rail-panel{
+  position:fixed;top:0;right:0;width:var(--rail);height:100vh;z-index:70;display:flex;flex-direction:column;
+  background:linear-gradient(200deg,#0A1120,#070C15 60%);border-left:1px solid var(--line2)
+}
+.rail-panel::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cy),transparent);opacity:.5
+}
+.jhead{padding:11px 13px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;flex-shrink:0}
+.orbit{position:relative;width:32px;height:32px;flex-shrink:0}
+.orbit .core{
+  position:absolute;inset:9px;border-radius:50%;background:radial-gradient(circle at 35% 32%,#8FE8FF,var(--cy) 60%,#1B7FA6);
+  box-shadow:0 0 14px rgba(69,217,255,.6)
+}
+.orbit .ring{position:absolute;inset:0;border:1px solid rgba(69,217,255,.32);border-radius:50%;border-right-color:transparent;animation:spin 4.5s linear infinite}
+.orbit .ring.b{inset:3px;border-color:rgba(255,106,19,.32);border-left-color:transparent;animation-duration:7s;animation-direction:reverse}
+.jhead h3{font-family:var(--disp);font-size:14px;font-weight:700;letter-spacing:.19em;color:#fff}
+.jhead p{font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;color:var(--txt3);text-transform:uppercase;margin-top:1px}
+.jhead .st{margin-left:auto;display:flex;align-items:center;gap:5px}
+.jhead .st i{width:5px;height:5px;border-radius:50%;background:var(--gr);box-shadow:0 0 7px var(--gr);animation:pulse 2s infinite}
+.jhead .st span{font-family:var(--mono);font-size:8px;color:var(--txt3);letter-spacing:.08em}
+.jlog{flex:1;overflow-y:auto;padding:12px 13px;display:flex;flex-direction:column;gap:11px}
+.msg{max-width:100%;font-size:11.4px;line-height:1.6}
+.msg.u{align-self:flex-end;background:rgba(255,106,19,.11);border:1px solid rgba(255,106,19,.24);padding:8px 11px;color:#F0DDD0;max-width:88%}
+.msg.a{color:var(--txt2)}
+.msg.a .who{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;color:var(--cy);text-transform:uppercase;display:block;margin-bottom:5px}
+.msg.a .bd{border-left:1px solid rgba(69,217,255,.28);padding-left:10px}
+.msg.a .bd b{color:var(--txt);font-weight:600}
+.msg.a .bd h6{font-family:var(--disp);font-size:11px;letter-spacing:.06em;color:var(--hw);text-transform:uppercase;margin:9px 0 3px}
+.msg.a .bd ul{margin:5px 0 5px 14px}
+.msg.a .bd li{margin-bottom:3px}
+.msg.a .bd code{font-family:var(--mono);font-size:11px;color:var(--cy);background:rgba(69,217,255,.08);padding:0 3px}
+.msg.a .bd table{width:100%;border-collapse:collapse;margin:7px 0;font-size:10.5px}
+.msg.a .bd table td,.msg.a .bd table th{border-bottom:1px solid var(--line);padding:3px 4px;text-align:left}
+.msg .file{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9.5px;color:var(--cy);margin-bottom:5px}
+.typing{display:flex;gap:4px;padding-left:10px}
+.typing i{width:4px;height:4px;background:var(--cy);border-radius:50%;animation:bounce 1.3s infinite}
+.typing i:nth-child(2){animation-delay:.16s} .typing i:nth-child(3){animation-delay:.32s}
+@keyframes bounce{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chips{display:flex;gap:5px;flex-wrap:wrap;padding:0 13px 9px;flex-shrink:0}
+.chips button{
+  background:transparent;border:1px solid var(--line);color:var(--txt3);font-family:var(--body);font-size:10px;
+  padding:4px 8px;cursor:pointer;transition:.16s;text-align:left
+}
+.chips button:hover{border-color:rgba(69,217,255,.45);color:var(--cy)}
+.jform{border-top:1px solid var(--line);padding:10px 11px 11px;flex-shrink:0;background:rgba(5,8,15,.5)}
+.attached{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.att{display:flex;align-items:center;gap:6px;border:1px solid rgba(69,217,255,.3);background:rgba(69,217,255,.07);padding:3px 7px;font-family:var(--mono);font-size:9px;color:var(--cy)}
+.att button{background:0;border:0;color:var(--txt3);cursor:pointer;font-size:12px;line-height:1;padding:0}
+.att button:hover{color:var(--rd)}
+.jbox{border:1px solid var(--line2);background:#080E1A;transition:.18s}
+.jbox:focus-within{border-color:rgba(69,217,255,.5);box-shadow:0 0 0 1px rgba(69,217,255,.12)}
+.jbox textarea{
+  width:100%;background:transparent;border:0;resize:none;color:var(--txt);font-family:var(--body);font-size:11.5px;
+  padding:10px 11px 4px;outline:0;max-height:120px;line-height:1.5
+}
+.jbox textarea::placeholder{color:var(--txt3)}
+.jtools{display:flex;align-items:center;gap:7px;padding:4px 8px 7px}
+.jtools .ib{
+  background:0;border:1px solid var(--line);color:var(--txt3);width:26px;height:26px;cursor:pointer;
+  display:grid;place-items:center;transition:.16s;padding:0
+}
+.jtools .ib:hover{color:var(--cy);border-color:rgba(69,217,255,.45)}
+.jtools .hint{font-family:var(--mono);font-size:8.5px;color:var(--txt3);margin-left:auto;letter-spacing:.06em}
+.jtools .send{
+  background:var(--hw);border:0;color:#0A0603;font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:.12em;
+  padding:6px 13px;cursor:pointer;transition:.16s;text-transform:uppercase
+}
+.jtools .send:hover{filter:brightness(1.14)}
+.jtools .send:disabled{opacity:.35;cursor:not-allowed}
+.rail-toggle{display:none}
+
+/* ============ MINI BARS ============ */
+.minibars{display:flex;flex-direction:column;gap:5px;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+.mb{display:grid;grid-template-columns:74px 1fr auto;gap:7px;align-items:center}
+.mb .l{font-family:var(--mono);font-size:8.4px;color:var(--txt2);letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mb .tr{height:4px;background:rgba(122,160,214,.13);min-width:0}
+.mb .tr i{display:block;height:100%;transition:width .25s}
+.mb .v{font-family:var(--disp);font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mb.me .l{color:var(--hw)}
+
+/* ============ 3-COLUMN 좁은 폭 최적화 ============ */
+.row-main{align-items:start}
+.row-main>.panel{min-width:0}
+.row-main .ph{flex-wrap:wrap;row-gap:3px}
+.row-main .ph .ko{display:none}
+.row-top .ph h2{white-space:normal}
+.row-main .ph h2{white-space:normal}
+/* 국가별 카드: 2열 */
+.row-main .regions{grid-template-columns:repeat(2,1fr)}
+/* 핵심 지표: 2×2 */
+.row-main .klist{display:grid;grid-template-columns:1fr 1fr;gap:7px 0;row-gap:7px}
+.row-main .klist>div{padding-right:4px}
+/* 순위표: 좁은 폭에서 군더더기 제거 */
+.row-main table.t{font-size:10.4px}
+.row-main table.t th{font-size:8px;letter-spacing:.07em}
+.row-main .msbar{display:none}
+.row-main table.t .co span.dim3{display:none}
+.row-main table.t .co{gap:5px}
+/* 레이더: 세로 스택 + 3열 범례 */
+.row-main .radar-wrap{flex-direction:column;gap:8px}
+.row-main .radar-wrap svg{width:100%;max-width:220px;height:auto;align-self:center}
+.row-main .rl{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:100%}
+.row-main .rl .r{border-left-width:2px;padding-left:6px}
+.row-main .rl .r b{font-size:10.5px}
+.row-main .rl .r span{font-size:8.4px;line-height:1.42}
+/* 차트 사이드 라벨 */
+.row-main .side{width:66px;padding-left:7px}
+.row-main .side .r em{font-size:8px;letter-spacing:.05em}
+.row-main .side .r b{font-size:12.5px}
+/* 시뮬레이터 */
+.row-main .seg-tabs button{font-size:10px;padding:6px 2px}
+.row-main .kpi em{font-size:7.4px;letter-spacing:.07em}
+.row-main .kpi b{font-size:13px}
+.row-main .pl-row{font-size:10.6px}
+.row-main .vc p{font-size:9.8px}
+.row-main .note{font-size:8.2px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1560px){ .ticker .tk:nth-child(n+3){display:none} }
+@media(max-width:1400px){ .ticker{display:none} }
+@media(max-width:1180px){
+  :root{--rail:0px}
+  .shell{margin-right:0}
+  .rail-panel{transform:translateX(100%);transition:transform .3s;width:min(390px,92vw);box-shadow:-30px 0 70px -30px #000}
+  .rail-panel.open{transform:none}
+  .rail-toggle{
+    display:flex;align-items:center;gap:8px;position:fixed;right:16px;bottom:18px;z-index:80;
+    background:var(--hw);border:0;color:#0A0603;font-family:var(--disp);font-weight:700;font-size:12px;
+    letter-spacing:.14em;padding:12px 17px;cursor:pointer;box-shadow:0 14px 34px -12px rgba(255,106,19,.7)
+  }
+  .row-top{grid-template-columns:1fr}
+  #p-news{min-height:0}
+  .sysbadge,.railbtn{display:none}
+}
+@media(max-width:1020px){
+  .row-main{grid-template-columns:1fr 1fr}
+  .row-main>.panel:last-child{grid-column:span 2}
+  .news-cols{grid-template-columns:1fr}
+  .pipe-kpi{grid-template-columns:repeat(2,1fr)}
+  .userchip .nm{display:none}
+  .vchain.wide{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:740px){
+  .row-main{grid-template-columns:1fr}
+  .row-main>.panel:last-child{grid-column:auto}
+  .row-main .regions{grid-template-columns:repeat(4,1fr)}
+  .vchain.wide{grid-template-columns:1fr}
+  .pipe-wrap{overflow-x:auto}
+  table.pipe{min-width:940px}
+}
+@media(max-width:1020px){
+  .pipe-wrap{overflow-x:auto}
+  table.pipe{min-width:900px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark"></div>
+    <div>
+      <h1>SPACE<b>·</b>INTEL</h1>
+      <div class="sub">Space Launch Market Intelligence Platform</div>
+    </div>
+  </div>
+  <div class="ticker" id="ticker"></div>
+  <div class="sysbadge"><i class="dot"></i>SYSTEM ONLINE<b>|</b>2026.08 DB SYNCED</div>
+  <div class="userchip">
+    <span class="av"></span>
+    <span class="nm"><b>한화에어로스페이스</b><i>해외영업 / 우주사업부</i></span>
+  </div>
+  <button class="railbtn" id="railBtn" title="JAVIS 패널 접기/펼치기"><span id="railBtnTxt">JAVIS 접기</span> <em id="railBtnIco">▶</em></button>
+</header>
+
+<main class="shell">
+
+<!-- ══════════════════ VIEW 1 : DASHBOARD ══════════════════ -->
+<section class="view on" id="v-dash">
+
+  <div class="row-top">
+    <!-- ① 주요 뉴스 -->
+    <div class="panel click hot" id="p-news" data-go="news">
+      <div class="ph">
+        <span class="ic">▤</span>
+        <h2>우주산업 주요 뉴스</h2>
+        <div class="right"><span class="tagpill" id="newsTag"></span></div>
+      </div>
+      <div class="news-list" id="newsDigest"></div>
+    </div>
+
+    <div class="stack">
+      <!-- ② 경쟁 발사 타임라인 -->
+      <div class="panel click" data-go="comp">
+        <div class="ph">
+          <span class="ic">◆</span>
+          <h2>경쟁 발사 타임라인</h2>
+          <div class="right"><span class="tagpill" id="compTag"></span></div>
+        </div>
+        <div id="railComp" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>
+        <div class="legend" id="legComp"></div>
+      </div>
+      <!-- ③ 고객 발사(요구) 타임라인 -->
+      <div class="panel click" data-go="pipe">
+        <div class="ph">
+          <span class="ic">◈</span>
+          <h2>고객 발사(요구) 타임라인</h2>
+          <div class="right"><span class="tagpill" id="custTag"></span></div>
+        </div>
+        <div id="railCust" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>
+        <div class="legend" id="legCust"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row-main">
+
+    <!-- ④ 발사서비스 시장 규모 -->
+    <div class="panel click" data-go="market">
+      <div class="ph">
+        <span class="ic">▥</span>
+        <h2>발사서비스 시장 규모</h2>
+        <span class="ko">Launch Service Market</span>
+        <div class="right"><span class="tagpill" id="cagrTag"></span></div>
+      </div>
+
+      <div class="sub-h first">탑재물 중량(Lift)별 매출 <i>2021 – 2026E · $B</i></div>
+      <div class="legend flat" id="legLift"></div>
+      <div style="display:flex">
+        <div class="chart" id="chartLift" style="flex:1"></div>
+        <div class="side" id="sideLift"></div>
+      </div>
+      <div class="klist" id="kMarket"></div>
+      <div class="minibars" id="liftCagr"></div>
+
+      <div class="sub-h">고객 세그먼트별 매출 <i>Commercial / Gov / Defense</i></div>
+      <div class="legend flat" id="legCust2"></div>
+      <div style="display:flex">
+        <div class="chart" id="chartCust" style="flex:1;height:126px"></div>
+        <div class="side" id="sideCust" style="height:126px"></div>
+      </div>
+
+      <div class="sub-h">국가별 시장 규모 <i>2025 기준</i></div>
+      <div class="regions" id="regions"></div>
+      <p class="note">시장 정의 : 고객이 위성을 궤도에 투입하기 위해 발사 사업자에게 지불하는 대가. 자체 위성군 발사의 내부거래 가치 포함 추정치.</p>
+    </div>
+
+    <!-- ⑤ 시장 점유율 및 경쟁 구도 -->
+    <div class="panel click" data-go="share">
+      <div class="ph">
+        <span class="ic">▦</span>
+        <h2>시장 점유율 및 경쟁 구도</h2>
+        <span class="ko">Competitive Landscape</span>
+        <div class="right"><span class="tagpill" id="totTag"></span></div>
+      </div>
+
+      <div class="sub-h first">2025 발사 매출 트리맵 <i>면적 = 매출 $B</i></div>
+      <div class="tmap" id="treemap"></div>
+      <p class="note" id="tmapNote"></p>
+
+      <div class="sub-h">점유율 순위 <i>Revenue / M/S / YoY</i></div>
+      <table class="t" id="shareTable"></table>
+
+      <div class="sub-h">핵심 경쟁력 비교 <i>SpaceX / Rocket Lab / 한화</i></div>
+      <div class="radar-wrap">
+        <svg id="radar" width="170" height="170" viewBox="0 0 196 196"></svg>
+        <div class="rl" id="radarLegend"></div>
+      </div>
+      <table class="t" id="capTable" style="margin-top:11px"></table>
+    </div>
+
+    <!-- ⑥ 한화 솔루션 & P&L -->
+    <div class="panel click hot" data-go="hanwha">
+      <div class="ph">
+        <span class="ic">▲</span>
+        <h2>한화 솔루션 &amp; 발사 손익</h2>
+        <span class="ko">Turnkey &amp; P&amp;L</span>
+        <div class="right"><span class="tagpill" id="bepTag"></span></div>
+      </div>
+
+      <div class="sub-h first">통합 우주 밸류체인 <i>Turn-key Package</i></div>
+      <div class="vchain" id="vchain"></div>
+
+      <div class="sub-h">해외영업 전략 포인트 <i>Sales Thesis</i></div>
+      <div class="strat" id="strat"></div>
+
+      <div class="sub-h">발사 손익계산기 <i>P&amp;L Simulator</i></div>
+      <div class="seg-tabs" id="vehTabs"></div>
+      <div id="plControls"></div>
+      <div class="pl-out" id="plOut"></div>
+      <div class="kpis" id="plKpis"></div>
+      <div class="waterfall" id="plWf"></div>
+      <div class="sub-h">$/kg 벤치마크 <i>경쟁사 대비</i></div>
+      <div class="minibars" id="plBench"></div>
+      <p class="note" id="plNote"></p>
+    </div>
+
+  </div>
+
+  <footer style="margin-top:14px;padding:12px 15px;border:1px solid var(--line);background:rgba(10,17,32,.5);display:flex;gap:18px;flex-wrap:wrap;align-items:baseline">
+    <span class="eyebrow" style="color:var(--hw)">DATA SOURCES</span>
+    <span class="note" style="margin:0;flex:1;min-width:260px">
+      KARI · 우주항공청 · SpaceNews · Spaceflight Now · NASASpaceflight · European Spaceflight · Novaspace / Space Foundation · 증권사 산업분석 (2026.08 기준).
+      시장 규모와 경쟁사 매출은 공개 데이터에 자체 추정(Est.)을 결합한 값이며, 파이프라인의 계약 규모·Stage는 영업 관점 가정치입니다.
+    </span>
+    <span class="note" style="margin:0">BUILT FOR · 한화에어로스페이스 우주사업부 해외영업 · 프로토타입 v1.0</span>
+  </footer>
+</section>
+
+<!-- ══════════════════ VIEW : 경쟁 발사 타임라인 상세 ══════════════════ -->
+<section class="view" id="v-comp">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div><h2>경쟁 발사 타임라인</h2><div class="ko">'26~'30 경쟁사 발사체 개발·발사 일정 상세</div></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><span class="ic">◆</span><h2>연도별 마일스톤</h2><span class="ko">Milestone Map</span></div>
+    <div id="railCompFull"></div>
+    <div class="legend" id="legCompFull"></div>
+  </div>
+  <div class="panel" style="margin-top:11px">
+    <div class="ph"><span class="ic">▤</span><h2>일정 상세 및 시사점</h2><span class="ko">Detail · Click → 원문</span>
+      <div class="right"><span class="eyebrow">행 클릭 시 원문 기사</span></div></div>
+    <div class="pipe-wrap"><table class="pipe" id="compTable"></table></div>
+  </div>
+</section>
+
+<!-- ══════════════════ VIEW : 발사서비스 시장 상세 ══════════════════ -->
+<section class="view" id="v-market">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div><h2>발사서비스 시장 규모</h2><div class="ko">2021~2026E · 중량급 / 고객유형 / 국가별</div></div>
+  </div>
+  <div class="pipe-kpi" id="mktKpi"></div>
+  <div class="news-cols">
+    <div class="panel">
+      <div class="ph"><span class="ic">▥</span><h2>탑재물 중량(Lift)별 매출</h2><span class="ko">$B</span></div>
+      <div class="legend flat" id="legLiftD"></div>
+      <div style="display:flex"><div class="chart" id="chartLiftD" style="flex:1;height:250px"></div>
+        <div class="side" id="sideLiftD" style="height:250px"></div></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><span class="ic">▥</span><h2>고객 세그먼트별 매출</h2><span class="ko">$B</span></div>
+      <div class="legend flat" id="legCustD"></div>
+      <div style="display:flex"><div class="chart" id="chartCustD" style="flex:1;height:250px"></div>
+        <div class="side" id="sideCustD" style="height:250px"></div></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:11px">
+    <div class="ph"><span class="ic">▦</span><h2>연도별 시장 데이터</h2><span class="ko">Market Table</span></div>
+    <div class="pipe-wrap"><table class="pipe" id="mktTable"></table></div>
+  </div>
+  <div class="panel" style="margin-top:11px">
+    <div class="ph"><span class="ic">◈</span><h2>국가별 시장 규모 · 2025</h2><span class="ko">By Provider Nation</span></div>
+    <div class="pipe-wrap"><table class="pipe" id="regTable"></table></div>
+    <p class="note">발사 1회당 평균 단가는 해당 국가 발사 사업자의 매출 추정을 발사 횟수로 나눈 값으로, 중량급 구성에 따라 편차가 큼.</p>
+  </div>
+</section>
+
+<!-- ══════════════════ VIEW : 시장 점유율 및 경쟁 구도 상세 ══════════════════ -->
+<section class="view" id="v-share">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div><h2>시장 점유율 및 경쟁 구도</h2><div class="ko">2025 발사서비스 매출 기준 경쟁 분석</div></div>
+  </div>
+  <div class="pipe-kpi" id="shareKpi"></div>
+  <div class="panel">
+    <div class="ph"><span class="ic">▦</span><h2>매출 트리맵</h2><span class="ko">Area = Revenue $B</span>
+      <div class="right"><span class="tagpill" id="totTagD"></span></div></div>
+    <div class="tmap" id="treemapD" style="height:340px"></div>
+    <p class="note" id="tmapNoteD"></p>
+  </div>
+  <div class="news-cols" style="margin-top:11px">
+    <div class="panel">
+      <div class="ph"><span class="ic">▤</span><h2>점유율 순위</h2><span class="ko">Ranking</span></div>
+      <table class="t" id="shareTableD"></table>
+    </div>
+    <div class="panel">
+      <div class="ph"><span class="ic">◆</span><h2>핵심 경쟁력 비교</h2><span class="ko">Capability</span></div>
+      <div class="radar-wrap"><svg id="radarD" width="240" height="240" viewBox="0 0 196 196"></svg>
+        <div class="rl" id="radarLegendD"></div></div>
+      <table class="t" id="capTableD" style="margin-top:14px"></table>
+      <p class="note">레이더 지표는 발사능력·비용경쟁력·재사용·발사빈도·신뢰성을 0~100으로 정규화한 상대 평가치.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ VIEW : 한화 솔루션 & 발사 손익 상세 ══════════════════ -->
+<section class="view" id="v-hanwha">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div><h2>한화 솔루션 &amp; 발사 손익</h2><div class="ko">턴키 포트폴리오 · 전략 · 발사체별 손익 구조</div></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><span class="ic">▲</span><h2>통합 우주 밸류체인 (Turn-key)</h2><span class="ko">Portfolio</span></div>
+    <div class="vchain wide" id="vchainD"></div>
+  </div>
+  <div class="panel" style="margin-top:11px">
+    <div class="ph"><span class="ic">◆</span><h2>해외영업 전략 포인트</h2><span class="ko">Sales Thesis</span></div>
+    <div class="strat" id="stratD"></div>
+  </div>
+  <div class="panel" style="margin-top:11px">
+    <div class="ph"><span class="ic">▦</span><h2>발사체별 손익 구조 비교</h2><span class="ko">Unit Economics</span>
+      <div class="right"><span class="eyebrow">연 3회 발사 · 보험 4% · 오프셋 8% 가정</span></div></div>
+    <div class="pipe-wrap"><table class="pipe" id="vehTable"></table></div>
+    <p class="note">인터랙티브 시뮬레이터는 메인 대시보드의 '한화 솔루션 &amp; 발사 손익' 보드에서 변수를 직접 조정할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- ══════════════════ VIEW 2 : NEWS ══════════════════ -->
+<section class="view" id="v-news">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div>
+      <h2>Market Headlines</h2>
+      <div class="ko">우주발사체 주요 뉴스 · 국내 / 해외</div>
+    </div>
+  </div>
+  <div class="filters" id="newsFilters"></div>
+  <div class="news-cols">
+    <div class="ncol">
+      <h3>🇰🇷 KOREA <i id="cntKr"></i></h3>
+      <div id="newsKr"></div>
+    </div>
+    <div class="ncol">
+      <h3>🌐 GLOBAL <i id="cntGl"></i></h3>
+      <div id="newsGl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ VIEW 3 : CUSTOMER & PIPELINE ══════════════════ -->
+<section class="view" id="v-pipe">
+  <div class="pagehead">
+    <button class="back" onclick="go('dash')">← 메인 대시보드</button>
+    <div>
+      <h2>Customer &amp; Pipeline</h2>
+      <div class="ko">고객 · 발사 수요 파이프라인 ('26~'32)</div>
+    </div>
+  </div>
+  <div class="pipe-kpi" id="pipeKpi"></div>
+  <div class="panel">
+    <div class="ph">
+      <span class="id">P-01</span>
+      <h2>Opportunity Register</h2>
+      <span class="ko">고객별 발사 수요 상세</span>
+      <div class="right"><span class="eyebrow" id="pipeCnt"></span></div>
+    </div>
+    <div class="pipe-wrap">
+      <table class="pipe" id="pipeTable"></table>
+    </div>
+    <div class="pipe-legend" id="pipeLegend"></div>
+    <p class="note">공개 발표된 위성 프로그램 기준. 예상 발사 횟수·계약 규모·Pipeline Stage는 발사체 급별 단가와 프로그램 규모를 바탕으로 한 영업 관점 추정치이며, 실제 계약 조건과 다를 수 있음.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════ SUB PART : JAVIS ══════════════════ -->
+<aside class="rail-panel" id="rail">
+  <div class="jhead">
+    <div class="orbit"><div class="ring"></div><div class="ring b"></div><div class="core"></div></div>
+    <div>
+      <h3>JAVIS</h3>
+      <p>Space Market Analyst</p>
+    </div>
+    <div class="st"><i></i><span id="jStatus">ONLINE</span></div>
+  </div>
+  <div class="jlog" id="jlog"></div>
+  <div class="chips" id="jchips"></div>
+  <div class="jform">
+    <div class="attached" id="attached"></div>
+    <div class="jbox">
+      <textarea id="jinput" rows="2" placeholder="시장·경쟁사·고객에 대해 질문하거나, 파일을 첨부해 요약을 요청하세요"></textarea>
+      <div class="jtools">
+        <button class="ib" id="attBtn" title="파일 첨부 (xlsx, csv, pdf, 이미지, txt)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.05 12.25 20.2a5.5 5.5 0 0 1-7.78-7.78l8.49-8.48a3.67 3.67 0 1 1 5.18 5.18l-8.48 8.49a1.83 1.83 0 0 1-2.6-2.6l7.78-7.77"/></svg>
+        </button>
+        <input type="file" id="fileInput" multiple hidden accept=".xlsx,.xls,.csv,.txt,.md,.json,.pdf,.png,.jpg,.jpeg">
+        <span class="hint">ENTER 전송 · SHIFT+ENTER 줄바꿈</span>
+        <button class="send" id="sendBtn">SEND</button>
+      </div>
+    </div>
+  </div>
+</aside>
+<button class="rail-toggle" id="railToggle">JAVIS 열기</button>
+<div class="tip" id="tip"></div>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   SPACE INTEL · DATA LAYER
+   출처: KARI / 우주항공청 / SpaceNews / Spaceflight Now / European
+   Spaceflight / Novaspace·Space Foundation / 증권사 산업분석 (2026.08 기준)
+   시장 규모는 공개 데이터 + 자체 추정 (Est.) 혼합
+   ═══════════════════════════════════════════════════════════════════ */
+
+const C = {
+  spacex:'#4C82F7', rocketlab:'#2ED9A0', ariane:'#9B6BF0', blue:'#45D9FF',
+  ula:'#8C99AD', casc:'#FF5C7A', mhi:'#FFC24B', isro:'#F58FD6',
+  firefly:'#C8E85B', hanwha:'#FF6A13', ros:'#7A8CA6', etc:'#4A5B74'
+};
+
+/* ─── 1. NEWS ─────────────────────────────────────────────────── */
+const NEWS = [
+  // ── KOREA
+  {r:'kr',d:'2026-05-14',c:'시장',t:"한화에어로스페이스, 누리호 5호기 단 조립 70~90%…3분기 발사 목표",s:'매일일보',
+   u:'https://www.m-i.kr/news/articleView.html?idxno=1373064',
+   x:'초소형군집위성 5기 + 부탑재 10기, 총 15기를 태양동기궤도에 투입 예정. 체계종합기업으로서 제작·조립·발사준비 역할 확대.'},
+  {r:'kr',d:'2026-03-01',c:'정책',t:"차세대발사체, 2040년까지 5조6천억 투입…재사용 발사체로 전환",s:'연합뉴스',
+   u:'https://ko.wikipedia.org/wiki/%EC%B0%A8%EC%84%B8%EB%8C%80_%EB%B0%9C%EC%82%AC%EC%B2%B4',
+   x:'국가우주위원회 중장기 계획 확정. 액체메탄 엔진 기반 재사용 발사체 개발이 새롭게 포함.'},
+  {r:'kr',d:'2025-12-22',c:'기술',t:"차세대발사체(KSLV-Ⅲ), 액체메탄 재사용 발사체로 개발 확정",s:'우주항공청',
+   u:'https://namu.wiki/w/KSLV-III',
+   x:'2032년 달 착륙선 발사는 재사용 없이 수행, 2035년까지 재사용 기술 확보 목표. 1단 추력 720t급.'},
+  {r:'kr',d:'2025-12-05',c:'경쟁',t:"한화그룹, SAR 위성부터 발사체까지…우주사업 밸류체인 강화",s:'데일리한국',
+   u:'https://daily.hankooki.com/news/articleView.html?idxno=1305993',
+   x:'발사체 체계종합·액체엔진·구조체·위성 추진시스템까지 수직계열화. 재사용 발사체 선행 기술 검토 착수.'},
+  {r:'kr',d:'2025-12-01',c:'기술',t:"누리호 4차 성공 이끈 한화의 40년 항공우주 기술력",s:'아시아경제',
+   u:'https://www.asiae.co.kr/article/2025112814081391683',
+   x:'역대 최다 13기·총 960kg 탑재. 체계통합과 총조립이 핵심이었다는 발사체연구센터장 인터뷰.'},
+  {r:'kr',d:'2025-11-27',c:'기술',t:"누리호 4차 발사 성공…민간(한화)이 제작 전 과정 총괄한 첫 사례",s:'KARI',
+   u:'https://www.kari.re.kr/kor/contents/51',
+   x:'차세대중형위성 3호(516kg)+큐브위성 12기를 고도 600km SSO에 투입. 2026·2027년 각 1회 발사 예정.'},
+  {r:'kr',d:'2025-11-26',c:'정책',t:"누리호 4차 발사가 여는 한국 발사체 산업과 민관 협력",s:'한화그룹',
+   u:'https://www.hanwha.co.kr/newsroom/media_center/news/article.do?seq=15297',
+   x:'5차 발사부터 순천 사업장에서 단 조립 수행 계획. 4~6차 반복발사가 차세대발사체 개발의 기술 토대.'},
+  {r:'kr',d:'2026-01-06',c:'시장',t:"산업분석: 우주 관점에서 본 한화에어로스페이스",s:'하나증권',
+   u:'https://www.hanaw.com/download/research/FileServer/WEB/industry/industry/2026/01/05/Defense_260106_1.pdf',
+   x:"'25년 발사 시도 329회(궤도 도달 321회, YoY +24.4%). 미국 181회·중국 92회로 합산 83%. 기업별로는 SpaceX 165회."},
+  {r:'kr',d:'2024-03-20',c:'정책',t:"한화에어로스페이스, 차세대발사체(KSLV-Ⅲ) 총괄 주관 제작사 선정",s:'한화 스페이스허브',
+   u:'https://www.hanwhaspacehub.com/media-room/Press-Release/60',
+   x:'설계·제작·시험·발사 전 단계를 항우연과 공동 수행. 민간 주도 우주경제 전환의 분기점.'},
+  // ── GLOBAL
+  {r:'gl',d:'2026-08-11',c:'시장',t:"SpaceX, 올해 Falcon 9 90회 돌파…West Coast 발사 급증 지속",s:'Spaceflight Now',
+   u:'https://spaceflightnow.com/',
+   x:'반덴버그·케이프에서 Starlink V2 Mini 위성 배치 지속. 부스터 드론십 회수 정상 수행.'},
+  {r:'gl',d:'2026-08-10',c:'경쟁',t:"Rocket Lab, Neutron '26년 데뷔 창(window) 좁아지는 중",s:'Spaceflight Now',
+   u:'https://spaceflightnow.com/launch-schedule/',
+   x:"SEC 제출 및 분기 실적 콜에서 일정 리스크 언급. 중형 발사 시장 진입 시점이 '27년으로 밀릴 가능성."},
+  {r:'gl',d:'2026-08-06',c:'기술',t:"Blue Origin, New Glenn 폭발 원인으로 엔진 결함 확인",s:'Spaceflight Now',
+   u:'https://spaceflightnow.com/',
+   x:'LC-36 재건 병행. 2단 시험 대안 검토 중으로 발사 복귀 시점 불확실.'},
+  {r:'gl',d:'2026-05-28',c:'경쟁',t:"New Glenn 폭발로 LC-36 심각 손상…발사 운용 잠정 중단",s:'Wikipedia',
+   u:'https://en.wikipedia.org/wiki/2026_New_Glenn_rocket_explosion',
+   x:'페이로드와 2단(GS2-5) 손실. Kuiper 배치 일정에 직접적 영향.'},
+  {r:'gl',d:'2026-02-27',c:'경쟁',t:"Rocket Lab, Neutron 초도 발사 4Q26으로 연기",s:'SpaceNews',
+   u:'https://spacenews.com/rocket-lab-delays-neutron-debut-to-late-2026/',
+   x:"1단 추진제 탱크 수압시험 실패가 원인. 탱크 설계 소폭 변경 후 재인증. Electron은 '26년 25회 이상 목표."},
+  {r:'gl',d:'2026-02-01',c:'시장',t:"2026 유럽 발사: Ariane 64 초도 발사로 Kuiper 18발 계약 개시",s:'European Spaceflight',
+   u:'https://europeanspaceflight.com/european-rocket-launches-in-2026/',
+   x:'4부스터형 Ariane 64가 Amazon Kuiper 위성 탑재. 이후 16발은 P160C 부스터 개량형 적용.'},
+  {r:'gl',d:'2025-12-29',c:'경쟁',t:"Rocket Lab, 2025년 Electron 21회 무실패 발사…소형 발사 시장 주도",s:'NASASpaceflight',
+   u:'https://nasaspaceflight.com/2025/12/rocket-lab-2025-overview/',
+   x:'LC-1A/1B(뉴질랜드), LC-2(월롭스) 3개 사대 운용. Neutron은 LEO 13t(재사용)/15t(소모형).'},
+  {r:'gl',d:'2025-12-20',c:'시장',t:"Rocket Lab, 美 우주군과 8.16억 달러 규모 사상 최대 계약",s:'Barchart',
+   u:'https://www.barchart.com/story/news/36768504/could-these-3-aerospace-firms-go-stratospheric-in-2026',
+   x:'JAXA·우주군 등 정부 고객 비중 확대. 정부 물량이 신규 발사체 사업의 초기 수요 기반이 되는 구조.'},
+  {r:'gl',d:'2025-11-09',c:'시장',t:"Arianespace, 2026년 Ariane 6 최대 8회 발사 목표",s:'European Spaceflight',
+   u:'https://europeanspaceflight.com/arianespace-aiming-for-as-many-as-eight-ariane-6-launches-in-2026/',
+   x:'연 9~10회 최대 캐던스에 근접. 증편 여부는 고객 수요가 결정한다는 입장.'},
+  {r:'gl',d:'2026-06-19',c:'시장',t:"상업 우주 통계: '25년 궤도 발사 시도 329회 사상 최대",s:'Sci-Tech Today',
+   u:'https://www.sci-tech-today.com/stats/commercial-space-industry-statistics/',
+   x:"발사서비스 시장 $14~18B, 연 15~19% 성장. Starlink 매출 $11.39B, '26년 $20B 근접 전망."},
+  {r:'gl',d:'2026-08-10',c:'정책',t:"우주경제 $626B…2040년대 1조 달러 전망",s:'Orbital Radar',
+   u:'https://orbitalradar.com/space-economy',
+   x:'약 80%가 상업 영역(위성 광대역·항법·지구관측). 정부 우주예산은 연 $132B 규모.'},
+  {r:'gl',d:'2026-08-03',c:'기술',t:"Starship Ship 40 비행 성공…Starbase Pad 1 Block 3 개조 진행",s:'NASASpaceflight',
+   u:'https://www.nasaspaceflight.com/2026/08/launch-preview-080326/',
+   x:"차기 미션은 캐치(회수) 시도 예정. 궤도 재급유 시연이 '26~'27년 최대 기술 관문."},
+  {r:'gl',d:'2026-07-15',c:'경쟁',t:"Firefly, Alpha Block 2 초도 발사 4Q26으로 연기",s:'Spaceflight Now',
+   u:'https://spaceflightnow.com/',
+   x:'소형 발사 신규 진입자들의 일정 지연이 반복되며 Electron의 사실상 독점 구도 유지.'}
+];
+
+/* ─── 2. COMPETITOR LAUNCH TIMELINE ('26~'30) ─────────────────── */
+const T_COMP = [
+ {y:2026,co:'Rocket Lab',k:'rocketlab',t:'Neutron 초도 발사 (NET 4Q26)',x:'1단 추진제 탱크 시험 실패로 4Q26 이후 연기. LEO 13t 부분 재사용. 데뷔 창이 좁아지는 중.',u:'https://spacenews.com/rocket-lab-delays-neutron-debut-to-late-2026/'},
+ {y:2026,co:'SpaceX',k:'spacex',t:'Starship V3 · 궤도 재급유 시연',x:'Ship 40 비행 성공, Starbase Pad 1 Block 3 개조 진행. Falcon 9는 8월 초 기준 올해 90회 돌파.',u:'https://www.nasaspaceflight.com/2026/08/launch-preview-080326/'},
+ {y:2026,co:'Arianespace',k:'ariane',t:'Ariane 64 초도 발사 (Kuiper)',x:'4부스터형 첫 비행. Amazon Kuiper 18발 계약의 1호기. 연 6~8회 발사 목표.',u:'https://europeanspaceflight.com/european-rocket-launches-in-2026/'},
+ {y:2026,co:'한화에어로스페이스',k:'hanwha',t:'누리호 5차 발사 (3Q26 목표)',x:'단 조립 70~90% 진행. 초소형군집위성 5기 등 15기를 SSO 투입. 순천 사업장 단 조립 전환.',u:'https://www.m-i.kr/news/articleView.html?idxno=1373064'},
+ {y:2027,co:'Blue Origin',k:'blue',t:'New Glenn 발사 복귀 (LC-36 재건)',x:'5/28 폭발로 LC-36 심각 손상, 엔진 결함 확인. 재건·2단 시험 대안 검토 중으로 복귀 시점 불확실.',u:'https://en.wikipedia.org/wiki/2026_New_Glenn_rocket_explosion'},
+ {y:2027,co:'ULA',k:'ula',t:'Vulcan 양산 캐던스 · Kuiper 38발',x:'Dream Chaser 데모 및 NSSL Phase 2/3 물량 집행. Kuiper 38발 소화가 관건.',u:'https://spaceflightnow.com/launch-schedule/'},
+ {y:2027,co:'CASC / 중국',k:'casc',t:'연 100회+ 발사 목표',x:"'25년 92회 발사. Tianlong-3·Kinetica 2·창정 12B 등 상업 발사체 신규 진입으로 물량 확대.",u:'https://en.wikipedia.org/wiki/2026_in_spaceflight'},
+ {y:2027,co:'한화에어로스페이스',k:'hanwha',t:'누리호 6차 → 상업 발사 전환',x:'정부 주도 반복발사 종료 후 민간 주도 상업 발사로 전환 예정. 신뢰도 4/6 확보 시점.',u:'https://www.kari.re.kr/kor/contents/51'},
+ {y:2028,co:'Rocket Lab',k:'rocketlab',t:'Neutron 1단 회수·재사용 검증',x:'드론십 "Return on Investment"를 2호기부터 투입 계획. 중형 재사용 진입.',u:'https://nasaspaceflight.com/2025/12/rocket-lab-2025-overview/'},
+ {y:2028,co:'Arianespace',k:'ariane',t:'Ariane 6 P160C · 연 9~10회',x:'최대 캐던스 도달. Kuiper 잔여 16발에 P160C 개량 부스터 적용.',u:'https://europeanspaceflight.com/arianespace-aiming-for-as-many-as-eight-ariane-6-launches-in-2026/'},
+ {y:2028,co:'SpaceX',k:'spacex',t:'Starship 상업 위성 발사 본격화',x:'대형 위성군·정부 대형 페이로드 이관 시작 시 중대형 시장 단가 구조가 재편.',u:'https://spaceflightnow.com/'},
+ {y:2028,co:'한화에어로스페이스',k:'hanwha',t:'KSLV-Ⅲ 상세설계·제작',x:"'26년 예비설계 완료 후 '29년까지 상세설계·제작. 1단 추력 720t급, 액체메탄 재사용 기반.",u:'https://namu.wiki/w/KSLV-III'},
+ {y:2029,co:'Blue Origin',k:'blue',t:'New Glenn 재사용 캐던스 확대',x:'부스터 재사용이 정착되면 Heavy-Lift 단가 하락 압력이 본격화.',u:'https://spaceflightnow.com/'},
+ {y:2029,co:'Rocket Lab',k:'rocketlab',t:'Neutron 연 10회+ 목표',x:'중형 재사용 시장에서 Falcon 9 대체 수요 확보 여부가 분수령.',u:'https://spacenews.com/rocket-lab-delays-neutron-debut-to-late-2026/'},
+ {y:2029,co:'CASC / 중국',k:'casc',t:'창정-9 대형 재사용 개발',x:'대형 재사용 발사체 개발로 아시아 중대형 시장 단가 압박 가능성.',u:'https://en.wikipedia.org/wiki/2026_in_spaceflight'},
+ {y:2030,co:'Arianespace',k:'ariane',t:'Themis 재사용 1단 시연 (ESA)',x:'유럽 재사용 실증. Maia·RFA 등 유럽 신규 진입자와 병행 경쟁.',u:'https://europeanspaceflight.com/european-rocket-launches-in-2026/'},
+ {y:2030,co:'SpaceX',k:'spacex',t:'Starship 완전 재사용 운용',x:'완전 재사용 정착 시 Heavy-Lift $/kg 기준선이 재설정.',u:'https://spaceflightnow.com/'},
+ {y:2030,co:'한화에어로스페이스',k:'hanwha',t:"KSLV-Ⅲ 초도 발사 준비 ('31~)",x:"총 3회 발사로 '32년 달 착륙선 수송. 2035년까지 재사용 기술 확보 목표.",u:'https://namu.wiki/w/KSLV-III'}
+];
+
+/* ─── 3. CUSTOMER DEMAND TIMELINE ('26~'30) ───────────────────── */
+const T_CUST = [
+ {y:2026,co:'Amazon Kuiper',k:'spacex',t:'3,236기 대량 배치 (FCC 기한)',x:'Ariane 6 ×18, Vulcan ×38, New Glenn ×27 계약. New Glenn 중단으로 일정 압박.',u:'https://europeanspaceflight.com/european-rocket-launches-in-2026/'},
+ {y:2026,co:'초소형군집위성 (KR)',k:'hanwha',t:'군집위성 5기 · 누리호 5차 탑재',x:'국내 초소형 SAR/EO 군집. 2027년까지 11기 체계 완성 목표.',u:'https://www.m-i.kr/news/articleView.html?idxno=1373064'},
+ {y:2026,co:'AST SpaceMobile',k:'spacex',t:'BlueBird Block 2 배치 확대',x:'직접 단말 통신(D2D) 위성군. 기체 6t급으로 중대형 발사 수요.',u:'https://www.nasaspaceflight.com/2026/08/launch-preview-080326/'},
+ {y:2026,co:'방위사업청 (KR)',k:'hanwha',t:'425 후속 정찰위성 소요 검토',x:'425 사업 5기 완료 후 후속 SAR/EO 소요. 국내 발사체 활용 요구 증가.',u:'https://www.kari.re.kr/kor/contents/51'},
+ {y:2027,co:'KASA · KPS',k:'hanwha',t:'한국형 위성항법 1호기',x:'2035년까지 총 8기. MEO/GEO 혼합 궤도로 중형 발사 수요 발생.',u:'https://www.kari.re.kr/kor/contents/51'},
+ {y:2027,co:'EUMETSAT / ESA',k:'ariane',t:'MTG · Sentinel 후속 위성',x:'MTG-I2 등 기상·지구관측 대형 위성. Ariane 62 중심 발사.',u:'https://spaceflightnow.com/launch-schedule/'},
+ {y:2027,co:'신흥국 EO 프로그램',k:'mhi',t:'중동·동남아 입찰 개시',x:'UAE·사우디·인도네시아·베트남 주권 위성. 위성+발사+지상국 턴키 요구.',u:'https://orbitalradar.com/space-economy'},
+ {y:2028,co:'US Space Force',k:'spacex',t:'NSSL Phase 3 물량 집행',x:'Rocket Lab 8.16억 달러 계약 등 정부 물량이 신규 진입자 수요 기반.',u:'https://www.barchart.com/story/news/36768504/could-these-3-aerospace-firms-go-stratospheric-in-2026'},
+ {y:2028,co:'UAE MBRSC',k:'mhi',t:'주권 EO · 달 탐사 후속',x:'350kg급 EO 및 탐사 페이로드. 기술이전·현지 인력 교육이 평가 항목.',u:'https://orbitalradar.com/space-economy'},
+ {y:2028,co:'국내 민간 위성사',k:'hanwha',t:'상업 EO·IoT 군집 발사',x:'20~150kg 소형 위성군. 국내 전용 발사(라이드셰어 대체) 수요.',u:'https://www.m-i.kr/news/articleView.html?idxno=1373064'},
+ {y:2029,co:'ESA / IRIS²',k:'ariane',t:'290기 주권 통신 배치 개시',x:'유럽 발사체 우선 정책으로 Ariane 6 물량 확보. 유럽 외 사업자 진입 제한.',u:'https://europeanspaceflight.com/european-rocket-launches-in-2026/'},
+ {y:2029,co:'Saudi Space Agency',k:'mhi',t:'국가 통신·EO 프로그램',x:'1,200kg급 LEO/GEO 혼합. 대규모 오프셋·현지화 요구 예상.',u:'https://orbitalradar.com/space-economy'},
+ {y:2029,co:'베트남 VNSC',k:'mhi',t:'LOTUSat 후속 SAR',x:'570kg SAR 위성. 해양 감시 목적으로 SSO 전용 발사 선호.',u:'https://orbitalradar.com/space-economy'},
+ {y:2030,co:'KASA 달 탐사',k:'hanwha',t:"달 착륙선 (KSLV-Ⅲ, '32)",x:'2032년 달 착륙선 발사. 1톤 이상 탐사선 수송 목표.',u:'https://namu.wiki/w/KSLV-III'},
+ {y:2030,co:'신흥국 2차 사이클',k:'mhi',t:'주권위성 재조달 사이클',x:'1세대 위성 수명 종료에 따른 교체 수요. 기존 공급사 우위 구간.',u:'https://orbitalradar.com/space-economy'}
+];
+
+/* ─── 4. MARKET SIZE (launch service revenue, $B) ─────────────── */
+const MKT = {
+  years:[2021,2022,2023,2024,2025,2026],
+  est:[false,false,false,false,false,true],
+  launches:[146,186,223,259,329,352],
+  lift:[  // Small / Medium / Heavy
+    [1.1,4.6,2.5],[1.2,5.3,2.6],[1.4,6.4,3.2],[1.5,7.4,3.7],[1.8,9.2,4.4],[2.0,10.6,5.5]
+  ],
+  cust:[  // Commercial / Government(civil) / Defense
+    [4.3,2.6,1.3],[4.9,2.7,1.5],[6.0,3.1,1.9],[6.9,3.4,2.3],[8.4,3.9,3.1],[9.8,4.4,3.9]
+  ],
+  liftKeys:[{n:'Small-Lift',sub:'< 2t LEO',c:'#45D9FF'},{n:'Medium-Lift',sub:'2~20t LEO',c:'#4C82F7'},{n:'Heavy-Lift',sub:'> 20t LEO',c:'#9B6BF0'}],
+  custKeys:[{n:'Commercial',sub:'상업 위성군',c:'#2ED9A0'},{n:'Government',sub:'민간 우주기관',c:'#FFC24B'},{n:'Defense',sub:'국방·정보',c:'#FF5C7A'}]
+};
+const REGIONS = [
+  {n:'USA',ko:'미국',v:10.40,l:181,c:'#4C82F7'},
+  {n:'CHINA',ko:'중국',v:2.20,l:92,c:'#FF5C7A'},
+  {n:'EUROPE',ko:'유럽',v:1.00,l:6,c:'#9B6BF0'},
+  {n:'RUSSIA',ko:'러시아',v:0.50,l:17,c:'#7A8CA6'},
+  {n:'JAPAN',ko:'일본',v:0.45,l:7,c:'#FFC24B'},
+  {n:'INDIA',ko:'인도',v:0.35,l:5,c:'#F58FD6'},
+  {n:'KOREA',ko:'한국',v:0.05,l:1,c:'#FF6A13',me:1},
+  {n:'OTHERS',ko:'기타',v:0.45,l:20,c:'#4A5B74'}
+];
+
+/* ─── 5. COMPETITIVE LANDSCAPE 2025 ───────────────────────────── */
+const COMPS = [
+  {n:'SpaceX',      k:'spacex',    v:8.60,yoy:26.4,l:169,ko:'미국'},
+  {n:'CASC',        k:'casc',      v:1.60,yoy:15.1,l:70, ko:'중국'},
+  {n:'Arianespace', k:'ariane',    v:0.85,yoy:38.2,l:4,  ko:'유럽'},
+  {n:'ULA',         k:'ula',       v:0.80,yoy:-6.4,l:5,  ko:'미국'},
+  {n:'Roscosmos',   k:'ros',       v:0.50,yoy:-3.8,l:17, ko:'러시아'},
+  {n:'Rocket Lab',  k:'rocketlab', v:0.42,yoy:31.6,l:21, ko:'미국/NZ'},
+  {n:'Blue Origin', k:'blue',      v:0.35,yoy:112.0,l:3, ko:'미국'},
+  {n:'MHI',         k:'mhi',       v:0.32,yoy:9.6,l:7,   ko:'일본'},
+  {n:'ISRO/NSIL',   k:'isro',      v:0.30,yoy:12.4,l:5,  ko:'인도'},
+  {n:'中 상업발사',  k:'casc',      v:0.55,yoy:64.2,l:22, ko:'중국'},
+  {n:'Northrop',    k:'ula',       v:0.25,yoy:-11.2,l:2, ko:'미국'},
+  {n:'Firefly',     k:'firefly',   v:0.18,yoy:48.0,l:3,  ko:'미국'},
+  {n:'한화에어로스페이스',k:'hanwha', v:0.05,yoy:0,l:1,    ko:'한국',me:1},
+  {n:'기타',         k:'etc',       v:0.63,yoy:18.0,l:9,  ko:'-'}
+];
+
+/* ─── 6. CAPABILITY BENCHMARK ─────────────────────────────────── */
+const RADAR_AXES = ['발사능력','비용경쟁력','재사용','발사빈도','신뢰성'];
+const CAPS = [
+  {n:'SpaceX',k:'spacex',veh:'Falcon 9 / Starship',vals:[95,92,98,100,96],
+   payload:'22.8 t',price:'$3,060 /kg',reuse:'1단·페어링 재사용 정착',cad:"'25년 165회",rel:'99.3%'},
+  {n:'Rocket Lab',k:'rocketlab',veh:'Electron / Neutron',vals:[58,52,55,66,88],
+   payload:'0.3 t → 13 t',price:'$28,300 /kg',reuse:'Neutron 1단 회수 예정',cad:"'25년 21회",rel:'96.2%'},
+  {n:'한화에어로스페이스',k:'hanwha',veh:'누리호 / KSLV-Ⅲ',vals:[42,46,24,16,72],
+   payload:'1.5 t → 10 t급',price:'$34,700 /kg',reuse:"KSLV-Ⅲ 메탄 재사용('35)",cad:"'25년 1회",rel:'75.0%'}
+];
+
+/* ─── 7. HANWHA PORTFOLIO ─────────────────────────────────────── */
+const VCHAIN = [
+  {st:'STAGE 01',h:'위성 제작',p:'한화시스템 소형 SAR·통신 위성, 쎄트렉아이 고해상도 EO. 위성 추진시스템 내재화.'},
+  {st:'STAGE 02',h:'발사 수송',p:'누리호 체계종합 (75t 엔진 34기·7t 12기 전량 제작), KSLV-Ⅲ 총괄 주관.'},
+  {st:'STAGE 03',h:'지상·운용',p:'나로우주센터 발사 운용 참여, 관제·지상국 및 위성 운용 인력 교육 패키지.'},
+  {st:'STAGE 04',h:'데이터 서비스',p:'SAR/EO 영상 분석, 우주인터넷(원웹) 기반 통신 서비스로 후행 매출 확보.'}
+];
+const STRAT = [
+  {i:'01',p:'<b>주권 위성 수요 국가 공략</b> — 중동·동남아·중앙아시아의 자국 위성 확보 수요에 위성+발사+지상국+교육 턴키로 접근. 단품 발사 경쟁(단가) 대신 패키지 경쟁으로 전환.'},
+  {i:'02',p:'<b>정부 앵커 수요 → 상업 전환</b> — 누리호 4~6차 반복발사로 신뢰도 축적, 2027년 이후 상업 발사 전환. 정부 물량이 초기 가동률을 보장하는 Rocket Lab 모델과 동일 경로.'},
+  {i:'03',p:'<b>중형 재사용으로 단가 격차 축소</b> — KSLV-Ⅲ 액체메탄 재사용(2035 목표)이 $/kg 경쟁의 핵심 관문. 그 전까지는 소형·전용 발사 및 국방 수요에서 프리미엄 확보.'},
+  {i:'04',p:'<b>공급 병목 활용</b> — Neutron 4Q26 연기, New Glenn LC-36 폭발로 중대형 공급이 타이트. 2027~2029년 슬롯 부족 구간이 신규 사업자의 진입 창(window).'}
+];
+const VEHICLES = [
+  {id:'nuri', n:'누리호',        sub:'KSLV-Ⅱ · 1.5t LEO',  pl:1500, price:52, unit:24, ops:5,   site:1.5, fixed:42},
+  {id:'nuriA',n:'누리호 개량형',  sub:'KSLV-ⅡA · 2.5t LEO', pl:2500, price:68, unit:30, ops:5.5, site:1.7, fixed:48},
+  {id:'kslv3',n:'KSLV-Ⅲ',       sub:'중대형 · 10t LEO급',  pl:10000,price:110,unit:52, ops:8,   site:3,   fixed:78}
+];
+
+/* ─── 8. CUSTOMER PIPELINE ────────────────────────────────────── */
+const PIPE = [
+  {c:'초소형군집위성 사업단',r:'한국 / 아시아',prg:'SAR·EO 군집 (11기 체계)',t:'SAR / EO',w:'70 kg급',o:'LEO SSO 500km',y:'2026~2027',n:4,v:0.14,s:6},
+  {c:'KASA · KPS 사업단',r:'한국 / 아시아',prg:'한국형 위성항법 (8기)',t:'항법 (PNT)',w:'1,800 kg',o:'MEO / GEO',y:'2027~2035',n:6,v:0.62,s:5},
+  {c:'방위사업청 425-Ⅱ',r:'한국 / 아시아',prg:'정찰위성 후속 사업',t:'SAR / EO',w:'800 kg급',o:'LEO SSO',y:'2028~2031',n:5,v:0.41,s:4},
+  {c:'국내 민간 위성 스타트업',r:'한국 / 아시아',prg:'상업 EO·IoT 군집',t:'EO / IoT',w:'20~150 kg',o:'LEO SSO',y:'2027~2030',n:8,v:0.09,s:3},
+  {c:'UAE MBRSC',r:'UAE / 중동',prg:'주권 EO + 달 탐사 후속',t:'EO / 탐사',w:'350 kg급',o:'LEO SSO',y:'2028~2030',n:3,v:0.22,s:3},
+  {c:'Saudi Space Agency',r:'사우디 / 중동',prg:'국가 통신·EO 프로그램',t:'통신 / EO',w:'1,200 kg',o:'LEO / GEO',y:'2029~2032',n:4,v:0.48,s:2},
+  {c:'LAPAN / BRIN',r:'인도네시아 / 동남아',prg:'해양 감시 위성군',t:'SAR / AIS',w:'150 kg급',o:'LEO 600km',y:'2028~2030',n:4,v:0.16,s:3},
+  {c:'베트남 VNSC',r:'베트남 / 동남아',prg:'LOTUSat 후속 EO',t:'SAR',w:'570 kg',o:'LEO SSO',y:'2029~2031',n:2,v:0.13,s:2},
+  {c:'Amazon Kuiper',r:'미국 / 북미',prg:'3,236기 광대역 위성군',t:'통신 (LEO)',w:'~600 kg ×n',o:'LEO 590~630km',y:'2026~2029',n:2,v:0.30,s:1},
+  {c:'AST SpaceMobile',r:'미국 / 북미',prg:'BlueBird Block 2',t:'통신 (D2D)',w:'6,000 kg',o:'LEO 700km',y:'2027~2029',n:2,v:0.24,s:2},
+  {c:'ESA / IRIS²',r:'EU / 유럽',prg:'주권 통신 290기',t:'통신',w:'250 kg급',o:'LEO / MEO',y:'2029~2031',n:1,v:0.11,s:1},
+  {c:'JAXA 상업 파트너',r:'일본 / 아시아',prg:'소형 실증·기술위성',t:'기술 실증',w:'100 kg급',o:'LEO SSO',y:'2027~2029',n:3,v:0.10,s:2},
+  {c:'인도 민간 위성사',r:'인도 / 아시아',prg:'상업 EO 군집',t:'EO',w:'200 kg급',o:'LEO SSO',y:'2028~2030',n:2,v:0.08,s:1},
+  {c:'국내 대학·연구기관',r:'한국 / 아시아',prg:'큐브위성 라이드셰어',t:'큐브위성',w:'3~12U',o:'LEO SSO',y:'2026~2030',n:5,v:0.03,s:6}
+];
+const STAGES = [
+  {n:'Lead',c:'#5F7495'},{n:'Qualified',c:'#45D9FF'},{n:'RFI/RFP',c:'#9B6BF0'},
+  {n:'Proposal',c:'#FFC24B'},{n:'Negotiation',c:'#FF6A13'},{n:'Contracted',c:'#2ED9A0'}
+];
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER ENGINE
+   ═══════════════════════════════════════════════════════════════════ */
+const $ = s => document.querySelector(s);
+const el = (t,c,h) => { const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n; };
+const fx = (n,d=1) => n.toFixed(d);
+const CAT = {'시장':'mk','경쟁':'cp','기술':'tc','정책':'pl'};
+
+/* ─── 축약 사전 (타임라인 칩) ─── */
+const CODE={
+  'SpaceX':'SPX','Rocket Lab':'RKLB','Arianespace':'ARN','Blue Origin':'BO','ULA':'ULA',
+  'CASC / 중국':'CN','한화에어로스페이스':'한화',
+  'Amazon Kuiper':'US','AST SpaceMobile':'US','US Space Force':'US',
+  '초소형군집위성 (KR)':'KR','방위사업청 (KR)':'KR','KASA · KPS':'KR','국내 민간 위성사':'KR','KASA 달 탐사':'KR',
+  'EUMETSAT / ESA':'EU','ESA / IRIS²':'EU',
+  '신흥국 EO 프로그램':'ME','UAE MBRSC':'ME','Saudi Space Agency':'ME','베트남 VNSC':'SEA','신흥국 2차 사이클':'ME'
+};
+const SHORT={
+  'Neutron 초도 발사 (NET 4Q26)':'Neutron 초도','Starship V3 · 궤도 재급유 시연':'Starship V3 재급유',
+  'Ariane 64 초도 발사 (Kuiper)':'Ariane 64 초도','누리호 5차 발사 (3Q26 목표)':'누리호 5차',
+  'New Glenn 발사 복귀 (LC-36 재건)':'New Glenn 복귀','Vulcan 양산 캐던스 · Kuiper 38발':'Vulcan 양산',
+  '연 100회+ 발사 목표':'연 100회+','누리호 6차 → 상업 발사 전환':'누리호 6차·상업',
+  'Neutron 1단 회수·재사용 검증':'1단 회수 검증','Ariane 6 P160C · 연 9~10회':'P160C 개량',
+  'Starship 상업 위성 발사 본격화':'상업 위성 본격','KSLV-Ⅲ 상세설계·제작':'KSLV-Ⅲ 제작',
+  'New Glenn 재사용 캐던스 확대':'재사용 확대','Neutron 연 10회+ 목표':'연 10회+',
+  '창정-9 대형 재사용 개발':'창정-9 개발','Themis 재사용 1단 시연 (ESA)':'Themis 시연',
+  'Starship 완전 재사용 운용':'완전 재사용',"KSLV-Ⅲ 초도 발사 준비 ('31~)":'KSLV-Ⅲ 초도',
+  '3,236기 대량 배치 (FCC 기한)':'Kuiper 배치','군집위성 5기 · 누리호 5차 탑재':'군집위성 5기',
+  'BlueBird Block 2 배치 확대':'BlueBird B2','425 후속 정찰위성 소요 검토':'425 후속',
+  '한국형 위성항법 1호기':'KPS 1호기','MTG · Sentinel 후속 위성':'MTG·Sentinel',
+  '중동·동남아 입찰 개시':'중동 입찰','NSSL Phase 3 물량 집행':'NSSL Ph3',
+  '주권 EO · 달 탐사 후속':'UAE 주권EO','상업 EO·IoT 군집 발사':'상업 EO 군집',
+  '290기 주권 통신 배치 개시':'IRIS² 배치','국가 통신·EO 프로그램':'사우디 통신',
+  'LOTUSat 후속 SAR':'LOTUSat 후속',"달 착륙선 (KSLV-Ⅲ, '32)":'달 착륙선',
+  '주권위성 재조달 사이클':'재조달 사이클'
+};
+
+/* ─── VIEW ROUTER ─── */
+function go(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  $('#v-'+v).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─── TOP BAR ─── */
+(function(){
+  const m=MKT, last=m.lift.length-1;
+  const tot=y=>m.lift[y].reduce((a,b)=>a+b,0);
+  const t=[
+    ['MARKET 2026E','$'+fx(tot(last))+'B','+'+fx((tot(last)/tot(last-1)-1)*100)+'%'],
+    ['ORBITAL LAUNCHES 2025','329','+24.4%'],
+    ['SPACEX SHARE','55.8%',''],
+    ['HANWHA PIPELINE','$'+fx(PIPE.reduce((s,p)=>s+p.v,0),2)+'B','']
+  ];
+  $('#ticker').innerHTML = t.map(x=>`<div class="tk"><span class="k">${x[0]}</span><span class="v">${x[1]}${x[2]?`<i>${x[2]}</i>`:''}</span></div>`).join('');
+})();
+
+/* ─── NEWS DIGEST (dashboard) ─── */
+(function(){
+  const all=[...NEWS].sort((a,b)=>b.d.localeCompare(a.d)), sorted=all.slice(0,6);
+  $('#newsDigest').innerHTML = sorted.map(n=>`
+    <div class="nrow" title="${n.t}">
+      <span class="d">${n.d.slice(2).replace(/-/g,'.')}</span>
+      <span class="rg ${n.r==='kr'?'k':'g'}">${n.r==='kr'?'KR':'GL'}</span>
+      <span class="chip ${CAT[n.c]}">${n.c}</span>
+      <span class="t">${n.t}</span>
+    </div>`).join('')
+    + `<div class="news-more"><span>KR ${NEWS.filter(n=>n.r==='kr').length} · GL ${NEWS.filter(n=>n.r==='gl').length} · 시장/경쟁/기술/정책</span><span>+ ${all.length-6}건 →</span></div>`;
+})();
+
+/* ─── TIMELINE RAILS ─── */
+function tlMore(a){
+  const col=a.parentNode, open=col.classList.toggle('open');
+  a.textContent = open ? '접기 ▲' : '+'+a.dataset.n+'건 더보기';
+  return false;
+}
+const TIP=$('#tip');
+function showTip(e,d){
+  TIP.innerHTML=`<h4 style="color:${C[d.k]}">${d.co}</h4><p><b style="color:#DEE7F3">${d.t}</b><br>${d.x}</p><span class="go">CLICK → 원문 기사 ↗</span>`;
+  TIP.classList.add('on'); moveTip(e);
+}
+function moveTip(e){
+  const r=TIP.getBoundingClientRect();
+  let x=e.clientX+14, y=e.clientY-10;
+  if(x+r.width>innerWidth-10) x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-10) y=innerHeight-r.height-10;
+  TIP.style.left=x+'px'; TIP.style.top=Math.max(8,y)+'px';
+}
+function hideTip(){ TIP.classList.remove('on'); }
+
+function buildRail(sel,legSel,data,legend,cap){
+  const Y0=2026,Y1=2030;
+  let cols='';
+  for(let y=Y0;y<=Y1;y++){
+    const K=cap||2, evs=data.filter(d=>d.y===y), rest=evs.length-K;
+    cols+=`<div class="tl-col">${rest>0?`<a class="tl-more" href="#" data-n="${rest}" onclick="return tlMore(this)">+${rest}건 더보기</a>`:''}${evs.map((d,ix)=>`
+      <a class="ev ${ix>=K?'hid':''}" href="${d.u}" target="_blank" rel="noopener" style="color:${C[d.k]}"
+         data-t="${encodeURIComponent(JSON.stringify({co:d.co,t:d.t,x:d.x,k:d.k}))}">
+        <b>${cap?d.co:(CODE[d.co]||d.co)}</b><span>${cap?d.t:(SHORT[d.t]||d.t)}</span></a>`).join('')}</div>`;
+  }
+  let axis='';
+  for(let y=Y0;y<=Y1;y++)
+    axis+=`<div class="yr ${y===2026?'now':''}"><em>'${String(y).slice(2)}</em></div>`;
+  $(sel).innerHTML=`<div class="tl-cols">${cols}</div><div class="tl-axis">${axis}</div>`;
+  $(sel).querySelectorAll('.ev').forEach(n=>{
+    const d=JSON.parse(decodeURIComponent(n.dataset.t));
+    n.addEventListener('mouseenter',e=>showTip(e,d));
+    n.addEventListener('mousemove',moveTip);
+    n.addEventListener('mouseleave',hideTip);
+    n.addEventListener('click',e=>e.stopPropagation());
+  });
+  let leg=legend;
+  if(!leg){ leg=[]; data.forEach(d=>{ if(!leg.find(x=>x.n===d.co)) leg.push({n:d.co,k:d.k}); }); }
+  $(legSel).innerHTML=leg.map(l=>`<i style="color:${C[l.k]}">${cap?l.n:((CODE[l.n]?CODE[l.n]+' · ':'')+l.n)}</i>`).join('');
+}
+buildRail('#railComp','#legComp',T_COMP);
+buildRail('#railCust','#legCust',T_CUST,[
+  {n:'국내 (KR 앵커 수요)',k:'hanwha'},{n:'북미 상업·국방',k:'spacex'},
+  {n:'유럽 (주권 프로그램)',k:'ariane'},{n:'중동·동남아 (턴키)',k:'mhi'}
+]);
+
+/* ─── 대시보드 클릭 → 상세 페이지 ─── */
+const GO_LABEL={news:'뉴스 상세',comp:'타임라인 상세',pipe:'고객 · 파이프라인',market:'시장 상세',share:'경쟁 구도 상세',hanwha:'솔루션 · 손익 상세'};
+document.querySelectorAll('.panel.click').forEach(pn=>{
+  const target=pn.dataset.go;
+  pn.tabIndex=0; pn.setAttribute('role','button');
+  pn.setAttribute('aria-label',(pn.querySelector('.ph h2')||{}).textContent+' 상세 보기');
+  pn.insertAdjacentHTML('beforeend',`<span class="goto">${GO_LABEL[target]||'상세'} ↗</span>`);
+  pn.addEventListener('click',e=>{
+    if(e.target.closest('input,button,textarea,select,label,a')) return;
+    go(target);
+  });
+  pn.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(target); }
+  });
+});
+
+/* ─── STACKED BAR CHARTS ─── */
+function stackChart(sel,legSel,sideSel,rows,keys,years,est,H){
+  const totals=rows.map(r=>r.reduce((a,b)=>a+b,0));
+  const max=Math.max(...totals);
+  $(sel).innerHTML=rows.map((r,i)=>{
+    const t=totals[i], yoy=i?((t/totals[i-1]-1)*100):null;
+    const segs=r.map((v,k)=>`<div class="seg" style="height:${v/t*100}%;background:${keys[k].c}"
+        title="${keys[k].n} ${fx(v)}B"></div>`).reverse().join('');
+    return `<div class="bar-col ${est[i]?'est':''}">
+      ${yoy!==null?`<span class="gr" style="color:${yoy>0?'var(--gr)':'var(--rd)'}">${yoy>0?'+':''}${fx(yoy,0)}%</span>`:''}
+      <div class="tot">${fx(t)}</div>
+      <div class="stackbar" style="height:${t/max*(H-34)}px">${segs}</div>
+      <div class="xl">'${String(years[i]).slice(2)}${est[i]?'E':''}</div>
+    </div>`;
+  }).join('');
+  $(legSel).innerHTML=keys.map(k=>`<i style="color:${k.c}">${k.n} <span class="dim3">${k.sub}</span></i>`).join('');
+  if(sideSel){
+    const n=totals.length-1;
+    const cagr=(Math.pow(totals[n]/totals[0],1/n)-1)*100;
+    $(sideSel).innerHTML=`
+      <div class="r"><em>CAGR '21-'26E</em><b>+${fx(cagr)}%</b></div>
+      <div class="r"><em>YOY '25</em><b>+${fx((totals[4]/totals[3]-1)*100)}%</b></div>
+      <div class="r"><em>YOY '26E</em><b>+${fx((totals[5]/totals[4]-1)*100)}%</b></div>`;
+  }
+}
+stackChart('#chartLift','#legLift','#sideLift',MKT.lift,MKT.liftKeys,MKT.years,MKT.est,142);
+stackChart('#chartCust','#legCust2','#sideCust',MKT.cust,MKT.custKeys,MKT.years,MKT.est,126);
+
+(function(){
+  const t=MKT.lift.map(r=>r.reduce((a,b)=>a+b,0));
+  $('#kMarket').innerHTML=`
+    <div><em>Market '25</em><b style="color:#EAF1FA">$${fx(t[4])}<span style="font-size:10px;color:var(--txt3)">B</span></b></div>
+    <div><em>Market '26E</em><b style="color:var(--hw)">$${fx(t[5])}<span style="font-size:10px;color:var(--txt3)">B</span></b></div>
+    <div><em>Launches '25</em><b style="color:#EAF1FA">${MKT.launches[4]}<span style="font-size:10px;color:var(--txt3)">회</span></b></div>
+    <div><em>Launches '26E</em><b style="color:var(--hw)">${MKT.launches[5]}<span style="font-size:10px;color:var(--txt3)">회</span></b></div>`;
+})();
+
+/* ─── 중량급별 성장률 미니바 ─── */
+(function(){
+  const n=MKT.lift.length-1;
+  const rows=MKT.liftKeys.map((k,j)=>{
+    const a=MKT.lift[0][j], b=MKT.lift[n][j];
+    return {n:k.n,c:k.c,g:(Math.pow(b/a,1/n)-1)*100,b:b};
+  });
+  const mx=Math.max(...rows.map(r=>r.g));
+  $('#liftCagr').innerHTML=`<div class="mb"><span class="l" style="color:var(--txt3)">CAGR '21–'26E</span>
+      <span class="tr" style="background:transparent"></span><span class="v" style="color:var(--txt3);font-size:8.4px;font-family:var(--mono)">'26E 규모</span></div>`
+    +rows.map(r=>`<div class="mb">
+      <span class="l" style="color:${r.c}">${r.n}</span>
+      <span class="tr"><i style="width:${r.g/mx*100}%;background:${r.c}"></i></span>
+      <span class="v" style="color:${r.c}">+${fx(r.g)}%<span style="font-family:var(--mono);font-size:8.4px;color:var(--txt3);margin-left:4px">$${fx(r.b)}B</span></span>
+    </div>`).join('');
+})();
+
+/* ─── REGIONS ─── */
+(function(){
+  const max=Math.max(...REGIONS.map(r=>r.v)), tot=REGIONS.reduce((s,r)=>s+r.v,0);
+  $('#regions').innerHTML=REGIONS.map(r=>`
+    <div class="rg ${r.me?'kr':''}">
+      <div class="c"><span>${r.n}</span><i>${r.l}회</i></div>
+      <div class="f"><span class="n">$${fx(r.v,2)}</span><span class="u">B · ${fx(r.v/tot*100,1)}%</span></div>
+      <div class="bar"><i style="width:${r.v/max*100}%;background:${r.c}"></i></div>
+    </div>`).join('');
+})();
+
+/* ─── TREEMAP ─── */
+function drawTreemap(sel){
+  const items=[...COMPS].sort((a,b)=>b.v-a.v), out=[];
+  (function lay(it,x,y,w,h){
+    if(!it.length) return;
+    if(it.length===1){ out.push(Object.assign({},it[0],{x,y,w,h})); return; }
+    const tot=it.reduce((s,i)=>s+i.v,0);
+    let acc=0,idx=0,best=9e9;
+    for(let i=0;i<it.length-1;i++){ acc+=it[i].v; const d=Math.abs(acc/tot-.5); if(d<best){best=d;idx=i;} }
+    let a=0; for(let i=0;i<=idx;i++) a+=it[i].v;
+    const f=a/tot;
+    if(w>=h){ lay(it.slice(0,idx+1),x,y,w*f,h); lay(it.slice(idx+1),x+w*f,y,w*(1-f),h); }
+    else    { lay(it.slice(0,idx+1),x,y,w,h*f); lay(it.slice(idx+1),x,y+h*f,w,h*(1-f)); }
+  })(items,0,0,100,100);
+  const tot=COMPS.reduce((s,c)=>s+c.v,0);
+  $(sel).innerHTML=out.map(o=>{
+    const area=o.w*o.h, cls=area<3.2?'xs':(area<9?'sm':'');
+    return `<div class="tm ${cls}" style="left:${o.x}%;top:${o.y}%;width:${o.w}%;height:${o.h}%;background:${C[o.k]};${o.me?'outline:1.5px solid #fff;outline-offset:-1px;z-index:6':''}"
+      title="${o.n} · $${fx(o.v,2)}B · M/S ${fx(o.v/tot*100,1)}%">
+      <div class="nm">${o.n}</div><div class="vl">$${fx(o.v,2)}B · ${fx(o.v/tot*100,1)}%</div></div>`;
+  }).join('');
+}
+drawTreemap('#treemap');
+
+/* ─── SHARE TABLE ─── */
+function drawShareTable(sel){
+  const tot=COMPS.reduce((s,c)=>s+c.v,0);
+  const rows=[...COMPS].sort((a,b)=>b.v-a.v);
+  $(sel).innerHTML=`
+    <thead><tr><th>#</th><th>Provider</th><th>발사 ('25)</th><th>매출 $B</th><th>M/S</th><th>YoY</th></tr></thead>
+    <tbody>${rows.map((c,i)=>`
+      <tr class="${c.me?'me':''}">
+        <td class="rk">${String(i+1).padStart(2,'0')}</td>
+        <td><span class="co"><i style="background:${C[c.k]}"></i>${c.n}<span class="dim3" style="font-size:9.5px">${c.ko}</span></span></td>
+        <td class="mono dim">${c.l}</td>
+        <td class="num">${fx(c.v,2)}</td>
+        <td class="mono">${fx(c.v/tot*100,1)}%<span class="msbar"><i style="width:${c.v/rows[0].v*100}%;background:${C[c.k]}"></i></span></td>
+        <td class="mono ${c.yoy>0?'up':(c.yoy<0?'dn':'dim3')}">${c.yoy>0?'+':''}${fx(c.yoy,1)}%</td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+drawShareTable('#shareTable');
+
+/* ─── RADAR ─── */
+function drawRadar(svgSel,legSel,capSel){
+  const cx=98,cy=98,R=68,N=RADAR_AXES.length, svg=$(svgSel);
+  const pt=(i,r)=>{ const a=-Math.PI/2+i*2*Math.PI/N; return [cx+Math.cos(a)*r, cy+Math.sin(a)*r]; };
+  let h='';
+  [.25,.5,.75,1].forEach(f=>{
+    h+=`<polygon points="${Array.from({length:N},(_,i)=>pt(i,R*f).map(v=>fx(v,1)).join(',')).join(' ')}"
+      fill="none" stroke="rgba(122,160,214,${f===1?.28:.12})" stroke-width="1"/>`;
+  });
+  for(let i=0;i<N;i++){
+    const p=pt(i,R);
+    h+=`<line x1="${cx}" y1="${cy}" x2="${fx(p[0],1)}" y2="${fx(p[1],1)}" stroke="rgba(122,160,214,.13)"/>`;
+    const l=pt(i,R+15);
+    h+=`<text x="${fx(l[0],1)}" y="${fx(l[1]+3,1)}" text-anchor="middle"
+        style="font-family:var(--mono);font-size:7.6px;fill:#5F7495">${RADAR_AXES[i]}</text>`;
+  }
+  CAPS.forEach(c=>{
+    const pts=c.vals.map((v,i)=>pt(i,R*v/100).map(x=>fx(x,1)).join(',')).join(' ');
+    h+=`<polygon points="${pts}" fill="${C[c.k]}" fill-opacity="${c.k==='hanwha'?.20:.09}"
+        stroke="${C[c.k]}" stroke-width="${c.k==='hanwha'?1.8:1.2}"/>`;
+    c.vals.forEach((v,i)=>{ const p=pt(i,R*v/100);
+      h+=`<circle cx="${fx(p[0],1)}" cy="${fx(p[1],1)}" r="${c.k==='hanwha'?2.4:1.7}" fill="${C[c.k]}"/>`; });
+  });
+  svg.innerHTML=h;
+  $(legSel).innerHTML=CAPS.map(c=>`
+    <div class="r" style="border-color:${C[c.k]}">
+      <b style="color:${C[c.k]}">${c.n}</b>
+      <span>${c.veh}</span>
+      <span>LEO <em>${c.payload}</em> · <em>${c.price}</em></span>
+    </div>`).join('');
+  $(capSel).innerHTML=`
+    <thead><tr><th>지표</th>${CAPS.map(c=>`<th style="text-align:right;color:${C[c.k]}">${c.n.replace('한화에어로스페이스','한화')}</th>`).join('')}</tr></thead>
+    <tbody>
+      ${[['LEO 탑재중량','payload'],['발사 단가','price'],['재사용','reuse'],["발사 실적",'cad'],['성공률','rel']]
+        .map(([lb,k])=>`<tr><td class="dim">${lb}</td>${CAPS.map(c=>
+          `<td class="mono" style="font-size:10.5px;${k==='reuse'?'letter-spacing:-.01em':''}">${c[k]}</td>`).join('')}</tr>`).join('')}
+    </tbody>`;
+}
+drawRadar('#radar','#radarLegend','#capTable');
+
+/* ─── HANWHA PORTFOLIO ─── */
+$('#vchain').innerHTML=VCHAIN.map((v,i)=>
+  `<div class="vc"><i>${i+1}</i><div><h5>${v.h}</h5><p>${v.p}</p></div></div>`).join('');
+$('#strat').innerHTML=STRAT.map(s=>`<div class="s"><i>${s.i}</i><p>${s.p}</p></div>`).join('');
+
+/* ─── 패널 헤더 배지 ─── */
+(function(){
+  const t=MKT.lift.map(r=>r.reduce((a,b)=>a+b,0)), n=t.length-1;
+  $('#cagrTag').textContent='CAGR +'+fx((Math.pow(t[n]/t[0],1/n)-1)*100)+'%';
+  $('#newsTag').textContent=NEWS.length+'건 · 최신 '+[...NEWS].sort((a,b)=>b.d.localeCompare(a.d))[0].d.slice(5).replace('-','.');
+  $('#compTag').textContent=T_COMP.length+'개 마일스톤';
+  $('#custTag').textContent='수요 '+PIPE.reduce((a,b)=>a+b.n,0)+'회 · $'+fx(PIPE.reduce((a,b)=>a+b.v,0),2)+'B';
+  const tot=COMPS.reduce((s,c)=>s+c.v,0);
+  $('#totTag').textContent='2025 Total $'+fx(tot)+'B';
+  $('#tmapNote').innerHTML=`면적 = '25년 발사서비스 매출 추정. SpaceX는 Starlink 내부 발사 임무의 시장가치 환산액 포함.
+    <b style="color:var(--hw)">한화 $0.05B · M/S 0.3%</b> (흰 테두리)`;
+})();
+
+/* ─── P&L SIMULATOR ─── */
+const PL={v:0,price:0,count:3,unit:0,ins:4,off:8,fixed:0};
+function initVeh(i){
+  const v=VEHICLES[i];
+  PL.v=i; PL.price=v.price; PL.unit=v.unit; PL.fixed=v.fixed;
+  $('#vehTabs').innerHTML=VEHICLES.map((x,k)=>
+    `<button class="${k===i?'on':''}" onclick="initVeh(${k})">${x.n}<br><span style="font-family:var(--mono);font-size:8px;letter-spacing:.04em;opacity:.7">${x.sub}</span></button>`).join('');
+  const C_=[
+    {k:'price',lb:'발사 계약단가',u:'$M',min:Math.round(v.price*.6),max:Math.round(v.price*1.7),step:1},
+    {k:'count',lb:'연간 발사 횟수',u:'회',min:1,max:10,step:1},
+    {k:'unit',lb:'발사체 제조원가 / 기',u:'$M',min:Math.round(v.unit*.6),max:Math.round(v.unit*1.5),step:1},
+    {k:'off',lb:'오프셋·영업비용률',u:'%',min:0,max:25,step:1},
+    {k:'fixed',lb:'연간 고정비 (설비·인건)',u:'$M',min:Math.round(v.fixed*.5),max:Math.round(v.fixed*1.8),step:1}
+  ];
+  $('#plControls').innerHTML=C_.map(c=>`
+    <div class="ctrl">
+      <div class="lb"><span>${c.lb}</span><b id="o-${c.k}">${PL[c.k]}<span style="font-size:9px;color:var(--txt3);margin-left:2px">${c.u}</span></b></div>
+      <input type="range" id="i-${c.k}" min="${c.min}" max="${c.max}" step="${c.step}" value="${PL[c.k]}" data-u="${c.u}">
+    </div>`).join('');
+  C_.forEach(c=>{
+    $('#i-'+c.k).addEventListener('input',e=>{
+      PL[c.k]=+e.target.value;
+      $('#o-'+c.k).innerHTML=`${PL[c.k]}<span style="font-size:9px;color:var(--txt3);margin-left:2px">${c.u}</span>`;
+      calcPL();
+    });
+  });
+  calcPL();
+}
+function calcPL(){
+  const v=VEHICLES[PL.v], n=PL.count;
+  const rev=PL.price*n;
+  const mfg=PL.unit*n;
+  const ops=(v.ops+v.site)*n;
+  const ins=rev*PL.ins/100;
+  const off=rev*PL.off/100;
+  const cogs=mfg+ops+ins+off;
+  const gp=rev-cogs, op=gp-PL.fixed, m=rev?op/rev*100:0;
+  const perKg=PL.price*1e6/v.pl;
+  const contrib=PL.price-(PL.unit+v.ops+v.site+PL.price*(PL.ins+PL.off)/100);
+  const bep=contrib>0?PL.fixed/contrib:Infinity;
+  $('#plOut').innerHTML=`
+    <div class="pl-row"><span>매출 (${n}회 × $${PL.price}M)</span><b>$${fx(rev,1)}M</b></div>
+    <div class="pl-row neg"><span>발사체 제조원가</span><b>−$${fx(mfg,1)}M</b></div>
+    <div class="pl-row neg"><span>발사 운용·발사장 사용료</span><b>−$${fx(ops,1)}M</b></div>
+    <div class="pl-row neg"><span>발사보험 (${PL.ins}%)</span><b>−$${fx(ins,1)}M</b></div>
+    <div class="pl-row neg"><span>오프셋·해외영업비 (${PL.off}%)</span><b>−$${fx(off,1)}M</b></div>
+    <div class="pl-row"><span style="color:var(--txt)">매출총이익</span><b style="color:${gp>0?'var(--cy)':'var(--rd)'}">$${fx(gp,1)}M <span style="font-size:10px;color:var(--txt3)">${rev?fx(gp/rev*100,1):0}%</span></b></div>
+    <div class="pl-row neg"><span>연간 고정비 배분</span><b>−$${fx(PL.fixed,1)}M</b></div>
+    <div class="pl-row tot"><span>영업이익</span><b class="${op<0?'bad':''}">${op<0?'−':''}$${fx(Math.abs(op),1)}M</b></div>`;
+  $('#plKpis').innerHTML=`
+    <div class="kpi"><em>영업이익률</em><b class="${op>=0?'g':'r'}">${fx(m,1)}<i>%</i></b></div>
+    <div class="kpi"><em>단가 / kg</em><b class="o">${Math.round(perKg).toLocaleString()}<i>$</i></b></div>
+    <div class="kpi"><em>손익분기 발사</em><b>${isFinite(bep)?fx(bep,1):'—'}<i>회/년</i></b></div>`;
+  const H=44, items=[
+    {n:'매출',v:rev,c:'#4C82F7'},{n:'제조',v:-mfg,c:'#FF5C7A'},{n:'운용',v:-ops,c:'#FF5C7A'},
+    {n:'보험/영업',v:-(ins+off),c:'#FF5C7A'},{n:'고정비',v:-PL.fixed,c:'#8C99AD'},
+    {n:'영업이익',v:op,c:op>=0?'#2ED9A0':'#FF5C7A'}
+  ];
+  const mx=Math.max(...items.map(i=>Math.abs(i.v)))||1;
+  $('#plWf').innerHTML=items.map(i=>
+    `<div class="wf" title="${i.n} $${fx(i.v,1)}M"><i style="height:${Math.max(2,Math.abs(i.v)/mx*H)}px;background:${i.c};opacity:${i.n==='매출'||i.n==='영업이익'?1:.55}"></i><em>${i.n}</em></div>`).join('');
+  $('#bepTag').textContent='BEP '+(isFinite(bep)?fx(bep,1):'—')+'회/년';
+  const bench=[
+    {n:'Falcon 9',v:3060,c:C.spacex},
+    {n:'Electron',v:28300,c:C.rocketlab},
+    {n:v.n,v:Math.round(perKg),c:C.hanwha,me:1}
+  ];
+  const bmx=Math.max(...bench.map(x=>x.v));
+  $('#plBench').innerHTML=bench.map(x=>`<div class="mb ${x.me?'me':''}">
+      <span class="l" style="color:${x.c}">${x.n}</span>
+      <span class="tr"><i style="width:${x.v/bmx*100}%;background:${x.c}"></i></span>
+      <span class="v" style="color:${x.c}">$${x.v.toLocaleString()}</span>
+    </div>`).join('');
+  const cmp=perKg<3500?'Falcon 9 수준':(perKg<12000?'중형 경쟁권':'전용 발사 프리미엄 구간');
+  $('#plNote').innerHTML=`탑재중량 ${(v.pl/1000).toFixed(1)}t 기준 $${Math.round(perKg).toLocaleString()}/kg → <b style="color:var(--hw)">${cmp}</b>. 참고: Falcon 9 $3,060/kg · Electron $28,300/kg. 보험료율 ${PL.ins}%는 신규 발사체 초기 관행 수준 가정.`;
+}
+initVeh(0);
+
+/* ═══════════ 상세 페이지 렌더 ═══════════ */
+/* 경쟁 타임라인 상세 */
+buildRail('#railCompFull','#legCompFull',T_COMP,null,9);
+(function(){
+  const rows=[...T_COMP].sort((a,b)=>a.y-b.y||a.co.localeCompare(b.co));
+  $('#compTable').innerHTML=`
+    <thead><tr><th>연도</th><th>업체</th><th>마일스톤</th><th>내용 · 시사점</th><th class="r">원문</th></tr></thead>
+    <tbody>${rows.map(r=>`
+      <tr style="cursor:pointer" onclick="window.open('${r.u}','_blank')">
+        <td class="mono" style="color:var(--hw)">'${String(r.y).slice(2)}</td>
+        <td><span class="co"><i style="background:${C[r.k]}"></i><b style="font-weight:600;color:#E4EBF6">${r.co}</b></span></td>
+        <td class="cust">${r.t}</td>
+        <td class="dim" style="line-height:1.5">${r.x}</td>
+        <td class="r mono dim3" style="font-size:9px">기사 ↗</td>
+      </tr>`).join('')}</tbody>`;
+})();
+
+/* 시장 상세 */
+(function(){
+  const t=MKT.lift.map(r=>r.reduce((a,b)=>a+b,0)), n=t.length-1;
+  $('#mktKpi').innerHTML=`
+    <div class="k"><em>2025 시장 규모</em><b>$${fx(t[4])}<i>B</i></b></div>
+    <div class="k"><em>2026E 시장 규모</em><b class="o">$${fx(t[5])}<i>B</i></b></div>
+    <div class="k"><em>CAGR '21–'26E</em><b>+${fx((Math.pow(t[n]/t[0],1/n)-1)*100)}<i>%</i></b></div>
+    <div class="k"><em>2025 발사 횟수</em><b>${MKT.launches[4]}<i>회</i></b></div>
+    <div class="k"><em>발사 1회당 평균</em><b>$${fx(t[4]*1000/MKT.launches[4],0)}<i>M</i></b></div>`;
+  stackChart('#chartLiftD','#legLiftD','#sideLiftD',MKT.lift,MKT.liftKeys,MKT.years,MKT.est,250);
+  stackChart('#chartCustD','#legCustD','#sideCustD',MKT.cust,MKT.custKeys,MKT.years,MKT.est,250);
+  $('#mktTable').innerHTML=`
+    <thead><tr><th>연도</th><th class="r">시장 합계</th><th class="r">YoY</th>
+      <th class="r">Small</th><th class="r">Medium</th><th class="r">Heavy</th>
+      <th class="r">Commercial</th><th class="r">Gov</th><th class="r">Defense</th>
+      <th class="r">발사 횟수</th><th class="r">1회 평균</th></tr></thead>
+    <tbody>${MKT.years.map((y,i)=>`
+      <tr>
+        <td class="cust">${y}${MKT.est[i]?' <span class="mono" style="color:var(--hw);font-size:9px">E</span>':''}</td>
+        <td class="r val">$${fx(t[i])}B</td>
+        <td class="r mono ${i?'up':'dim3'}">${i?'+'+fx((t[i]/t[i-1]-1)*100,1)+'%':'—'}</td>
+        ${MKT.lift[i].map(v=>`<td class="r mono dim">${fx(v)}</td>`).join('')}
+        ${MKT.cust[i].map(v=>`<td class="r mono dim">${fx(v)}</td>`).join('')}
+        <td class="r mono">${MKT.launches[i]}</td>
+        <td class="r mono" style="color:var(--cy)">$${fx(t[i]*1000/MKT.launches[i],0)}M</td>
+      </tr>`).join('')}</tbody>`;
+  const tot=REGIONS.reduce((a,r)=>a+r.v,0), mx=Math.max(...REGIONS.map(r=>r.v));
+  $('#regTable').innerHTML=`
+    <thead><tr><th>국가 · 지역</th><th class="r">매출</th><th class="r">비중</th><th class="r">발사 횟수</th>
+      <th class="r">1회 평균</th><th>규모</th></tr></thead>
+    <tbody>${REGIONS.map(r=>`
+      <tr class="${r.me?'':''}">
+        <td class="cust" style="${r.me?'color:var(--hw)':''}">${r.ko} <span class="prg" style="display:inline">${r.n}</span></td>
+        <td class="r val">$${fx(r.v,2)}B</td>
+        <td class="r mono">${fx(r.v/tot*100,1)}%</td>
+        <td class="r mono dim">${r.l}회</td>
+        <td class="r mono" style="color:var(--cy)">$${fx(r.v*1000/r.l,0)}M</td>
+        <td style="width:130px"><span style="display:block;height:4px;background:rgba(122,160,214,.14)">
+          <i style="display:block;height:100%;width:${r.v/mx*100}%;background:${r.c}"></i></span></td>
+      </tr>`).join('')}</tbody>`;
+})();
+
+/* 경쟁 구도 상세 */
+(function(){
+  const tot=COMPS.reduce((s,c)=>s+c.v,0), sorted=[...COMPS].sort((a,b)=>b.v-a.v);
+  const top3=sorted.slice(0,3).reduce((s,c)=>s+c.v,0);
+  $('#shareKpi').innerHTML=`
+    <div class="k"><em>2025 시장 합계</em><b>$${fx(tot)}<i>B</i></b></div>
+    <div class="k"><em>SpaceX 점유율</em><b>${fx(sorted[0].v/tot*100,1)}<i>%</i></b></div>
+    <div class="k"><em>상위 3개사 합계</em><b>${fx(top3/tot*100,1)}<i>%</i></b></div>
+    <div class="k"><em>사업자 수</em><b>${COMPS.length}<i>개</i></b></div>
+    <div class="k"><em>한화 점유율</em><b class="o">${fx(COMPS.find(c=>c.me).v/tot*100,1)}<i>%</i></b></div>`;
+  $('#totTagD').textContent='2025 Total $'+fx(tot)+'B';
+  $('#tmapNoteD').innerHTML=`면적 = '25년 발사서비스 매출 추정. SpaceX는 Starlink 내부 발사 임무의 시장가치 환산액 포함.
+    <b style="color:var(--hw)">한화 $0.05B · M/S ${fx(COMPS.find(c=>c.me).v/tot*100,1)}%</b> (흰 테두리)`;
+  drawTreemap('#treemapD'); drawShareTable('#shareTableD'); drawRadar('#radarD','#radarLegendD','#capTableD');
+})();
+
+/* 한화 상세 */
+(function(){
+  $('#vchainD').innerHTML=VCHAIN.map((v,i)=>
+    `<div class="vc"><i>${i+1}</i><div><h5>${v.h}</h5><p>${v.p}</p></div></div>`).join('');
+  $('#stratD').innerHTML=STRAT.map(x=>`<div class="s"><i>${x.i}</i><p>${x.p}</p></div>`).join('');
+  const N=3, ins=4, off=8;
+  $('#vehTable').innerHTML=`
+    <thead><tr><th>발사체</th><th class="r">LEO 탑재</th><th class="r">계약단가</th><th class="r">$/kg</th>
+      <th class="r">제조원가</th><th class="r">발사당 공헌이익</th><th class="r">BEP</th>
+      <th class="r">연 3회 영업이익</th><th class="r">이익률</th></tr></thead>
+    <tbody>${VEHICLES.map(v=>{
+      const ctb=v.price-(v.unit+v.ops+v.site+v.price*(ins+off)/100);
+      const bep=v.fixed/ctb, op=ctb*N-v.fixed, m=op/(v.price*N)*100;
+      return `<tr>
+        <td><span class="cust">${v.n}</span><span class="prg">${v.sub}</span></td>
+        <td class="r wt">${(v.pl/1000).toFixed(1)} t</td>
+        <td class="r val">$${v.price}M</td>
+        <td class="r mono" style="color:var(--cy)">$${Math.round(v.price*1e6/v.pl).toLocaleString()}</td>
+        <td class="r mono dim">$${v.unit}M</td>
+        <td class="r mono" style="color:var(--gr)">$${fx(ctb,1)}M</td>
+        <td class="r mono">${fx(bep,1)}회/년</td>
+        <td class="r val" style="color:${op>0?'var(--gr)':'var(--rd)'}">${op<0?'−':''}$${fx(Math.abs(op),1)}M</td>
+        <td class="r mono" style="color:${m>0?'var(--gr)':'var(--rd)'}">${fx(m,1)}%</td>
+      </tr>`;}).join('')}</tbody>`;
+})();
+
+/* ─── NEWS PAGE ─── */
+let NF='전체';
+function renderNews(){
+  const list=NEWS.filter(n=>NF==='전체'||n.c===NF).sort((a,b)=>b.d.localeCompare(a.d));
+  const card=n=>`
+    <a class="na" href="${n.u}" target="_blank" rel="noopener">
+      <div class="top"><span class="dt">${n.d}</span><span class="chip ${CAT[n.c]}">${n.c}</span></div>
+      <div class="ttl">${n.t}</div>
+      <div class="sumry">${n.x}</div>
+      <div class="sm"><span class="s">${n.s}</span><span class="out">원문 보기 ↗</span></div>
+    </a>`;
+  const kr=list.filter(n=>n.r==='kr'), gl=list.filter(n=>n.r==='gl');
+  $('#newsKr').innerHTML=kr.map(card).join('')||'<p class="note">해당 분류의 국내 뉴스가 없습니다.</p>';
+  $('#newsGl').innerHTML=gl.map(card).join('')||'<p class="note">해당 분류의 해외 뉴스가 없습니다.</p>';
+  $('#cntKr').textContent=kr.length+' ITEMS';
+  $('#cntGl').textContent=gl.length+' ITEMS';
+  document.querySelectorAll('#newsFilters button').forEach(b=>b.classList.toggle('on',b.dataset.c===NF));
+  $('#newsFilters .cnt').textContent=`총 ${list.length}건 · 최신순`;
+}
+(function(){
+  const cats=['전체','시장','경쟁','기술','정책'];
+  $('#newsFilters').innerHTML=cats.map(c=>{
+    const n=c==='전체'?NEWS.length:NEWS.filter(x=>x.c===c).length;
+    return `<button data-c="${c}">${c} <span style="opacity:.55">${n}</span></button>`;
+  }).join('')+'<span class="cnt"></span>';
+  document.querySelectorAll('#newsFilters button').forEach(b=>
+    b.addEventListener('click',()=>{NF=b.dataset.c;renderNews();}));
+  renderNews();
+})();
+
+/* ─── PIPELINE PAGE ─── */
+(function(){
+  const totV=PIPE.reduce((s,p)=>s+p.v,0), totN=PIPE.reduce((s,p)=>s+p.n,0);
+  const late=PIPE.filter(p=>p.s>=4).reduce((s,p)=>s+p.v,0);
+  const kr=PIPE.filter(p=>p.r.includes('한국')).reduce((s,p)=>s+p.v,0);
+  const byStage=STAGES.map((s,i)=>PIPE.filter(p=>p.s===i+1).reduce((a,p)=>a+p.v,0));
+  $('#pipeKpi').innerHTML=`
+    <div class="k"><em>Total Pipeline</em><b class="o">$${fx(totV,2)}<i>B</i></b>
+      <div class="stage-bar">${byStage.map((v,i)=>`<i style="flex:${v||0.01};background:${STAGES[i].c}"></i>`).join('')}</div></div>
+    <div class="k"><em>예상 발사 횟수</em><b>${totN}<i>회</i></b></div>
+    <div class="k"><em>고객 / 프로그램</em><b>${PIPE.length}<i>건</i></b></div>
+    <div class="k"><em>Proposal 이상 (확도 상위)</em><b>$${fx(late,2)}<i>B</i></b></div>
+    <div class="k"><em>국내 / 해외 비중</em><b>${Math.round(kr/totV*100)}<i>% : ${100-Math.round(kr/totV*100)}%</i></b></div>`;
+  $('#pipeTable').innerHTML=`
+    <thead><tr>
+      <th>고객 / 프로그램</th><th>국가 · 지역</th><th>위성 종류</th><th class="r">위성 중량</th>
+      <th>목표 궤도</th><th>희망 발사연도</th><th class="r">발사 횟수</th><th class="r">계약 규모</th><th>Pipeline Stage</th>
+    </tr></thead>
+    <tbody>${[...PIPE].sort((a,b)=>b.s-a.s||b.v-a.v).map(p=>`
+      <tr>
+        <td><span class="cust">${p.c}</span><span class="prg">${p.prg}</span></td>
+        <td class="flag">${p.r}</td>
+        <td class="dim">${p.t}</td>
+        <td class="r wt">${p.w}</td>
+        <td class="orb">${p.o}</td>
+        <td class="mono dim">${p.y}</td>
+        <td class="r mono">${p.n}회</td>
+        <td class="r val" style="color:${p.v>=.3?'var(--hw)':'#EAF1FA'}">$${fx(p.v,2)}B</td>
+        <td><span class="stg s${p.s}">${STAGES[p.s-1].n}</span></td>
+      </tr>`).join('')}
+    </tbody>`;
+  $('#pipeCnt').textContent=`${PIPE.length} OPPORTUNITIES · ${totN} LAUNCHES`;
+  $('#pipeLegend').innerHTML=STAGES.map((s,i)=>
+    `<span style="display:flex;align-items:center;gap:7px">
+       <span class="stg s${i+1}">${s.n}</span>
+       <span class="mono" style="font-size:10px;color:${byStage[i]?'#DEE7F3':'var(--txt3)'}">$${fx(byStage[i],2)}B</span>
+     </span>`).join('');
+})();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   JAVIS · 우주산업 전문 애널리스트 챗봇
+   ═══════════════════════════════════════════════════════════════════ */
+const jlog=$('#jlog'), jinput=$('#jinput'), sendBtn=$('#sendBtn');
+let ATT=[], BUSY=false, HIST=[];
+
+/* 대시보드 데이터를 컨텍스트로 압축 */
+const CONTEXT = JSON.stringify({
+  기준일:'2026-08-12',
+  시장정의:'고객이 발사 사업자에게 지불하는 발사 서비스 대가 ($B, 자체 위성군 발사 내부가치 포함 추정)',
+  연도별시장:MKT.years.map((y,i)=>({
+    연도:y, 합계:+MKT.lift[i].reduce((a,b)=>a+b,0).toFixed(1),
+    Small:MKT.lift[i][0],Medium:MKT.lift[i][1],Heavy:MKT.lift[i][2],
+    Commercial:MKT.cust[i][0],Government:MKT.cust[i][1],Defense:MKT.cust[i][2],
+    발사횟수:MKT.launches[i], 추정:MKT.est[i]})),
+  국가별2025:REGIONS.map(r=>({국가:r.ko,매출:r.v,발사:r.l})),
+  경쟁사2025:COMPS.map(c=>({업체:c.n,매출:c.v,YoY:c.yoy,발사:c.l,국가:c.ko})),
+  경쟁력:CAPS.map(c=>({업체:c.n,발사체:c.veh,탑재:c.payload,kg단가:c.price,재사용:c.reuse,실적:c.cad,성공률:c.rel})),
+  경쟁사타임라인:T_COMP.map(t=>({연도:Math.floor(t.y),업체:t.co,내용:t.t,비고:t.x})),
+  고객타임라인:T_CUST.map(t=>({연도:Math.floor(t.y),고객:t.co,내용:t.t,비고:t.x})),
+  파이프라인:PIPE.map(p=>({고객:p.c,지역:p.r,프로그램:p.prg,위성:p.t,중량:p.w,궤도:p.o,희망연도:p.y,횟수:p.n,규모B:p.v,단계:STAGES[p.s-1].n})),
+  한화포트폴리오:VCHAIN.map(v=>v.h+': '+v.p),
+  한화전략:STRAT.map(s=>s.p.replace(/<[^>]+>/g,'')),
+  발사체제원:VEHICLES.map(v=>({명칭:v.n,사양:v.sub,탑재kg:v.pl,기준단가M:v.price,기제조원가M:v.unit,연간고정비M:v.fixed})),
+  최근뉴스:NEWS.slice(0,14).map(n=>({일자:n.d,분류:n.c,제목:n.t,출처:n.s,요약:n.x}))
+});
+
+const SYS = `너는 JAVIS다. SPACE INTEL 대시보드에 내장된 우주 발사서비스 시장 전문 애널리스트로, 한화에어로스페이스 우주사업부 해외영업 담당자를 지원한다.
+
+원칙:
+- 한국어로 답한다. 영업·전략 실무자가 바로 쓸 수 있게 간결하고 구조적으로 답한다.
+- 아래 대시보드 데이터를 1차 근거로 사용한다. 데이터에 없는 내용은 일반 지식으로 보완하되, 추정임을 밝힌다.
+- 숫자는 단위($B/$M/t/kg/회)를 붙이고, 근거가 되는 연도를 명시한다.
+- 결론 → 근거 → 시사점(So what) 순서. 답변은 250자~600자 사이로 압축한다.
+- 서식은 짧은 제목(<h6>), 굵게(<b>), 목록(<ul><li>), 표(<table>)만 사용한다. 마크다운 대신 HTML 태그로 출력한다.
+- 파일이 첨부되면 핵심 수치를 뽑아 요약하고, 대시보드 시장 데이터와 비교해 해석까지 제시한다.
+
+[대시보드 데이터]
+${CONTEXT}`;
+
+const CHIPS=[
+  '2026년 발사서비스 시장 전망 요약',
+  '한화가 Rocket Lab 대비 부족한 점은?',
+  '중동 주권위성 고객 공략 포인트',
+  '누리호 발사 1회 손익 구조 설명',
+  '경쟁사 일정 지연이 만드는 기회'
+];
+$('#jchips').innerHTML=CHIPS.map(c=>`<button>${c}</button>`).join('');
+document.querySelectorAll('#jchips button').forEach(b=>
+  b.addEventListener('click',()=>{ jinput.value=b.textContent; send(); }));
+
+function bubble(role,html,files){
+  const d=el('div','msg '+(role==='u'?'u':'a'));
+  if(role==='u'){
+    d.innerHTML=(files&&files.length?files.map(f=>`<div class="file">📎 ${f.name}</div>`).join(''):'')+html;
+  } else {
+    d.innerHTML=`<span class="who">JAVIS</span><div class="bd">${html}</div>`;
+  }
+  jlog.appendChild(d); jlog.scrollTop=jlog.scrollHeight; return d;
+}
+bubble('a',`<b>SPACE INTEL 분석 세션이 열렸습니다.</b><br>발사서비스 시장 규모, 경쟁사 일정, 고객 파이프라인, 발사 손익까지 대시보드 데이터를 근거로 답합니다. 엑셀·CSV·PDF를 첨부하면 요약과 시장 데이터 대조까지 수행합니다.
+<h6>지금 볼 만한 것</h6><ul><li>Neutron 4Q26 연기 · New Glenn LC-36 폭발 → '27~'29년 중대형 공급 공백</li><li>'25년 발사서비스 시장 $15.4B, 발사 329회 (사상 최대)</li></ul>`);
+
+/* ─── 파일 첨부 ─── */
+$('#attBtn').onclick=()=>$('#fileInput').click();
+$('#fileInput').onchange=async e=>{
+  for(const f of e.target.files){
+    const item={name:f.name,size:f.size,type:f.type,text:'',b64:'',mime:f.type};
+    try{
+      const ext=f.name.split('.').pop().toLowerCase();
+      if(['xlsx','xls'].includes(ext) && window.XLSX){
+        const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
+        item.text=wb.SheetNames.map(n=>`### 시트: ${n}\n`+XLSX.utils.sheet_to_csv(wb.Sheets[n]).slice(0,6000)).join('\n\n');
+      } else if(['csv','txt','md','json'].includes(ext)){
+        item.text=(await f.text()).slice(0,12000);
+      } else {
+        item.b64=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result.split(',')[1]);fr.readAsDataURL(f);});
+      }
+    }catch(err){ item.text='(파일 파싱 실패: '+err.message+')'; }
+    ATT.push(item);
+  }
+  renderAtt(); e.target.value='';
+};
+function renderAtt(){
+  $('#attached').innerHTML=ATT.map((a,i)=>
+    `<span class="att">📎 ${a.name} <button onclick="dropAtt(${i})">×</button></span>`).join('');
+}
+function dropAtt(i){ ATT.splice(i,1); renderAtt(); }
+
+/* ─── 전송 ─── */
+jinput.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); }});
+jinput.addEventListener('input',()=>{ jinput.style.height='auto'; jinput.style.height=Math.min(120,jinput.scrollHeight)+'px'; });
+sendBtn.onclick=send;
+
+async function send(){
+  const q=jinput.value.trim();
+  if((!q&&!ATT.length)||BUSY) return;
+  const files=[...ATT];
+  bubble('u',q.replace(/[<>]/g,'')||'(첨부 파일 분석 요청)',files);
+  jinput.value=''; jinput.style.height='auto'; ATT=[]; renderAtt();
+  BUSY=true; sendBtn.disabled=true; $('#jStatus').textContent='ANALYZING';
+  const think=el('div','msg a','<span class="who">JAVIS</span><div class="typing"><i></i><i></i><i></i></div>');
+  jlog.appendChild(think); jlog.scrollTop=jlog.scrollHeight;
+
+  let html='';
+  try{ html=await askClaude(q,files); }
+  catch(err){ html=fallback(q,files); }
+  think.remove();
+  bubble('a',html);
+  BUSY=false; sendBtn.disabled=false; $('#jStatus').textContent='ONLINE';
+}
+
+async function askClaude(q,files){
+  const content=[];
+  files.forEach(f=>{
+    if(f.b64 && f.mime==='application/pdf')
+      content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:f.b64}});
+    else if(f.b64 && f.mime.startsWith('image/'))
+      content.push({type:'image',source:{type:'base64',media_type:f.mime,data:f.b64}});
+    else if(f.text)
+      content.push({type:'text',text:`[첨부파일: ${f.name}]\n${f.text}`});
+  });
+  content.push({type:'text',text:q||'첨부한 데이터를 요약하고 대시보드 시장 데이터와 비교해 해석해줘.'});
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6', max_tokens:1000, system:SYS,
+      messages:[...HIST,{role:'user',content}]
+    })
+  });
+  if(!res.ok) throw new Error('API '+res.status);
+  const data=await res.json();
+  const out=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+  if(!out) throw new Error('empty');
+  HIST.push({role:'user',content:q||'(첨부 분석)'},{role:'assistant',content:out});
+  if(HIST.length>8) HIST=HIST.slice(-8);
+  return out.replace(/```html|```/g,'');
+}
+
+/* ─── 오프라인 폴백 (API 미연결 시) ─── */
+function fallback(q,files){
+  const t=(q||'').toLowerCase();
+  const tot=y=>MKT.lift[MKT.years.indexOf(y)].reduce((a,b)=>a+b,0);
+  const pick=k=>COMPS.find(c=>c.n.toLowerCase().includes(k));
+  const wrap=b=>b+`<p style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--txt3)">오프라인 응답 · 대시보드 내장 데이터 기준. 라이브 분석은 API 연결 환경에서 동작합니다.</p>`;
+
+  if(files.length) return wrap(`<h6>첨부 파일 접수</h6>${files.map(f=>`<b>${f.name}</b> (${(f.size/1024).toFixed(0)}KB) — ${f.text?f.text.split('\n').length+'행 파싱 완료':'바이너리 수신'}`).join('<br>')}
+    <p style="margin-top:6px">라이브 분석 환경에서는 시트별 핵심 수치 추출 → 대시보드 시장 데이터('25 $${fx(tot(2025))}B, 발사 329회)와 대조 → 시사점까지 자동 정리합니다.</p>`);
+
+  if(/시장|규모|전망|market/.test(t)) return wrap(`<h6>발사서비스 시장</h6>
+    '25년 <b>$${fx(tot(2025))}B</b> (발사 329회, 사상 최대), '26E <b>$${fx(tot(2026))}B</b> (+${fx((tot(2026)/tot(2025)-1)*100,1)}%). '21→'26E CAGR <b>+17.2%</b>.
+    <ul><li>중량급별: Medium-Lift가 '26E $${MKT.lift[5][1]}B로 성장 주도</li><li>고객별: Commercial $${MKT.cust[5][0]}B / Gov $${MKT.cust[5][1]}B / Defense $${MKT.cust[5][2]}B</li></ul>
+    <b>So what</b> — Defense 비중이 '21년 16%→'26E 22%로 상승. 국방·주권 수요가 신규 사업자의 가장 현실적인 진입 지점.`);
+
+  if(/rocket ?lab|로켓랩|neutron|뉴트론/.test(t)) return wrap(`<h6>Rocket Lab 대비 격차</h6>
+    Rocket Lab '25년 매출 <b>$${fx(pick('rocket').v,2)}B</b> · 발사 21회 vs 한화 $0.05B · 1회.
+    <ul><li><b>캐던스</b>가 가장 큰 격차 (21 : 1)</li><li>Neutron은 <b>4Q26으로 연기</b> — 중형 진입이 늦어지는 만큼 추격 시간 확보</li><li>정부 앵커 계약(우주군 $816M)이 초기 가동률을 보장하는 구조 → 누리호 4~6차 + 국방 물량이 동일 역할</li></ul>`);
+
+  if(/손익|p&l|경제성|단가|원가/.test(t)){
+    const v=VEHICLES[0], ctb=v.price-(v.unit+v.ops+v.site+v.price*0.12), bep=v.fixed/ctb;
+    return wrap(`<h6>발사 1회 손익 구조 (누리호 기준)</h6>
+      계약단가 <b>$${v.price}M</b> · 기당 제조원가 $${v.unit}M · 운용+발사장 $${fx(v.ops+v.site,1)}M · 보험 4% · 오프셋·영업 8%
+      → 발사당 공헌이익 <b>$${fx(ctb,1)}M</b>. 연간 고정비 $${v.fixed}M 기준 손익분기 <b>${fx(bep,1)}회/년</b>.
+      <ul><li>$/kg <b>$${Math.round(v.price*1e6/v.pl).toLocaleString()}</b> — Falcon 9($3,060) 대비 11배</li>
+      <li>KSLV-Ⅲ(10t급)로 가면 $${Math.round(VEHICLES[2].price*1e6/VEHICLES[2].pl).toLocaleString()}/kg로 3배 개선</li></ul>
+      <b>So what</b> — 단가 경쟁이 아니라 <b>캐던스(연 3회 이상)와 턴키 번들</b>이 사업성의 전제.`);
+  }
+
+  if(/중동|사우디|uae|해외|고객|영업|파이프라인/.test(t)) return wrap(`<h6>주권위성 고객 공략</h6>
+    파이프라인 총 <b>$${fx(PIPE.reduce((s,p)=>s+p.v,0),2)}B</b> · ${PIPE.reduce((s,p)=>s+p.n,0)}회.
+    <ul><li>중동(UAE·사우디) $0.70B — 위성+발사+지상국+인력교육 <b>턴키</b>가 결정 요인, 단가 경쟁이 아님</li><li>동남아(인도네시아·베트남) $0.29B — 해양감시 SAR 수요, 소형~중형 전용 발사</li><li>기술이전·현지 생산 오프셋 요구가 공통 조건 → 원가에 8~15% 선반영 필요</li></ul>`);
+
+  if(/기회|공백|지연|window/.test(t)) return wrap(`<h6>공급 공백 = 진입 창</h6>
+    <ul><li>Neutron 초도 발사 <b>NET 4Q26</b>로 연기</li><li>New Glenn <b>LC-36 폭발</b>(5/28)로 운용 중단, 엔진 결함 확인</li><li>Ariane 6는 연 6~8회로 캐던스 상한</li></ul>
+    Kuiper·IRIS²·정부 물량이 동시에 몰리는 <b>'27~'29년 중대형 슬롯 부족</b>이 구조적 기회. 소형·전용 발사에서 신뢰도를 먼저 쌓고 KSLV-Ⅲ 시점에 중형으로 진입하는 순서가 현실적.`);
+
+  return wrap(`<h6>질문을 조금 더 구체화해 주세요</h6>
+    다음 축으로 답할 수 있습니다.
+    <ul><li>시장 규모·성장률 (중량급/고객유형/국가별)</li><li>경쟁사 매출·점유율·발사 일정</li><li>고객 파이프라인 및 계약 규모</li><li>발사 손익·단가 구조 (P&L 시뮬레이터 연동)</li></ul>`);
+}
+
+/* ─── JAVIS 패널 접기 / 펼치기 ─── */
+$('#railBtn').onclick=()=>{
+  const off=document.body.classList.toggle('rail-off');
+  $('#railBtnTxt').textContent=off?'JAVIS 펼치기':'JAVIS 접기';
+  $('#railBtnIco').textContent=off?'◀':'▶';
+};
+$('#railToggle').onclick=()=>{
+  const r=$('#rail'), open=r.classList.toggle('open');
+  $('#railToggle').textContent=open?'닫기':'JAVIS 열기';
+};
+</script>
+</body>
+</html>
