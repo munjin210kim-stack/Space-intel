@@ -3,7 +3,7 @@
 // GitHub Actions가 매일 아침(KST 06:00)에 이 스크립트를 자동 실행합니다.
 // API 키가 필요 없는 방식이라 별도 설정 없이 바로 동작합니다.
 
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import { XMLParser } from 'fast-xml-parser';
 
 // 국내(kr) / 해외(gl) 각각 검색할 키워드
@@ -56,32 +56,49 @@ async function fetchOne(query, region) {
   }));
 }
 
+function loadExisting() {
+  try {
+    const raw = readFileSync('data/news.json', 'utf-8');
+    const data = JSON.parse(raw);
+    return Array.isArray(data.news) ? data.news : [];
+  } catch {
+    return []; // 파일이 없거나 깨졌으면 빈 배열로 시작
+  }
+}
+
 async function main() {
-  const all = [];
+  const fetched = [];
 
   for (const [region, queries] of Object.entries(QUERIES)) {
     for (const q of queries) {
       const items = await fetchOne(q, region);
-      all.push(...items);
+      fetched.push(...items);
     }
   }
 
-  // 링크 기준 중복 제거 + 최신순 정렬 + 지역별 상한
+  // 기존에 쌓여있던 뉴스 + 오늘 새로 가져온 뉴스를 합칩니다.
+  // (오늘치로 완전히 갈아치우지 않고, 링크가 겹치지 않으면 계속 누적됩니다.)
+  const existing = loadExisting();
+  const merged = [...existing, ...fetched];
+
   const seen = new Set();
-  const unique = all.filter((n) => {
+  const unique = merged.filter((n) => {
     if (!n.u || seen.has(n.u)) return false;
     seen.add(n.u);
     return true;
   });
   unique.sort((a, b) => b.d.localeCompare(a.d));
 
-  const kr = unique.filter((n) => n.r === 'kr').slice(0, 12);
-  const gl = unique.filter((n) => n.r === 'gl').slice(0, 12);
-  const news = [...kr, ...gl];
+  // 무한정 쌓이지 않도록 지역별 상한만 넉넉하게 둡니다 (오래된 것부터 제외).
+  const kr = unique.filter((n) => n.r === 'kr').slice(0, 60);
+  const gl = unique.filter((n) => n.r === 'gl').slice(0, 60);
+  const news = [...kr, ...gl].sort((a, b) => b.d.localeCompare(a.d));
 
   const output = { news, updatedAt: new Date().toISOString() };
   writeFileSync('data/news.json', JSON.stringify(output, null, 2), 'utf-8');
-  console.log(`news.json 갱신 완료: 총 ${news.length}건 (KR ${kr.length} / GL ${gl.length})`);
+  console.log(
+    `news.json 갱신 완료: 총 ${news.length}건 (KR ${kr.length} / GL ${gl.length}, 기존 ${existing.length}건에서 누적)`
+  );
 }
 
 main().catch((err) => {
