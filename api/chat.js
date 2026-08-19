@@ -54,7 +54,9 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: { parts: [{ text: system }] },
         contents,
-        generationConfig: { maxOutputTokens: 1200 },
+        generationConfig: {
+          maxOutputTokens: 4096,
+        },
       }),
     });
 
@@ -65,17 +67,24 @@ export default async function handler(req, res) {
     }
 
     const data = await geminiRes.json();
-    const text = (data.candidates?.[0]?.content?.parts || [])
+    const candidate = data.candidates?.[0];
+    const text = (candidate?.content?.parts || [])
       .map((p) => p.text || '')
       .join('\n')
       .trim();
 
     if (!text) {
-      res.status(502).json({ error: '빈 응답' });
+      res.status(502).json({ error: '빈 응답', finishReason: candidate?.finishReason || null });
       return;
     }
 
-    res.status(200).json({ text });
+    // 토큰 한도 때문에 중간에 잘렸으면 눈에 보이게 표시 (원인 진단용, 나중에 제거 가능)
+    const cutOffNote =
+      candidate?.finishReason === 'MAX_TOKENS'
+        ? '\n\n<p style="color:#FF5C7A;font-size:9px">⚠ 답변이 토큰 한도로 중간에 잘렸습니다 (finishReason: MAX_TOKENS)</p>'
+        : '';
+
+    res.status(200).json({ text: text + cutOffNote, finishReason: candidate?.finishReason || null });
   } catch (err) {
     res.status(500).json({ error: String(err) });
   }
