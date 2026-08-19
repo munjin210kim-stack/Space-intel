@@ -1,0 +1,8 @@
+{
+  "name": "space-intel",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "fast-xml-parser": "^4.4.1"
+  }
+}

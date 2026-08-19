@@ -960,8 +960,8 @@ const C = {
 };
 
 /* ─── 1. NEWS ─────────────────────────────────────────────────── */
-const NEWS = [
-  // ── KOREA
+let NEWS = [
+  // ── KOREA (아래 데이터는 /data/news.json 로딩 실패 시 쓰이는 폴백입니다)
   {r:'kr',d:'2026-05-14',c:'시장',t:"한화에어로스페이스, 누리호 5호기 단 조립 70~90%…3분기 발사 목표",s:'매일일보',
    u:'https://www.m-i.kr/news/articleView.html?idxno=1373064',
    x:'초소형군집위성 5기 + 부탑재 10기, 총 15기를 태양동기궤도에 투입 예정. 체계종합기업으로서 제작·조립·발사준비 역할 확대.'},
@@ -1030,6 +1030,21 @@ const NEWS = [
    u:'https://spaceflightnow.com/',
    x:'소형 발사 신규 진입자들의 일정 지연이 반복되며 Electron의 사실상 독점 구도 유지.'}
 ];
+
+/* ─── 뉴스 자동 갱신: /data/news.json 이 있으면 최신 데이터로 교체 ───
+   이 파일은 GitHub Actions가 매일 06:00(KST)에 자동으로 새로 만듭니다.
+   실패하면 위 하드코딩 데이터가 그대로 화면에 남아서 사이트가 깨지지 않습니다. */
+let NEWS_UPDATED_AT = null;
+fetch('/data/news.json', {cache:'no-store'})
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (data && Array.isArray(data.news) && data.news.length) {
+      NEWS = data.news;
+      NEWS_UPDATED_AT = data.updatedAt || null;
+      if (typeof refreshNews === 'function') refreshNews();
+    }
+  })
+  .catch(() => { /* 네트워크 오류 시 폴백 데이터 유지 */ });
 
 /* ─── 2. COMPETITOR LAUNCH TIMELINE ('26~'30) ─────────────────── */
 const T_COMP = [
@@ -1226,7 +1241,7 @@ function go(v){
 })();
 
 /* ─── NEWS DIGEST (dashboard) ─── */
-(function(){
+function renderNewsDigest(){
   const all=[...NEWS].sort((a,b)=>b.d.localeCompare(a.d)), sorted=all.slice(0,6);
   $('#newsDigest').innerHTML = sorted.map(n=>`
     <div class="nrow" title="${n.t}">
@@ -1236,7 +1251,13 @@ function go(v){
       <span class="t">${n.t}</span>
     </div>`).join('')
     + `<div class="news-more"><span>KR ${NEWS.filter(n=>n.r==='kr').length} · GL ${NEWS.filter(n=>n.r==='gl').length} · 시장/경쟁/기술/정책</span><span>+ ${all.length-6}건 →</span></div>`;
-})();
+}
+renderNewsDigest();
+
+function updateNewsTag(){
+  $('#newsTag').textContent=NEWS.length+'건 · 최신 '+[...NEWS].sort((a,b)=>b.d.localeCompare(a.d))[0].d.slice(5).replace('-','.')
+    + (NEWS_UPDATED_AT ? ' · 갱신 '+new Date(NEWS_UPDATED_AT).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '');
+}
 
 /* ─── TIMELINE RAILS ─── */
 function tlMore(a){
@@ -1462,7 +1483,7 @@ $('#strat').innerHTML=STRAT.map(s=>`<div class="s"><i>${s.i}</i><p>${s.p}</p></d
 (function(){
   const t=MKT.lift.map(r=>r.reduce((a,b)=>a+b,0)), n=t.length-1;
   $('#cagrTag').textContent='CAGR +'+fx((Math.pow(t[n]/t[0],1/n)-1)*100)+'%';
-  $('#newsTag').textContent=NEWS.length+'건 · 최신 '+[...NEWS].sort((a,b)=>b.d.localeCompare(a.d))[0].d.slice(5).replace('-','.');
+  updateNewsTag();
   $('#compTag').textContent=T_COMP.length+'개 마일스톤';
   $('#custTag').textContent='수요 '+PIPE.reduce((a,b)=>a+b.n,0)+'회 · $'+fx(PIPE.reduce((a,b)=>a+b.v,0),2)+'B';
   const tot=COMPS.reduce((s,c)=>s+c.v,0);
@@ -1669,7 +1690,7 @@ function renderNews(){
   document.querySelectorAll('#newsFilters button').forEach(b=>b.classList.toggle('on',b.dataset.c===NF));
   $('#newsFilters .cnt').textContent=`총 ${list.length}건 · 최신순`;
 }
-(function(){
+function renderNewsFilters(){
   const cats=['전체','시장','경쟁','기술','정책'];
   $('#newsFilters').innerHTML=cats.map(c=>{
     const n=c==='전체'?NEWS.length:NEWS.filter(x=>x.c===c).length;
@@ -1678,7 +1699,16 @@ function renderNews(){
   document.querySelectorAll('#newsFilters button').forEach(b=>
     b.addEventListener('click',()=>{NF=b.dataset.c;renderNews();}));
   renderNews();
-})();
+}
+renderNewsFilters();
+
+/* ─── 뉴스가 새로 갱신되면 화면 전체를 다시 그림 (대시보드 + 뉴스 페이지 + 챗봇 컨텍스트) ─── */
+function refreshNews(){
+  renderNewsDigest();
+  updateNewsTag();
+  renderNewsFilters();
+  if (typeof buildSys === 'function') buildSys();
+}
 
 /* ─── PIPELINE PAGE ─── */
 (function(){
@@ -1726,28 +1756,32 @@ function renderNews(){
 const jlog=$('#jlog'), jinput=$('#jinput'), sendBtn=$('#sendBtn');
 let ATT=[], BUSY=false, HIST=[];
 
-/* 대시보드 데이터를 컨텍스트로 압축 */
-const CONTEXT = JSON.stringify({
-  기준일:'2026-08-12',
-  시장정의:'고객이 발사 사업자에게 지불하는 발사 서비스 대가 ($B, 자체 위성군 발사 내부가치 포함 추정)',
-  연도별시장:MKT.years.map((y,i)=>({
-    연도:y, 합계:+MKT.lift[i].reduce((a,b)=>a+b,0).toFixed(1),
-    Small:MKT.lift[i][0],Medium:MKT.lift[i][1],Heavy:MKT.lift[i][2],
-    Commercial:MKT.cust[i][0],Government:MKT.cust[i][1],Defense:MKT.cust[i][2],
-    발사횟수:MKT.launches[i], 추정:MKT.est[i]})),
-  국가별2025:REGIONS.map(r=>({국가:r.ko,매출:r.v,발사:r.l})),
-  경쟁사2025:COMPS.map(c=>({업체:c.n,매출:c.v,YoY:c.yoy,발사:c.l,국가:c.ko})),
-  경쟁력:CAPS.map(c=>({업체:c.n,발사체:c.veh,탑재:c.payload,kg단가:c.price,재사용:c.reuse,실적:c.cad,성공률:c.rel})),
-  경쟁사타임라인:T_COMP.map(t=>({연도:Math.floor(t.y),업체:t.co,내용:t.t,비고:t.x})),
-  고객타임라인:T_CUST.map(t=>({연도:Math.floor(t.y),고객:t.co,내용:t.t,비고:t.x})),
-  파이프라인:PIPE.map(p=>({고객:p.c,지역:p.r,프로그램:p.prg,위성:p.t,중량:p.w,궤도:p.o,희망연도:p.y,횟수:p.n,규모B:p.v,단계:STAGES[p.s-1].n})),
-  한화포트폴리오:VCHAIN.map(v=>v.h+': '+v.p),
-  한화전략:STRAT.map(s=>s.p.replace(/<[^>]+>/g,'')),
-  발사체제원:VEHICLES.map(v=>({명칭:v.n,사양:v.sub,탑재kg:v.pl,기준단가M:v.price,기제조원가M:v.unit,연간고정비M:v.fixed})),
-  최근뉴스:NEWS.slice(0,14).map(n=>({일자:n.d,분류:n.c,제목:n.t,출처:n.s,요약:n.x}))
-});
+/* 대시보드 데이터를 컨텍스트로 압축. NEWS가 갱신될 때마다 buildSys()를 다시 불러서
+   챗봇이 항상 '오늘자 최신 뉴스'를 참고하도록 만듭니다. */
+let SYS = '';
+function buildSys(){
+  const CONTEXT = JSON.stringify({
+    기준일:new Date().toISOString().slice(0,10),
+    시장정의:'고객이 발사 사업자에게 지불하는 발사 서비스 대가 ($B, 자체 위성군 발사 내부가치 포함 추정)',
+    연도별시장:MKT.years.map((y,i)=>({
+      연도:y, 합계:+MKT.lift[i].reduce((a,b)=>a+b,0).toFixed(1),
+      Small:MKT.lift[i][0],Medium:MKT.lift[i][1],Heavy:MKT.lift[i][2],
+      Commercial:MKT.cust[i][0],Government:MKT.cust[i][1],Defense:MKT.cust[i][2],
+      발사횟수:MKT.launches[i], 추정:MKT.est[i]})),
+    국가별2025:REGIONS.map(r=>({국가:r.ko,매출:r.v,발사:r.l})),
+    경쟁사2025:COMPS.map(c=>({업체:c.n,매출:c.v,YoY:c.yoy,발사:c.l,국가:c.ko})),
+    경쟁력:CAPS.map(c=>({업체:c.n,발사체:c.veh,탑재:c.payload,kg단가:c.price,재사용:c.reuse,실적:c.cad,성공률:c.rel})),
+    경쟁사타임라인:T_COMP.map(t=>({연도:Math.floor(t.y),업체:t.co,내용:t.t,비고:t.x})),
+    고객타임라인:T_CUST.map(t=>({연도:Math.floor(t.y),고객:t.co,내용:t.t,비고:t.x})),
+    파이프라인:PIPE.map(p=>({고객:p.c,지역:p.r,프로그램:p.prg,위성:p.t,중량:p.w,궤도:p.o,희망연도:p.y,횟수:p.n,규모B:p.v,단계:STAGES[p.s-1].n})),
+    한화포트폴리오:VCHAIN.map(v=>v.h+': '+v.p),
+    한화전략:STRAT.map(s=>s.p.replace(/<[^>]+>/g,'')),
+    발사체제원:VEHICLES.map(v=>({명칭:v.n,사양:v.sub,탑재kg:v.pl,기준단가M:v.price,기제조원가M:v.unit,연간고정비M:v.fixed})),
+    최근뉴스:NEWS.slice(0,14).map(n=>({일자:n.d,분류:n.c,제목:n.t,출처:n.s,요약:n.x})),
+    뉴스갱신시각:NEWS_UPDATED_AT
+  });
 
-const SYS = `너는 JAVIS다. SPACE INTEL 대시보드에 내장된 우주 발사서비스 시장 전문 애널리스트로, 한화에어로스페이스 우주사업부 해외영업 담당자를 지원한다.
+  SYS = `너는 JAVIS다. SPACE INTEL 대시보드에 내장된 우주 발사서비스 시장 전문 애널리스트로, 한화에어로스페이스 우주사업부 해외영업 담당자를 지원한다.
 
 원칙:
 - 한국어로 답한다. 영업·전략 실무자가 바로 쓸 수 있게 간결하고 구조적으로 답한다.
@@ -1756,9 +1790,12 @@ const SYS = `너는 JAVIS다. SPACE INTEL 대시보드에 내장된 우주 발�
 - 결론 → 근거 → 시사점(So what) 순서. 답변은 250자~600자 사이로 압축한다.
 - 서식은 짧은 제목(<h6>), 굵게(<b>), 목록(<ul><li>), 표(<table>)만 사용한다. 마크다운 대신 HTML 태그로 출력한다.
 - 파일이 첨부되면 핵심 수치를 뽑아 요약하고, 대시보드 시장 데이터와 비교해 해석까지 제시한다.
+- 최근뉴스 항목은 매일 아침 자동 갱신된다. 오늘 소식을 물으면 이 데이터의 최신 항목을 근거로 답한다.
 
 [대시보드 데이터]
 ${CONTEXT}`;
+}
+buildSys();
 
 const CHIPS=[
   '2026년 발사서비스 시장 전망 요약',
@@ -1825,34 +1862,29 @@ async function send(){
   jlog.appendChild(think); jlog.scrollTop=jlog.scrollHeight;
 
   let html='';
-  try{ html=await askClaude(q,files); }
+  try{ html=await askGemini(q,files); }
   catch(err){ html=fallback(q,files); }
   think.remove();
   bubble('a',html);
   BUSY=false; sendBtn.disabled=false; $('#jStatus').textContent='ONLINE';
 }
 
-async function askClaude(q,files){
-  const content=[];
-  files.forEach(f=>{
-    if(f.b64 && f.mime==='application/pdf')
-      content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:f.b64}});
-    else if(f.b64 && f.mime.startsWith('image/'))
-      content.push({type:'image',source:{type:'base64',media_type:f.mime,data:f.b64}});
-    else if(f.text)
-      content.push({type:'text',text:`[첨부파일: ${f.name}]\n${f.text}`});
-  });
-  content.push({type:'text',text:q||'첨부한 데이터를 요약하고 대시보드 시장 데이터와 비교해 해석해줘.'});
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
+/* JAVIS는 이제 브라우저에서 직접 AI를 호출하지 않습니다.
+   API 키는 Vercel 서버 함수(/api/chat) 안에만 있고, 여기서는 그 함수만 부릅니다. */
+async function askGemini(q,files){
+  const payload={
+    system:SYS,
+    history:HIST,
+    message:q,
+    files:files.map(f=>({name:f.name, mime:f.mime, text:f.text||null, b64:f.b64||null}))
+  };
+  const res=await fetch('/api/chat',{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      model:'claude-sonnet-4-6', max_tokens:1000, system:SYS,
-      messages:[...HIST,{role:'user',content}]
-    })
+    body:JSON.stringify(payload)
   });
   if(!res.ok) throw new Error('API '+res.status);
   const data=await res.json();
-  const out=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+  const out=(data.text||'').trim();
   if(!out) throw new Error('empty');
   HIST.push({role:'user',content:q||'(첨부 분석)'},{role:'assistant',content:out});
   if(HIST.length>8) HIST=HIST.slice(-8);

@@ -1,0 +1,203 @@
+{
+  "news": [
+    {
+      "r": "kr",
+      "d": "2026-05-14",
+      "c": "시장",
+      "t": "한화에어로스페이스, 누리호 5호기 단 조립 70~90%…3분기 발사 목표",
+      "s": "매일일보",
+      "u": "https://www.m-i.kr/news/articleView.html?idxno=1373064",
+      "x": "초소형군집위성 5기 + 부탑재 10기, 총 15기를 태양동기궤도에 투입 예정. 체계종합기업으로서 제작·조립·발사준비 역할 확대."
+    },
+    {
+      "r": "kr",
+      "d": "2026-03-01",
+      "c": "정책",
+      "t": "차세대발사체, 2040년까지 5조6천억 투입…재사용 발사체로 전환",
+      "s": "연합뉴스",
+      "u": "https://ko.wikipedia.org/wiki/%EC%B0%A8%EC%84%B8%EB%8C%80_%EB%B0%9C%EC%82%AC%EC%B2%B4",
+      "x": "국가우주위원회 중장기 계획 확정. 액체메탄 엔진 기반 재사용 발사체 개발이 새롭게 포함."
+    },
+    {
+      "r": "kr",
+      "d": "2025-12-22",
+      "c": "기술",
+      "t": "차세대발사체(KSLV-Ⅲ), 액체메탄 재사용 발사체로 개발 확정",
+      "s": "우주항공청",
+      "u": "https://namu.wiki/w/KSLV-III",
+      "x": "2032년 달 착륙선 발사는 재사용 없이 수행, 2035년까지 재사용 기술 확보 목표. 1단 추력 720t급."
+    },
+    {
+      "r": "kr",
+      "d": "2025-12-05",
+      "c": "경쟁",
+      "t": "한화그룹, SAR 위성부터 발사체까지…우주사업 밸류체인 강화",
+      "s": "데일리한국",
+      "u": "https://daily.hankooki.com/news/articleView.html?idxno=1305993",
+      "x": "발사체 체계종합·액체엔진·구조체·위성 추진시스템까지 수직계열화. 재사용 발사체 선행 기술 검토 착수."
+    },
+    {
+      "r": "kr",
+      "d": "2025-12-01",
+      "c": "기술",
+      "t": "누리호 4차 성공 이끈 한화의 40년 항공우주 기술력",
+      "s": "아시아경제",
+      "u": "https://www.asiae.co.kr/article/2025112814081391683",
+      "x": "역대 최다 13기·총 960kg 탑재. 체계통합과 총조립이 핵심이었다는 발사체연구센터장 인터뷰."
+    },
+    {
+      "r": "kr",
+      "d": "2025-11-27",
+      "c": "기술",
+      "t": "누리호 4차 발사 성공…민간(한화)이 제작 전 과정 총괄한 첫 사례",
+      "s": "KARI",
+      "u": "https://www.kari.re.kr/kor/contents/51",
+      "x": "차세대중형위성 3호(516kg)+큐브위성 12기를 고도 600km SSO에 투입. 2026·2027년 각 1회 발사 예정."
+    },
+    {
+      "r": "kr",
+      "d": "2025-11-26",
+      "c": "정책",
+      "t": "누리호 4차 발사가 여는 한국 발사체 산업과 민관 협력",
+      "s": "한화그룹",
+      "u": "https://www.hanwha.co.kr/newsroom/media_center/news/article.do?seq=15297",
+      "x": "5차 발사부터 순천 사업장에서 단 조립 수행 계획. 4~6차 반복발사가 차세대발사체 개발의 기술 토대."
+    },
+    {
+      "r": "kr",
+      "d": "2026-01-06",
+      "c": "시장",
+      "t": "산업분석: 우주 관점에서 본 한화에어로스페이스",
+      "s": "하나증권",
+      "u": "https://www.hanaw.com/download/research/FileServer/WEB/industry/industry/2026/01/05/Defense_260106_1.pdf",
+      "x": "'25년 발사 시도 329회(궤도 도달 321회, YoY +24.4%). 미국 181회·중국 92회로 합산 83%. 기업별로는 SpaceX 165회."
+    },
+    {
+      "r": "kr",
+      "d": "2024-03-20",
+      "c": "정책",
+      "t": "한화에어로스페이스, 차세대발사체(KSLV-Ⅲ) 총괄 주관 제작사 선정",
+      "s": "한화 스페이스허브",
+      "u": "https://www.hanwhaspacehub.com/media-room/Press-Release/60",
+      "x": "설계·제작·시험·발사 전 단계를 항우연과 공동 수행. 민간 주도 우주경제 전환의 분기점."
+    },
+    {
+      "r": "gl",
+      "d": "2026-08-11",
+      "c": "시장",
+      "t": "SpaceX, 올해 Falcon 9 90회 돌파…West Coast 발사 급증 지속",
+      "s": "Spaceflight Now",
+      "u": "https://spaceflightnow.com/",
+      "x": "반덴버그·케이프에서 Starlink V2 Mini 위성 배치 지속. 부스터 드론십 회수 정상 수행."
+    },
+    {
+      "r": "gl",
+      "d": "2026-08-10",
+      "c": "경쟁",
+      "t": "Rocket Lab, Neutron '26년 데뷔 창(window) 좁아지는 중",
+      "s": "Spaceflight Now",
+      "u": "https://spaceflightnow.com/launch-schedule/",
+      "x": "SEC 제출 및 분기 실적 콜에서 일정 리스크 언급. 중형 발사 시장 진입 시점이 '27년으로 밀릴 가능성."
+    },
+    {
+      "r": "gl",
+      "d": "2026-08-06",
+      "c": "기술",
+      "t": "Blue Origin, New Glenn 폭발 원인으로 엔진 결함 확인",
+      "s": "Spaceflight Now",
+      "u": "https://spaceflightnow.com/",
+      "x": "LC-36 재건 병행. 2단 시험 대안 검토 중으로 발사 복귀 시점 불확실."
+    },
+    {
+      "r": "gl",
+      "d": "2026-05-28",
+      "c": "경쟁",
+      "t": "New Glenn 폭발로 LC-36 심각 손상…발사 운용 잠정 중단",
+      "s": "Wikipedia",
+      "u": "https://en.wikipedia.org/wiki/2026_New_Glenn_rocket_explosion",
+      "x": "페이로드와 2단(GS2-5) 손실. Kuiper 배치 일정에 직접적 영향."
+    },
+    {
+      "r": "gl",
+      "d": "2026-02-27",
+      "c": "경쟁",
+      "t": "Rocket Lab, Neutron 초도 발사 4Q26으로 연기",
+      "s": "SpaceNews",
+      "u": "https://spacenews.com/rocket-lab-delays-neutron-debut-to-late-2026/",
+      "x": "1단 추진제 탱크 수압시험 실패가 원인. 탱크 설계 소폭 변경 후 재인증. Electron은 '26년 25회 이상 목표."
+    },
+    {
+      "r": "gl",
+      "d": "2026-02-01",
+      "c": "시장",
+      "t": "2026 유럽 발사: Ariane 64 초도 발사로 Kuiper 18발 계약 개시",
+      "s": "European Spaceflight",
+      "u": "https://europeanspaceflight.com/european-rocket-launches-in-2026/",
+      "x": "4부스터형 Ariane 64가 Amazon Kuiper 위성 탑재. 이후 16발은 P160C 부스터 개량형 적용."
+    },
+    {
+      "r": "gl",
+      "d": "2025-12-29",
+      "c": "경쟁",
+      "t": "Rocket Lab, 2025년 Electron 21회 무실패 발사…소형 발사 시장 주도",
+      "s": "NASASpaceflight",
+      "u": "https://nasaspaceflight.com/2025/12/rocket-lab-2025-overview/",
+      "x": "LC-1A/1B(뉴질랜드), LC-2(월롭스) 3개 사대 운용. Neutron은 LEO 13t(재사용)/15t(소모형)."
+    },
+    {
+      "r": "gl",
+      "d": "2025-12-20",
+      "c": "시장",
+      "t": "Rocket Lab, 美 우주군과 8.16억 달러 규모 사상 최대 계약",
+      "s": "Barchart",
+      "u": "https://www.barchart.com/story/news/36768504/could-these-3-aerospace-firms-go-stratospheric-in-2026",
+      "x": "JAXA·우주군 등 정부 고객 비중 확대. 정부 물량이 신규 발사체 사업의 초기 수요 기반이 되는 구조."
+    },
+    {
+      "r": "gl",
+      "d": "2025-11-09",
+      "c": "시장",
+      "t": "Arianespace, 2026년 Ariane 6 최대 8회 발사 목표",
+      "s": "European Spaceflight",
+      "u": "https://europeanspaceflight.com/arianespace-aiming-for-as-many-as-eight-ariane-6-launches-in-2026/",
+      "x": "연 9~10회 최대 캐던스에 근접. 증편 여부는 고객 수요가 결정한다는 입장."
+    },
+    {
+      "r": "gl",
+      "d": "2026-06-19",
+      "c": "시장",
+      "t": "상업 우주 통계: '25년 궤도 발사 시도 329회 사상 최대",
+      "s": "Sci-Tech Today",
+      "u": "https://www.sci-tech-today.com/stats/commercial-space-industry-statistics/",
+      "x": "발사서비스 시장 $14~18B, 연 15~19% 성장. Starlink 매출 $11.39B, '26년 $20B 근접 전망."
+    },
+    {
+      "r": "gl",
+      "d": "2026-08-10",
+      "c": "정책",
+      "t": "우주경제 $626B…2040년대 1조 달러 전망",
+      "s": "Orbital Radar",
+      "u": "https://orbitalradar.com/space-economy",
+      "x": "약 80%가 상업 영역(위성 광대역·항법·지구관측). 정부 우주예산은 연 $132B 규모."
+    },
+    {
+      "r": "gl",
+      "d": "2026-08-03",
+      "c": "기술",
+      "t": "Starship Ship 40 비행 성공…Starbase Pad 1 Block 3 개조 진행",
+      "s": "NASASpaceflight",
+      "u": "https://www.nasaspaceflight.com/2026/08/launch-preview-080326/",
+      "x": "차기 미션은 캐치(회수) 시도 예정. 궤도 재급유 시연이 '26~'27년 최대 기술 관문."
+    },
+    {
+      "r": "gl",
+      "d": "2026-07-15",
+      "c": "경쟁",
+      "t": "Firefly, Alpha Block 2 초도 발사 4Q26으로 연기",
+      "s": "Spaceflight Now",
+      "u": "https://spaceflightnow.com/",
+      "x": "소형 발사 신규 진입자들의 일정 지연이 반복되며 Electron의 사실상 독점 구도 유지."
+    }
+  ],
+  "updatedAt": "2026-08-19T05:07:53.804Z"
+}
