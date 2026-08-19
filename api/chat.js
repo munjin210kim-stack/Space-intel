@@ -42,7 +42,7 @@ export default async function handler(req, res) {
       { role: 'user', parts },
     ];
 
-    const model = 'gemini-2.5-flash'; // 무료 티어 대상 모델
+    const model = 'gemini-3.6-flash'; // 무료 티어 대상 최신 모델
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     const geminiRes = await fetch(url, {
