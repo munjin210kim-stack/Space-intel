@@ -625,11 +625,7 @@ table.pipe .prg{display:block;font-family:var(--mono);font-size:9px;color:var(--
     </div>
   </div>
   <div class="ticker" id="ticker"></div>
-  <div class="sysbadge"><i class="dot"></i>SYSTEM ONLINE<b>|</b>2026.08 DB SYNCED</div>
-  <div class="userchip">
-    <span class="av"></span>
-    <span class="nm"><b>한화에어로스페이스</b><i>해외영업 / 우주사업부</i></span>
-  </div>
+  <div class="sysbadge"><i class="dot"></i>SYSTEM ONLINE<b>|</b><span id="dbSync">DB SYNCED</span></div>
   <button class="railbtn" id="railBtn" title="JAVIS 패널 접기/펼치기"><span id="railBtnTxt">JAVIS 접기</span> <em id="railBtnIco">▶</em></button>
 </header>
 
@@ -1944,5 +1940,16 @@ $('#railToggle').onclick=()=>{
   $('#railToggle').textContent=open?'닫기':'JAVIS 열기';
 };
 </script>
+<script>
+(function(){
+  function syncBadge(){
+    var k = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
+    var e = document.getElementById('dbSync');
+    if(e) e.textContent = k.getFullYear() + '.' + String(k.getMonth()+1).padStart(2,'0') + ' DB SYNCED';
+  }
+  syncBadge();
+  setInterval(syncBadge, 3600000);
+})();
+</script>  
 </body>
 </html>
