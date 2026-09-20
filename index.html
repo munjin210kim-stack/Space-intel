@@ -54,6 +54,7 @@ body::before{
   position:sticky; top:0; z-index:60; height:60px; display:flex; align-items:center; gap:22px;
   padding:0 20px 0 22px; background:rgba(5,8,15,.92); backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line); overflow:hidden;
+  margin-right:var(--rail); transition:margin-right .28s;
 }
 .topbar::after{
   content:''; position:absolute; left:0; bottom:-1px; height:1px; width:180px;
