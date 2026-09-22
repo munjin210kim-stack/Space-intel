@@ -2,6 +2,69 @@
   "news": [
     {
       "r": "kr",
+      "d": "2026-09-22",
+      "c": "시장",
+      "t": "한화는 美 탄약 공장, 현대로템은 항공우주 자동화…방산 생산 기반 확충",
+      "s": "에너지경제신문",
+      "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9IeEVWX0FfQklRUUFpNVZiNmI0dG5wR2dHTThhQ0xPY3NYT3RvMHd4cWxwTnN0LXA5MWFHNXhoUGZXVWdyUTJ3enhQWFFlaXFoOTFkeU5BRmNIMkk?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-22",
+      "c": "시장",
+      "t": "\"상업 발사 시대 연다\"…우주청, 제2우주센터에 기업 요구 수용키로",
+      "s": "뉴시스",
+      "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE92MkE4R21Dc1lBTkFPcUs4d1UxVElaVzhFSmJSRmJDdzdROS1JT25WTEl4LTRFWHlhczM1MWpXRjBYRGdIbFhnWTlyQUJneFloMVZ5c3NpazRWNlhBZ0swUdIBeEFVX3lxTE5xVHJmdE1kOWtKdlFZSmZFWTFPOHJSSVlJUDF0NDV0WTFFV3RlR2s5VUxKaW1rOWtqRTJ2ZlFXTnlZU2JvZGdqUmFxV0pRc2w0LV9IaVFwaGxUQ2pPMFE4TWR3ekg0VjZCSEpmVEMzMXdqZG5hTVI2Zw?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-22",
+      "c": "시장",
+      "t": "누리호 5차 발사 D-2주...발사 전날과 당일 상세 일정은?",
+      "s": "YTN",
+      "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE43Q0pkNXhkYVNFWTZyVlNpZmlRUW1maGJtOVp5UlRYSWMzdTZtMkd3QU1HOVRZZTdNd0tTQ2lyWHBoZ0FENzYxc1Q0UmtkMklaeHhWMV9lVi10UXRkNUE?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-22",
+      "c": "기술",
+      "t": "시흥시농업기술센터, 달·우주 체험 프로그램 운영…10월엔 ‘누리호’ 교육",
+      "s": "경기일보",
+      "u": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5TYm9RT1dJUHVoTFlNUklQYmd6ZzhJd3hYbkl6cVY4bFo4TkdkZXY0WmhIR0p6WDIzV2hmbWNURWRVc0UwQ3ozNmpzdHFWVUpXNm5HZTF4NmJmaFE?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-22",
+      "c": "시장",
+      "t": "The private-sector is adding more space-launch capacity",
+      "s": "Reason Foundation",
+      "u": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOc09BMUdCTlJmMzJQYlJGNWQ3Y1BJcmJxandUTjVROGpQNndwbUxLZ2pPak11Y0xWVUE0T09fM1pVYXo4OVc5bWh2TGVHX25RbFZTdUlrdzA0WlR0RnRrcDBDWlVab0gtMkFjUHhINE1iek8yRmhuSDlxUEU1T19UNVZXWXFzT2g3RHA5b2JWMHk5VmdzUno0YnlFN0o?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-22",
+      "c": "경쟁",
+      "t": "Rocket Lab's SpaceX Playbook: Own the Rocket, Constellation and Customer",
+      "s": "Benzinga",
+      "u": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOS1AycDhQZE5venhfMmNMenVKaFJNR3d4dzUwRU9TelFXS3FaVlIwZDJ2VUVfVUlNV2xSYlJhU2NBRUdHTGE4NVVsQk5fWkY4R1pvX09KN2d0dnNxRVdCZERSdUpTNjlDcDVqZ3FHSVdBaW1RZlhVZ0RNcEVKX2VYbkNidmtobzAzV3ZKZ2hoZnpyYlF4X00wOFJ5TGw2LUVZLTlTN0k5aWVOSDZPWFFJTDBaN1RyZ3pxZ1lzNzU3NA?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-22",
+      "c": "경쟁",
+      "t": "No Pressure: A Massive Starlink Upgrade Hinges on SpaceX's Next Starship Launch",
+      "s": "PCMag",
+      "u": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQYndObnRKNzJRQ1NGRjF6bXFaYW5hOUwyaGgxcURqN1NUdDhKc2gxWUZoNlpXMHJCbERESzhybmdfNm9UVXhmeW0ya2J3M3dtazhfSkVJUWtKOV9MMDVjZ2RtNW1wVUpFMmVkWXNNVzdCS29oVEY5WFZ2dmJMem9Ra1k0bkp6OWxCY0JxbnR3bi05R2tzZnFhY3ZxMFNjb0E?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
       "d": "2026-09-21",
       "c": "기술",
       "t": "‘제2회 국제우주항공기술대전’ 30일 창원서 개막…179개 기업 참가",
@@ -127,6 +190,42 @@
       "x": ""
     },
     {
+      "r": "kr",
+      "d": "2026-09-21",
+      "c": "시장",
+      "t": "누리호 국민 체감가치 연 2.3조…R&D 위해 가구당 연 10만원 지불 의사",
+      "s": "뉴시스",
+      "u": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9aXzY0NW81aV9iREd5V0JueUllZVdxdzBDWms5Q0poZ2lkcnVFS2owN1NkVFg4MFhZcm9ZcTkwa3V5UGd0b1U3OHVtUFpnZ1JXZ3pOVWpoVFFRa0dwS1lnb9IBeEFVX3lxTE1sSFhrSW16SUxrUHNxNjBjVWxXQjBSV19LeWtvVkVaOG5SMUVsanhqYkZ6eG5kVk5HeWllZWNsWUhEVzRSTnRyVFBjcURNQ3ppaU5sMTMxUXd5ODBGLUZTZThHN3dIQU9UN1NXYnZ3cDNUVUdiajhVdA?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-21",
+      "c": "시장",
+      "t": "10월 5차 발사 앞둔 누리호… 국민 체감가치 2.3조원·성공 기대 76% - 조선비즈",
+      "s": "Chosunbiz",
+      "u": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVEUwX09kSVRpRWZPSC1JQTN4Qjd3MXN6UnhVRUF4NlJkcWt6VU5VZXpFMGo3T1RQZm9WdFJZUEdqbXc1N2Eza3ZLVmJDR3hscmlIY1V2eGY2MlRiLVdrMV93blZ0bEp1V2w5QzZQUXVXNkZfaVhhYW9GX09Ob1dvakRMbElkdmQ5Uy1BZtIBoAFBVV95cUxOdC1MQ2QzX3RPdFBUa2xqdjBHNzQwVV9Va3NfSGFWdVNBenRlNFB6ajJyUnRMMGtCcjhjWmdHdjRRbWJ0eXhwSGlZemZ0ZG9yN3MwUktZb0dFR3lURldaTGw2RmVuNldIQW9ySjhGNGJ0aGhZVXh1ajItRlJ6N0ZHcXBmZFNES3BTdkdvUkdZSFFRQVY5MFJmRk5YN2lVRzhM?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-21",
+      "c": "기술",
+      "t": "AEROTEC 2026, 9월 30일 창원 개막…누리호 5차 앞두고 우주산업 기술 한자리",
+      "s": "startupn.kr",
+      "u": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9iQzJiNTJMdVliQVJMZC1YZ0ZaX2ZiZW9HM2FtTDRfRnFWOTdYUlVIaU15OHZsS3d1a19taFNYdGJoSlJMRWx1YUo4N0x5TUYwQ1NHcjI1aGhxMFJlWTJMSVB6ZkdlYzF40gFsQVVfeXFMTkZieUpqUlR5VDRYNUhoelhfdTYybDBXc3lvR1BZQkNNSzZNTTBJYjZsQlBUUkNUNy1HajRJYmc1Q2hvZUZOWkE1VGIwb2s3TlRaa3VaMzd4UzBGYnU3SU9lb1dUYjJfbGhkcUlQ?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-09-21",
+      "c": "기술",
+      "t": "국제 우주항공 기술대전, 30일 창원서 개막…우주 경제 시대 본격화",
+      "s": "코리아리포트",
+      "u": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBySGVlREdYXzFSam5ya2w1aXloYzNDTHl2SXBZQ2NVaXpYeVpPbzNoQjdtR0lmQTBibE9hUGtVU19qaGJ1YW9uMEFpWEVTdEIxUVdoSWE4d25kM1VjbW93VFhUdHhTdGlXR01iX1p0U20?oc=5",
+      "x": ""
+    },
+    {
       "r": "gl",
       "d": "2026-09-21",
       "c": "경쟁",
@@ -160,6 +259,33 @@
       "t": "California rocket launch schedule includes 1 SpaceX mission",
       "s": "Yahoo",
       "u": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNV1VKcllqWlcxXzczWEplWDkzRTJrdUhYUUk0X3RrdzVoOGhxTW1PbFFEWEdJV3VVTmZpYnZNaUpSSUJxYzY0Y002b2pnRm4yN0lqUFNhU3NvY0k1VmZOOFBqVE42ZENBVGhfZjZEaWRJNGpYY2RzTjVjanhJRDdYWGFudWdGT1BaNWVqdHRuTkxyUjM3NkIxZEVNTnhGcWtyRXNr?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-21",
+      "c": "경쟁",
+      "t": "Rocket Lab (NASDAQ:RKLB) Stock Soars 8% as Cantor Calls Neutron the Only Viable Alternative to SpaceX",
+      "s": "stocksdownunder.com",
+      "u": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5BeVpwZmQwemNtSDg0akl5ZTNyQno0dWNkR1FWNUhxTEZUWWlJRHRHNFZlZzhnQXRJMHk3bGZISGhxSGNmZkhOczMzak1YVWhVNGI2RDhLTEF4NnBnMjRfVW9nUFA3X2pyb2JjVFVxU3dhdXpNaFFGRQ?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-21",
+      "c": "경쟁",
+      "t": "Rocket Lab Poised to Become \"Only Viable Alternative\" to SpaceX, Says Cantor Fitzgerald",
+      "s": "247wallst.com",
+      "u": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPOUUxcmNQUEk5XzNheDdEa3BVUjNHRDVnQ21YOTExLWoxTWtJSXdtYXBmdE43ZFRkTVR3aVhPVHBqQmlTbnNYdWRJdlJ3R1Fac1BYalRoenNjT0UxX3dTMEFuWlZCaVZLZmhEcVFabWdpOXdpZ2t4cW5BLXpJYS0tTVFaTU9JWk0zUld0ajhpbEl2WmNPTFdhSXVaSUxYSTJ4UTRlekduRy1qQ0FRTG9FaFBTYzFXbV9QNmtkNU5ZUmpNemlaVUNB?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-21",
+      "c": "경쟁",
+      "t": "SpaceX’s Super Heavy booster arrives at pad ahead of first orbital Starship launch",
+      "s": "Spaceflight Now",
+      "u": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPTGVCNVlNM0Z3WXZISGkwWUNVblN5U1NiMUhfY1JVS0tlRUVXOGltYU5XZU5MdWJaYzZlMjcxTi1iU1hnMm1mNERYSzFNMVowQ0xyRjVhVXJjZkFRcnJVMWNFRzRLQkZFOHdlbHZ0VV84b2ZVa2Q0YXBLQ2VFbVE0UGw4dFF4ckhnOVdDckMxTFhuVDRUV2RNM0Y1TUE3TVNGdGR0M251NE9URFMxaktMNkpnR29RZWQ3VFlybw?oc=5",
       "x": ""
     },
     {
@@ -244,6 +370,15 @@
       "x": ""
     },
     {
+      "r": "kr",
+      "d": "2026-09-20",
+      "c": "경쟁",
+      "t": "방산서 3조 벌어 우주로 간다…김동관의 ‘한국판 스페이스X’",
+      "s": "중앙일보",
+      "u": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5pUWV6c0trZjdXQ0VSbzQ2RVJuOXBEcnRpV1NScHFBWHB5VlhYZ0xLWWhBNEdycGJHOGJmM2Y0RVJOOUZsblFEZXZfRVVoc1phY1ZzbHNB?oc=5",
+      "x": ""
+    },
+    {
       "r": "gl",
       "d": "2026-09-20",
       "c": "경쟁",
@@ -277,6 +412,15 @@
       "t": "China launches 4 different rockets to orbit in 45 hours (video)",
       "s": "space.com",
       "u": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNNjM2RzBKYVhEZGFfejlZRTA4QllaM0RmR3RZSFZvb0lVQ1ZnRm1yT2hlSlhHYkZTOS1SMzRheE9kOEVFdHdORnhGWmhYMElZZ0dTN1dKLXVDd3lwRERRR1R0Nlp5XzNRSXFxQlV2OC1MWnVRNERfYm00ek55d0pZUm4xY1BMVUVZZ2ptRlJNZ1Q4RGFBb2xfMGxVOE1SV19VOVZOZ2lfZ192bGhHWnhvaDJma0ZsbDFjNW01U3NR?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-09-20",
+      "c": "시장",
+      "t": "Canada, France plan space partnership as Ottawa deepens European ties",
+      "s": "Seeking Alpha",
+      "u": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOLVR0eWVjcVZKZFBqekZzZHM2bFZNSmtuYk92NzgwYWJhZkM3X1k3bFJNTUNXZlRiSHZBQS1uUWVpR1VNM0pBNDJjYUFjcF9mYlpIb0FEZTFTUkVNRExVS3E0TGhVOTZzWHZESEs0TjNYR29xM3QtSnJuMkhxbmp4WG5obDhDaDlJNEx6SUhHZlVoLWtWaXhMZlRGdXFpUGNwc2RuZmVhTVFtdw?oc=5",
       "x": ""
     },
     {
@@ -658,69 +802,6 @@
       "x": ""
     },
     {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "[KAI의 주인④] 한화의 빈 곳은 완제기…KF-21서 이미 손잡았다",
-      "s": "자본시장뉴스",
-      "u": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE53cTkwR2JHMU9obzBxVXFPYkF2WGhPMnZrd2FYWGVzM2FTTllZeXRCOUMyWmNaMmNrX0xsd3NNX3Bwd2I1RXR6eGdNamJua3BlcHplWHg4TVdIcFozdUpYZ080X1RIVE0?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "기술",
-      "t": "제2회 국제우주항공기술대전 'AEROTEC 2026' 9월 30일 창원서 개막",
-      "s": "헬로티",
-      "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1ObTMtYWpuU1N2YmMwczQtM0oyX09WTjc0eGJ3VXRyVHZWbkFYb3RJSkpra1J6dkxjRDdIWVRuZ2ZGM25fVGN0TFFvVGZZX3UzbW5mdVR6QXZpSW9kbEZz?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "미래 우주안보 전문가 12인, 제주대서 릴레이 강연",
-      "s": "뉴스N제주",
-      "u": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBOMDA2aDJRdFA1QjJsaWV0RnoybUwxLUYtam1ERzdla3pINzF6NDk5N0pSR0NZX0NYblBWazc3VTNlNHJhTjJsYkVwdG4yZ25LM2JkcmdnMXRwdUFEWEFDM05MLWNUeGZIQjNrdw?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "한화 대규모 우주·AI 투자계획… 사천시, ‘연계사업 찾기’ 본격화",
-      "s": "v.daum.net",
-      "u": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBMbU9DRy1EMERaVVd4YVBzb2k1U0x6eTNKNUk1RTBtSEdpY3lOS0ZKQkllYzdvNmg5bWNFLVNia05Od25tMFc2VjVWNnVFYlU3UE03WA?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "누리호, 첫 군집위성 우주 궤도에 띄운다",
-      "s": "seoul.co.kr",
-      "u": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPbmRPUTEwMXU2VEVVZGw4aWxZOU5GdUFuVTlhTnBjeTZpS3AyS21yei05dlJ1d3BMeFdNUTluRF9Benl3endWZlpxMXAzYWFSM2t3cnJXNS1udV9QTW9TOF9Dbkl3SDRRcTJMMDd2VHlKZlVBT1JoSDd3WndhV3E1cA?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "해외 관계자들 앞에서 추락한 ‘KAI 드론’",
-      "s": "동아일보",
-      "u": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9rcjJLSGM1QmhaRDdSTVk5bXItb29HU0lNdFNDODNwYk1Fc0hzVmNsZGRXUkFxQngxTzVKTFYxT2VhTzUwX1FRcVVkVWhJTzJBYlNmR1J6aGNIbG9MdGQzWjRWVUZKUmlxTkJJR0N2S2Z0dTlBNjdn0gFmQVVfeXFMTW9QYjduRWEzNmRkU0ZLLTNDaE1PUzRvTlhXMEt0ZjZMblpqdGJKZFFPTkRJQUE5T3hGVC1zekVtX045S1lEVDYzU2lodkMzNE5kMm1XVGNqN08xeC1SckVQOFZiUXFB?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-16",
-      "c": "시장",
-      "t": "박동식 사천시장, 한화에어로스페이스와 우주항공산업 협력 논의",
-      "s": "세계환경신문",
-      "u": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE94MzBhWVBXNWpoUC1LQlBWTHNKb2RlcGFfNXl2OG5xVXRRcU1YM1dwZjlkaEhRaGFjOHI0SjdvR25iYk15X3E3UW8za0JBc2c1SUxOZk1ZRlc0cTBpV1JF?oc=5",
-      "x": ""
-    },
-    {
       "r": "gl",
       "d": "2026-09-16",
       "c": "경쟁",
@@ -745,24 +826,6 @@
       "t": "China's sea-launched rocket sets new records, sending 9 satellites into orbit in single mission",
       "s": "Global Times",
       "u": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBqakxNWnY1ajRyU2o3eWNLZWRGZ3QtRlNCeE4wVDMwV3dGcXBBZ1l4dTNwWW5BbWxNSThDVHZCNlF0YVZQd3lHVzJkcHJ2a3A4WjdHREt4d015bFBIVjdPc3dR?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-15",
-      "c": "시장",
-      "t": "[창간24/넥스트레벨] \"포탄 대신 데이터 장전\"···한화에어로, 기계식 화력 벗고 AI 플랫폼 입는다",
-      "s": "seoulfn.com",
-      "u": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9TYjhoaURpd1p3T3hzZm5Wb0FfaS1sSDI2eDVkdzd0b2YyLVBkZU9FNFVUazdkMFBqYXdXYV9kQ1lrUXFRclV6bVc5WktqT051bm9ZVU5sRlVpMkowa2tBYlJKSUtua3hkeFE?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-09-15",
-      "c": "시장",
-      "t": "누리호 5차 다음 달 7일 발사…국내 첫 군집위성 임무 도전",
-      "s": "YTN 사이언스",
-      "u": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9pN0tNSm1LcVlScTQ1cmo3dGJiOTkzZU1Ub2Zha0ZlN1o1NXRWRklTdGNHN21kcVA1TGhGV3JVcmdDS2p2dUMtSlhSVFJ2a3lTc1Zhb2xQUTM3UDBKYm1tUXVBRmxYZmMzcnJZSmExS2ZOaXczOWo3YnE0b29tam8?oc=5",
       "x": ""
     },
     {
@@ -1016,70 +1079,7 @@
       "s": "247wallst.com",
       "u": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNT2RGNzNWVXM2RzhYOVBsYkp0YlFWVFJIYjJDY3JOQ0hQM3lzSXhWMVVLbjZ6eXQxUndsVGpRU1NCeDlkd1BQQ2lkVU9rTWJTOXdtcDdFdWNhZ1kzRGhvc2FSYzFhN1dxQW1HdTNYVDA1bEV2ajFQS0xqRncydG1lVVJYWm92czdLZVhFLWR2dTZPQzg4c0xwYmV2WHZHaTJCT25SdFpDNUluc3c?oc=5",
       "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "시장",
-      "t": "RKLB, ASTS, SPCX, PL In Focus: New Trump Task Force Targets 10,000 Annual Space Operations By 2035",
-      "s": "tradingview.com",
-      "u": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNN0ZQZUxFeUw0SWxSUlRuM2VsTkJKWHk0MkZzaFNnTlpHZHFtbWwtdEN0Yzdpem1nbmd4Q0FSa0g3UkEyWDlTWURKYTBiUmd1aU9salA2R0ltZ21ZRnRjU3BrN25IZUlCRlY5c3BmV18xY05jaFJURUd1cklXd2dTRHh6NmZSYUh4SnFFelJ3X3E3R29WNzFqdTZtc2p0VUllUGM2VVNuSG9jNURFRlo4cFNfVkloSV92cEdDdFdsekY3d3hOamp2ZTFJalRRY2gxVng3eFZRNEtQQV9VQ0RXWi1nM0tHRmRTWkVR?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "경쟁",
-      "t": "SpaceX launches classified mission for the US Space Force from California (video)",
-      "s": "Space",
-      "u": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNSDRsbC1ibVk5VmZselJCUkV6a05GeTZSeTRJYTg0QVNNa3NmeXg4YVlkdUhLZm9aN2d3elJNRHlyd0JmdFhNa2J4QXY3Sm9lSHc2LU9abjZ3ZFpPVURTcV9ITzQtbE1iTGVMazlBZm43Q2hqMGdzZUFnWHNRaVYxQUxkZGpyR19wbGhQekljUGRFZWMzeG9ON3pjT0FnaVM2WFJ4eU1OUDUyczc4cnl1SW43TQ?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "시장",
-      "t": "Amazon backs Ariane with rocket launch orders as Europe battles to close its space gap",
-      "s": "CNBC",
-      "u": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPRV91by1HQ1RSRGpLakhaNGktMHdkRy1jbTlHeXl5RTRHT2pORF92YjZCd2lIYUZiWDFPTGxVeXpnRHNvRTQ4d1EzSG01NzMzZjRGdGV1cElVZEJkek13c2ZHa2Z6aEZhRVpVc3JLbEdTb3E1OWZCNlFqa2tZZlBac0FDSdIBiAFBVV95cUxQand4alpxdl81MktMNXZ0TV96alNnbUIwR2FVMjZpZnU5N2p5Sm5hbF90TFZhUkZCa01fU000QlZjQkEyeC1JRzVGc290VlpCM2JGTEJ6WVVvUWw2ZXZ1bzA1U0hYdk1vWlJRWUhXanE3NTFabjBSNHdLY2NzSWRnMmpLMnV4YWND?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "경쟁",
-      "t": "SpaceX to launch Space Force mission in California. Follow live updates",
-      "s": "Yahoo",
-      "u": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQY240M0N0M1NqWFVqdDZ5TVdqR0hzNGVtdEd3S0gwT1hKZURNWjB4WWs2MXJ2dTJBR1ZVVjVJWjRfTFE3b1lMY3RTNFZ4TlpIeVBoSTczdjNIX3JHQ3I2UDdkZEtPQUx1VGE3YXFvNVA2WjVyemhpVFpjczdpdGdhVUpETUxwX3lSTXhyTEduRk4?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "시장",
-      "t": "4 Best Rocket Stocks to Buy in 2026 and How to Invest",
-      "s": "The Motley Fool",
-      "u": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQRGdCVndVSlNaNXlUdUwzenpwMEIyZGhfN0ZMMXA1b0lmcE1tWTdIODVyT0VZd2o1S3RPVVIyZUJUZGI2SFRqVEw2VFdLUWFIcTFLZkJTaW9BLW9aXzAtdnR2WEtnMHFGNGJveDFKSk4xSmxjaUdVYzFqZ1pZVXVERmVjNkdXaWZ3ZHoyUFdENW9veTBWMjBGR0pGY0YzbGM?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "경쟁",
-      "t": "Rocket Lab CEO Warns ‘Piping Hot’ AI And Space Trades Could 'Go Pop' As SpaceX-Fueled Mania Sends Valuations Soaring",
-      "s": "Stocktwits",
-      "u": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOeUJZZzB3ekU0eEhqUjU5OVJ5YzZ0Rl9kV0xiQ3BIMXJrWlJpUkRlZzBYQzZzR1ltR1VFcVJxdlBYNE50Y0ROWENKbFBYdU81YkVKYW45cmpraXFQOHR3OTI4X2prZV9heGJSRVotUl9YS203WWUxWmJJWUxQazJxSGIzQjJGMUxwYlN1MjA0YXFRaWRsSzZXNzcxM29vQmtTTE5YME1CTTB3OVpuemFBQ1hvU1Zab1ZWYWY2VWtMS0U3M0ZlWDFIRURTTVg?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-09-10",
-      "c": "경쟁",
-      "t": "SpaceX launch tracker. Stay up to date with next Vandenberg liftoff",
-      "s": "Ventura County Star",
-      "u": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOVzFSVHBiYm5zQThYZzRhWGoxaTJBN21rREpWTlM0d0Yzc3lsWmdhaFhpeHR0ZWRKQXJVTGxNMEhYVHdZVTc1Y3dhU2tUMF9iUzhtX1IyY3NKc3h0Y2RhZEhsb2VudEdva3JNbGp6OTBwa3lvZkZxZ3pIWTBiTTN0NGplOHNqOHVPMU5lb1NiNTNSYVU4RVpPc01Pbk9xb0xtNFRHbzc3WVdLVDhSeWN3MQ?oc=5",
-      "x": ""
     }
   ],
-  "updatedAt": "2026-09-21T23:52:37.416Z"
+  "updatedAt": "2026-09-22T23:30:56.151Z"
 }
