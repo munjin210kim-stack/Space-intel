@@ -2,6 +2,24 @@
   "news": [
     {
       "r": "kr",
+      "d": "2026-11-11",
+      "c": "시장",
+      "t": "우주로 날아간 누리호…위성 기판에 단 CNT섬유도 이상 무",
+      "s": "파이낸셜뉴스",
+      "u": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9oWVA4LWQ1Rkd4SFNpM04tZkkzeS04bVR0Y1VOUnRDSTRBVWNsV3lha013OV9rQV9zN3dtQ1MwbHJDRnFvYUM4R05fdHBDQVBtdTNoMUhhVXc2QQ?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-11-11",
+      "c": "시장",
+      "t": "한국항공우주 주가 상승 중",
+      "s": "아시아뉴스통신",
+      "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5HQUFhNkxKUXVwM2M0U29KOFNXZnNHbl9XUmtzV0NXN0dXOFM4UXBBYUF4bWlxRnpsVWhWWG0yazZLU1BSRVd1bWo0QlFFaUxzMG80SUlnRENDeGZB?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
       "d": "2026-11-10",
       "c": "시장",
       "t": "특징주, 그린광학-우주항공산업(누리호/인공위성 등) 테마 상승세에 5.44% ↑",
@@ -25,6 +43,42 @@
       "t": "[리포트 브리핑]한국항공우주, '4분기 양산 납품 본격화와 수주 달성 기대감' 목표가 150,000원 - BNK투자증권",
       "s": "뉴스핌",
       "u": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAyQ3hQQnRfOEtSeWdkWEJLeDNRR1c4TTNwM3RMZU00X2l4RGFzSkg0SDdQVXhFc0EtM1NJY0VJUkVMR3lVZFJqaGgzcjI4S0xzZFQ3alRBcVNkbUtj?oc=5",
+      "x": ""
+    },
+    {
+      "r": "kr",
+      "d": "2026-11-10",
+      "c": "시장",
+      "t": "사천·고흥 손잡고 남해안 우주항공산업벨트 구축 나선다",
+      "s": "불탑뉴스",
+      "u": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE51aGNXNlB6T3l5ck5pbzR0SGhxTWFwVkFlTDVOUWU5QWUtbGRuY3NPd0l0cHp0Z3RMNllPSlRzU2hRWk1ieEFWSzFJaG5Ubk9CRE1peW9yYlJSOG5wS1E?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-11-10",
+      "c": "경쟁",
+      "t": "Rocket Lab Sinks 9% Despite Record Backlog, AST SpaceMobile Falls 6% on BofA Price Target Cut; SpaceX Slides 3%",
+      "s": "24/7 Wall St.",
+      "u": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPVnBKbWFlUGhoV3BaVFZ3MXBra3NudTZHQ1RlMXB1X2x4R0R1QW01T1BadVUxOWxRSzJPTWNlM2pnQjR5TXQwRFV3bXJmbVA3cEtjWWVzQnBsSElxQUlETC03d1BxaUJYQlI2STVNR05GTFR1SE5hd2puT3gyVXc3MlI1M0Y1cmJSZ29rb3hmTmU3QXV2eHF3MGw5Q3FGeWpzLWZSYW5taEFvdnNsYnB6NmJhbldhUTd2Wnljd2pkYlpZV25wVVFySjFXQ2RST2I1SEk5dVRjM09KSnJDOG5MZk0zRXA?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-11-10",
+      "c": "경쟁",
+      "t": "Rocket Lab Sinks 9% Despite Record Backlog, AST SpaceMobile Falls 6% on BofA Price Target Cut; SpaceX Slides 3%",
+      "s": "Yahoo Finance",
+      "u": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQdkg3eHJPbzZ6SjBZS1ZaX3ozV0JqS1dSRHIyZHBfdXY4cTQtcHowSXBibzRjMDgwdGNyaFJsM0s5c3NodnVaNFFNeFlYUmNadUgzcFdpeG5vazdpcFVQZUQxYl93X3dLV0F2cHZYQXMxeUUxNU5ObVVBa3FIbHdTS0tVcFNneGNLOGJ1TmNVTU40YlRSWVE?oc=5",
+      "x": ""
+    },
+    {
+      "r": "gl",
+      "d": "2026-11-10",
+      "c": "경쟁",
+      "t": "Germany's Isar Aerospace eyes overtaking Elon Musk's SpaceX",
+      "s": "Phys.org",
+      "u": "https://news.google.com/rss/articles/CBMidkFVX3lxTE0wTGdKUWpKWDNNU2NJN0lwRFVHU21udUNSZ2RtR0FNTHpwQXRBS2h5V2VzV09JSkI2bXc2cTZmSDl3UnRSVG5TUHhDUmNlNnVzUUx3TWg4dlBKMmY1MkoyMm92RlpLMlNiN3dzOUhOcmVhWGJETWc?oc=5",
       "x": ""
     },
     {
@@ -838,33 +892,6 @@
       "x": ""
     },
     {
-      "r": "kr",
-      "d": "2026-11-02",
-      "c": "시장",
-      "t": "[단독] 고흥에 투자·입주 예정 기업 임원들 ‘제2우주센터’ 건립지 심사에 참여",
-      "s": "조선일보",
-      "u": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMFBMTm1pSDdETG9lY1pIVXNoYkszZnR0UTFKNHpMeUtoVnpJWmtHdDJvMEhIcmxiSUJvN0VoY2FJazlHenI1eG1lSkhvdW95ZGpnLUV1YkZNRG5Ldk9KUjBndTJFbnZwZUIwWElSM1V4ZzRkX014ZjB4NlNMa0hlc2Zzcw?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-11-02",
-      "c": "기술",
-      "t": "한화에어로스페이스, 재사용 시연체 총조립 착수…2028년 비행 실증 목표",
-      "s": "데일리뉴스",
-      "u": "https://news.google.com/rss/articles/CBMimwNBVV95cUxQU0ZaRXhXR1FPYlYyM2tMMmRoSnRlZEhubTZaOVdNTFJvT2dNZnh4X1JRMHpOQ01rN09CM0c2ZXpja0NDMXVmbzFseDAxcEpVbS0tLVA5V04wNDBqbGRqMDFsZ3RZU3VHaXNvWXBDWFFNTVE3LWxVUW4tZk9LWHplLWJDaU9pNk9kemZGVFFfRTROM3lCNEtzRUVMNzZEcEI3dUx2Zzhwdl9hRENEYVg3eVFON1lKTGt5M0J6QTFpMk9OQk94OFJ1bGxsQ29XdFBLSlhWeEg2RktneWVjQWJYbzVKWEF3SURvQzhrT24yNzBqNE1yc0xoUGRuTEF6WTJSU2QxUTd0NTZnbFhVQmdqQWh4aHlYXzRvMlBBd2IyMlc5cFQ1MDVaQUt0TVdqS0JjRnBURzJlWWt0di1YeU1MZVNxb3M5cndkcVE1VUVQQndoR2RsWHpRNzB4LWpia0dHNGR2d3RIV2stTlZ2UUtlYXpsdlRZWHE2Vi1lSWQyTG1Id3E2QkVDTDFhRk5oWkxBMk9kLVoxNHNWaTg?oc=5",
-      "x": ""
-    },
-    {
-      "r": "kr",
-      "d": "2026-11-02",
-      "c": "정책",
-      "t": "누리호 7차 발사에 국산 우주데이터센터 실증 `시동`…예산·수요는 숙제로 남아",
-      "s": "디지털데일리",
-      "u": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBzSlFEclA0X1ZFM2ZCSldYMmlSSHdoZmVlRFh0YXpwQ2tvR0RfdmVCTFdub1h2NGxsNHI2R3JmcDJXeWdJVmtWVW5QU2lmb1BhcFpIcDJvZWxnRFJUWEZUVHJ1LUE?oc=5",
-      "x": ""
-    },
-    {
       "r": "gl",
       "d": "2026-11-02",
       "c": "시장",
@@ -1052,34 +1079,7 @@
       "s": "Ars Technica",
       "u": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQMmd6anR6TGR1cm1MczZyQ2xqOVh1UjRnX01VMGZtMzY3NnBRaTc4ZENLTkg4MVV6ZjQ0cGVYejZybmFTOGUtX2NOTXJyUFdHZ3g2NEttRDJWQUpfZ3hzSXNNV3ltblJzX0UxcTRpWE9MN1pCNXRMWGhnVkp3SE9mQVp4T1lUTm9hVFFGWDhLclo4ZU41Nl9Jdk9ILU9TSDBWRDdOa1ZmTGhoUQ?oc=5",
       "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-10-30",
-      "c": "시장",
-      "t": "ISRO Launches Next-Gen Satellite To Strengthen Indigenous GPS System",
-      "s": "NDTV",
-      "u": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQY09aZVM3UjFhNGNWSTRueWw3WUM1blBnaEw5eWhGbEd5Qm5VQ3duYnVBbjVPYzZZRmI0LVNmZEhfNU1Nbll1dDJJbHZ5TWJoRi14VmdFTFM2NWFPalkxb2FNaEhNRWs1eWV3emRWaERXcGM0S2R0LVVtNks5LTItWHZudU02NTE5WWdvQkhDZlB6TDBZVVpLRzB4WnpJWXZSR0FQN29mcUJtUHNCMmZUVC1oMUVmcm_SAb8BQVVfeXFMUEl2WnFZWHlwaVFBSWZ4dW5BZzZodmZSUDVoSk5FUjR3NFpmYWxwWmVlOTlReElseGE3X3lKU1lLNmstVFd5Uklubjgxb1dGTlNuaThPTHY1Y2tnNUxmdGRxVS0tbVVLVV85VWFiNlV5ZTV2MVh5Nzg1WFhXQ3BUWnFQV0xxTTR5N20wS01HM2tnSzl2RWxCVmQ3Zk50akptbmxuSk9iQW1oMXlHb1loNjdDNlJGWlBwbGUwZVpqczA?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-10-30",
-      "c": "경쟁",
-      "t": "SpaceX Stock Slides 5% in October as Tesla Merger Talk Fails to Lift Space Sector; Viasat Jumps 11%",
-      "s": "BigGo Finance",
-      "u": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBUTHNNRWVRTXFCRFJQY3FvbEV0U3BrT2xIaUE1dERIRE1OZ1I2WjZKbC16VVVsSFh3YVM4eHFYbXJZUy1sWmFXRmFEUzZxblRoY2hQcFNESkhqck5kQklCQXB5VW5zNDMwZnU3NFVtTlgzc1c3QVE?oc=5",
-      "x": ""
-    },
-    {
-      "r": "gl",
-      "d": "2026-10-30",
-      "c": "시장",
-      "t": "Why is ISRO’s NVS-03 satellite launch crucial? | Explained",
-      "s": "The Hindu",
-      "u": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOOElNNmhsR3hiZnVRbTBWT1pIQWJCY3dzNnE4Q3VsUGl5U1M2T1pvU2Z0aVdnckI2ZXVtV0dIMDJpYktPUUY3TVRPdDhrR04yVHA4ODBCOFRsZVlVVHo1VXFyMUEwUWpxTjNpVlpvMi1OSFI0bUFFcEdmRUJ1dmNBOHJUZldKUTZyb0JKMm5UTUNlaldDME9tZTFBM0hFLUNwbGs3MUJBa2l5b2J5SG90MDlubjFvMU3SAb4BQVVfeXFMTzNNM3BRTWxLTEMydlZicTlkTUNOazk5VktnZ19lVklGVWxZc1pWclViSlVnRjAzTWZTd3BrbWNsUzRGWEcwakRTYmhXSllKbFo5RGdadGdRYWoyTjQ3ZmNtVlREZzdIUVJQLTNYTE9xSTF6WFctT0EwOE80QjluQ3l6RkRPUTVESl9vX1FOQlU2ZkhROFB0aHJldlBqX1RodHpTc1UxamtDU0hkZW9VcDFIVVNqYUlUd0IwNExwQQ?oc=5",
-      "x": ""
     }
   ],
-  "updatedAt": "2026-11-10T03:14:21.535Z"
+  "updatedAt": "2026-11-11T01:03:53.951Z"
 }
